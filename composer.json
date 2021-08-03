@@ -1,0 +1,27 @@
+{
+  "name": "fluxlabs/fluxrestapi",
+  "description": "Rest Api",
+  "type": "project",
+  "keywords": [
+    "api",
+    "rest"
+  ],
+  "homepage": "https://github.com/fluxapps/FluxRestApi",
+  "license": "GPL-3.0-only",
+  "require": {
+    "php": ">=7.4",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "symfony/polyfill-php80": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fluxlabs\\FluxRestApi\\": "src/"
+    }
+  },
+  "config": {
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}
