@@ -28,7 +28,17 @@ class FolderRouteCollector implements RouteCollector
         $routes = [];
 
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->folder, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
-            if (!$file->isFile() || !str_ends_with($file->getFileName(), "Route.php")) {
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            if (str_ends_with($file->getPathName(), "vendor/autoload.php")) {
+                require_once $file->getPathName();
+
+                continue;
+            }
+
+            if (!str_ends_with($file->getFileName(), "Route.php")) {
                 continue;
             }
 
