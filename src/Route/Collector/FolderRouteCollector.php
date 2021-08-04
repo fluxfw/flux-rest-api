@@ -28,7 +28,7 @@ class FolderRouteCollector implements RouteCollector
         $routes = [];
 
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->folder, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
-            if (!$file->isFile() || !str_ends_with($file->getFileName(), ".php")) {
+            if (!$file->isFile() || !str_ends_with($file->getFileName(), "Route.php")) {
                 continue;
             }
 
