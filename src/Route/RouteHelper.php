@@ -6,6 +6,7 @@ use Exception;
 use Fluxlabs\FluxRestApi\Body\Raw\RawBodyDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use LogicException;
 
 trait RouteHelper
 {
@@ -75,19 +76,31 @@ trait RouteHelper
             return null;
         }
 
-        $params = [];
-        preg_match("/^\/" . preg_replace("/\\\{[A-Za-z0-9-_]+\\\}/", "([A-Za-z0-9-_]+)", preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(),
-            $params);
+        $param_keys = [];
+        $param_values = [];
+        preg_match("/^\/" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)\\\}/", function (array $matches) use (&$param_keys) {
+                $param_keys[] = $matches[1];
 
-        if (empty($params) || count($params) < 1) {
+                return "([A-Za-z0-9-_]+)";
+            }, preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(),
+            $param_values);
+
+        if (empty($param_values) || count($param_values) < 1) {
             return null;
         }
 
-        array_shift($params);
+        array_shift($param_values);
+
+        if (count($param_keys) !== count($param_values)) {
+            throw new LogicException("Count of param keys and values are not the same");
+        }
 
         return MatchedRouteDto::new(
             $route,
-            $params
+            array_combine(
+                $param_keys,
+                $param_values
+            )
         );
     }
 }
