@@ -1,12 +1,12 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Route\Fetcher;
+namespace Fluxlabs\FluxRestApi\Route\Collector;
 
 use Fluxlabs\FluxRestApi\Route\Route;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class FolderRoutesFetcher implements RoutesFetcher
+class FolderRouteCollector implements RouteCollector
 {
 
     private string $folder;
@@ -15,20 +15,30 @@ class FolderRoutesFetcher implements RoutesFetcher
 
     public static function new(string $folder) : /*static*/ self
     {
-        $fetcher = new static();
+        $collector = new static();
 
-        $fetcher->folder = $folder;
+        $collector->folder = $folder;
 
-        return $fetcher;
+        return $collector;
     }
 
 
-    public function fetchRoutes() : array
+    public function collectRoutes() : array
     {
         $routes = [];
 
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->folder, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
-            if (!$file->isFile() || !str_ends_with($file->getFileName(), ".php")) {
+            if (!$file->isFile()) {
+                continue;
+            }
+
+            if (str_ends_with($file->getPathName(), "vendor/autoload.php")) {
+                require_once $file->getPathName();
+
+                continue;
+            }
+
+            if (!str_ends_with($file->getFileName(), "Route.php")) {
                 continue;
             }
 

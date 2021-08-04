@@ -10,8 +10,8 @@ use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\RawResponseDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Route\Fetcher\CombinedRoutesFetcher;
-use Fluxlabs\FluxRestApi\Route\Fetcher\StaticRoutesFetcher;
+use Fluxlabs\FluxRestApi\Route\Collector\CombinedRouteCollector;
+use Fluxlabs\FluxRestApi\Route\Collector\StaticRouteCollector;
 use Fluxlabs\FluxRestApi\Route\GetRoutes\GetRoutesRoute;
 use Fluxlabs\FluxRestApi\Route\Route;
 use Fluxlabs\FluxRestApi\Route\RouteHelper;
@@ -69,7 +69,7 @@ class Api
         try {
             $route = $this->getMatchedRoute(
                 $request,
-                $this->fetchRoutes()
+                $this->collectRoutes()
             );
         } catch (Throwable $ex) {
             $this->log(
@@ -107,21 +107,21 @@ class Api
     }
 
 
-    private function fetchRoutes() : array
+    private function collectRoutes() : array
     {
         $this->routes ??= (function () : array {
-            $routes = CombinedRoutesFetcher::new([
-                StaticRoutesFetcher::new([
+            $routes = CombinedRouteCollector::new([
+                StaticRouteCollector::new([
                     GetRoutesRoute::new(
                         fn() : array => $this->getRoutesDocu()
                     )
                 ]),
-                /*FolderRoutesFetcher::new(
+                /*FolderRouteCollector::new(
                     __DIR__ . "/../../examples/routes"
                 ),*/
-                $this->config->getRoutesFetcher()
+                $this->config->getRouteCollector()
             ])
-                ->fetchRoutes();
+                ->collectRoutes();
 
             usort($routes, fn(Route $route1, Route $route2) : int => strnatcasecmp($route2->getRoute(), $route1->getRoute()));
 
@@ -134,7 +134,7 @@ class Api
 
     private function getBodyClassesOfRoutes() : array
     {
-        $this->body_classes_of_routes ??= array_reduce($this->fetchRoutes(), function (array $body_classes, Route $route) : array {
+        $this->body_classes_of_routes ??= array_reduce($this->collectRoutes(), function (array $body_classes, Route $route) : array {
             $body_class = $route->getBodyClass();
 
             if ($body_class !== null && !in_array($body_class, $body_classes)) {
@@ -151,7 +151,7 @@ class Api
     private function getRoutesDocu() : array
     {
         $this->docu_routes ??= (function () : array {
-            $routes = array_map([$this, "getRouteDocu"], $this->fetchRoutes());
+            $routes = array_map([$this, "getRouteDocu"], $this->collectRoutes());
 
             usort($routes, fn(array $route1, array $route2) : int => strnatcasecmp($route1["route"], $route2["route"]));
 
