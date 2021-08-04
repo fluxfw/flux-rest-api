@@ -3,7 +3,7 @@
 namespace Fluxlabs\FluxRestApi\Config;
 
 use Fluxlabs\FluxRestApi\Authorization\Authorization;
-use Fluxlabs\FluxRestApi\Route\Fetcher\RoutesFetcher;
+use Fluxlabs\FluxRestApi\Route\Collector\RouteCollector;
 
 interface Config
 {
@@ -11,5 +11,5 @@ interface Config
     public function getAuthorization() : Authorization;
 
 
-    public function getRoutesFetcher() : RoutesFetcher;
+    public function getRouteCollector() : RouteCollector;
 }
