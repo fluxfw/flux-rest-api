@@ -65,7 +65,7 @@ trait RouteHelper
         if (!(
             (
                 $method === null
-                || strtoupper($request->getMethod() === strtoupper($method))
+                || strtoupper($request->getMethod()) === strtoupper($method)
             )
             && (
                 $body_class === null
