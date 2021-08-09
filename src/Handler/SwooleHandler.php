@@ -5,7 +5,7 @@ namespace Fluxlabs\FluxRestApi\Handler;
 use Fluxlabs\FluxRestApi\Api\Api;
 use Fluxlabs\FluxRestApi\Config\Config;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
-use Fluxlabs\FluxRestApi\Response\RawResponseDto;
+use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
@@ -13,16 +13,14 @@ class SwooleHandler
 {
 
     private Api $api;
-    private Config $config;
 
 
     public static function new(Config $config) : /*static*/ self
     {
         $handler = new static();
 
-        $handler->config = $config;
         $handler->api = Api::new(
-            $handler->config
+            $config
         );
 
         return $handler;
@@ -42,7 +40,7 @@ class SwooleHandler
     }
 
 
-    private function handleResponse(Response $response, RawResponseDto $api_response) : void
+    private function handleResponse(Response $response, ResponseDto $api_response) : void
     {
         $response->status($api_response->getStatus());
 
@@ -50,12 +48,32 @@ class SwooleHandler
             $response->header($key, $value);
         }
 
-        foreach ($api_response->getCookies() as $key => $value) {
-            $response->cookie($key, $value);
+        foreach ($api_response->getCookies() as $cookie) {
+            if ($cookie->getValue() !== null) {
+                $response->cookie(
+                    $cookie->getName(),
+                    $cookie->getValue(),
+                    $cookie->getExpires(),
+                    $cookie->getPath(),
+                    $cookie->getDomain(),
+                    $cookie->isSecure(),
+                    $cookie->isHttpOnly(),
+                    $cookie->getSameSite(),
+                    $cookie->getPriority()
+                );
+            } else {
+                $response->cookie(
+                    $cookie->getName(),
+                    null,
+                    null,
+                    $cookie->getPath(),
+                    $cookie->getDomain()
+                );
+            }
         }
 
-        if ($api_response->getBody() !== null) {
-            $response->write($api_response->getBody()->getBody());
+        if ($api_response->getRawBody() !== null) {
+            $response->write($api_response->getRawBody());
         }
 
         if ($api_response->getSendfile() !== null) {
@@ -73,6 +91,8 @@ class SwooleHandler
             $request->getMethod(),
             $request->get,
             $request->getContent(),
+            $request->post,
+            $request->files,
             $request->header,
             $request->cookie
         );

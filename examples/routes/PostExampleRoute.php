@@ -2,7 +2,8 @@
 
 namespace Fluxlabs\FluxRestApi\Route\Example;
 
-use Fluxlabs\FluxRestApi\Body\Json\JsonBodyDto;
+use Fluxlabs\FluxRestApi\Body\BodyDto;
+use Fluxlabs\FluxRestApi\Body\BodyType;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Route;
@@ -24,24 +25,25 @@ class PostExampleRoute implements Route
     }
 
 
-    public function getMethod() : ?string
+    public function getMethod() : string
     {
         return "POST";
     }
 
 
-    public function getBodyClass() : ?string
+    public function getBodyType() : ?string
     {
-        return JsonBodyDto::class;
+        return BodyType::JSON;
     }
 
 
     public function handle(RequestDto $request) : ResponseDto
     {
         return ResponseDto::new(
-            JsonBodyDto::new(
+            BodyDto::new(
+                BodyType::JSON,
                 [
-                    "post_data" => $request->getBody()->getData()
+                    "post_data" => $request->getParsedBody()->getBody()
                 ]
             )
         );

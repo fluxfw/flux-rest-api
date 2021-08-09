@@ -4,26 +4,21 @@ namespace Fluxlabs\FluxRestApi\Handler;
 
 use Fluxlabs\FluxRestApi\Api\Api;
 use Fluxlabs\FluxRestApi\Config\Config;
-use Fluxlabs\FluxRestApi\Log\LogHelper;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
-use Fluxlabs\FluxRestApi\Response\RawResponseDto;
+use Fluxlabs\FluxRestApi\Response\ResponseDto;
 
 class DefaultHandler
 {
 
-    use LogHelper;
-
     private Api $api;
-    private Config $config;
 
 
     public static function new(Config $config) : /*static*/ self
     {
         $handler = new static();
 
-        $handler->config = $config;
         $handler->api = Api::new(
-            $handler->config
+            $config
         );
 
         return $handler;
@@ -40,7 +35,7 @@ class DefaultHandler
     }
 
 
-    private function handleResponse(RawResponseDto $response) : void
+    private function handleResponse(ResponseDto $response) : void
     {
         http_response_code($response->getStatus());
 
@@ -54,25 +49,37 @@ class DefaultHandler
             header(rawurlencode($key) . ": " . rawurlencode($value));
         }
 
-        foreach ($response->getCookies() as $key => $value) {
-            $_COOKIE[$key] = $value;
+        foreach ($response->getCookies() as $cookie) {
+            if ($cookie->getValue() !== null) {
+                setcookie(
+                    $cookie->getName(),
+                    $cookie->getValue(),
+                    $cookie->getExpires(),
+                    $cookie->getPath(),
+                    $cookie->getDomain(),
+                    $cookie->isSecure(),
+                    $cookie->isHttpOnly()
+                );
+            } else {
+                setcookie(
+                    $cookie->getName(),
+                    null,
+                    null,
+                    $cookie->getPath(),
+                    $cookie->getDomain()
+                );
+            }
         }
 
-        if ($response->getBody() !== null) {
-            echo $response->getBody()->getBody();
+        if ($response->getRawBody() !== null) {
+            echo $response->getRawBody();
         }
     }
 
 
     private function parseRequest() : RawRequestDto
     {
-        $query_string = $_SERVER["QUERY_STRING"];
-
-        if (str_contains($query_string, "&")) {
-            $route_url = explode("&", $query_string)[0];
-        } else {
-            $route_url = $query_string;
-        }
+        $route_url = explode("&", $_SERVER["QUERY_STRING"])[0];
 
         $query = $_GET;
         unset($query[$route_url]);
@@ -82,6 +89,8 @@ class DefaultHandler
             $_SERVER["REQUEST_METHOD"],
             $query,
             file_get_contents("php://input"),
+            $_POST,
+            $_FILES,
             getallheaders(),
             $_COOKIE
         );

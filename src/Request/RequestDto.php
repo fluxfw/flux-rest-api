@@ -7,34 +7,45 @@ use Fluxlabs\FluxRestApi\Body\BodyDto;
 class RequestDto
 {
 
-    private ?BodyDto $body;
     private array $cookies;
     private array $headers;
     private string $method;
     private array $params;
+    private ?BodyDto $parsed_body;
     private array $query;
+    private ?string $raw_body;
     private string $route;
 
 
-    public static function new(string $route, string $method, ?array $params, ?array $query, ?BodyDto $body, ?array $headers, ?array $cookies) : /*static*/ self
+    public static function new(
+        string $route,
+        string $method,
+        ?array $query = null,
+        ?string $raw_body = null,
+        ?array $headers = null,
+        ?array $cookies = null,
+        ?array $params = null,
+        ?BodyDto $parsed_body = null
+    ) : /*static*/ self
     {
         $dto = new static();
 
         $dto->route = $route;
         $dto->method = $method;
-        $dto->params = $params ?? [];
         $dto->query = $query ?? [];
-        $dto->body = $body;
+        $dto->raw_body = $raw_body;
         $dto->headers = $headers ?? [];
         $dto->cookies = $cookies ?? [];
+        $dto->params = $params ?? [];
+        $dto->parsed_body = $parsed_body;
 
         return $dto;
     }
 
 
-    public function getBody() : ?BodyDto
+    public function getCookie(string $name) : ?string
     {
-        return $this->body;
+        return $this->cookies[$name] ?? null;
     }
 
 
@@ -74,9 +85,21 @@ class RequestDto
     }
 
 
+    public function getParsedBody() : ?BodyDto
+    {
+        return $this->parsed_body;
+    }
+
+
     public function getQuery() : array
     {
         return $this->query;
+    }
+
+
+    public function getRawBody() : ?string
+    {
+        return $this->raw_body;
     }
 
 

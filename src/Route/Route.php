@@ -8,10 +8,10 @@ use Fluxlabs\FluxRestApi\Response\ResponseDto;
 interface Route
 {
 
-    public function getBodyClass() : ?string;
+    public function getBodyType() : ?string;
 
 
-    public function getMethod() : ?string;
+    public function getMethod() : string;
 
 
     public function getRoute() : string;

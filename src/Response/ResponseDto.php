@@ -11,10 +11,11 @@ class ResponseDto
     private ?BodyDto $body;
     private array $cookies;
     private array $headers;
+    private ?string $raw_body;
     private int $status;
 
 
-    public static function new(?BodyDto $body = null, ?int $status = null, ?array $headers = null, ?array $cookies = null, ?string $sendfile = null) : /*static*/ self
+    public static function new(?BodyDto $body = null, ?int $status = null, ?array $headers = null, ?array $cookies = null, ?string $sendfile = null, ?string $raw_body = null) : /*static*/ self
     {
         $dto = new static();
 
@@ -23,6 +24,7 @@ class ResponseDto
         $dto->headers = $headers ?? [];
         $dto->cookies = $cookies ?? [];
         $dto->sendfile = $sendfile;
+        $dto->raw_body = $raw_body;
 
         return $dto;
     }
@@ -43,6 +45,12 @@ class ResponseDto
     public function getHeaders() : array
     {
         return $this->headers;
+    }
+
+
+    public function getRawBody() : ?string
+    {
+        return $this->raw_body;
     }
 
 

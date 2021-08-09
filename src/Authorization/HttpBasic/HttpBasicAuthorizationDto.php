@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Authorization\HttpBasicAuthorization;
+namespace Fluxlabs\FluxRestApi\Authorization\HttpBasic;
 
 class HttpBasicAuthorizationDto
 {
