@@ -2,7 +2,7 @@
 
 namespace Fluxlabs\FluxRestApi\Route\Example;
 
-use Fluxlabs\FluxRestApi\Route\Proxy\ProxyRoute;
+use Fluxlabs\FluxRestApi\Route\ProxyRoute;
 use Fluxlabs\FluxRestApi\Route\Route;
 
 class ProxyExampleRoute implements Route
@@ -24,13 +24,13 @@ class ProxyExampleRoute implements Route
     }
 
 
-    public function getMethod() : ?string
+    public function getMethod() : string
     {
         return "GET";
     }
 
 
-    public function getBodyClass() : ?string
+    public function getBodyType() : ?string
     {
         return null;
     }
