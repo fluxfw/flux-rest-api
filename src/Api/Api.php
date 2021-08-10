@@ -229,12 +229,15 @@ class Api
 
         $param_keys = [];
         $param_values = [];
-        preg_match("/^\/" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)\\\}/", function (array $matches) use (&$param_keys) {
+        preg_match("/^\/" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
                 $param_keys[] = $matches[1];
 
-                return "([A-Za-z0-9-_]+)";
-            }, preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(),
-            $param_values);
+                if ($matches[2] === "\\.") {
+                    return "([A-Za-z0-9-_.\/]+)";
+                } else {
+                    return "([A-Za-z0-9-_.]+)";
+                }
+            }, preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(), $param_values);
 
         if (empty($param_values) || count($param_values) < 1) {
             return null;
@@ -250,7 +253,7 @@ class Api
             $route,
             array_combine(
                 $param_keys,
-                $param_values
+                array_map(fn(string $value) : string => trim($value, "/"), $param_values)
             )
         );
     }
