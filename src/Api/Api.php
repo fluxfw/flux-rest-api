@@ -277,7 +277,7 @@ class Api
                 break;
 
             case BodyType::JSON:
-                $body = json_decode($raw_body);
+                $body = json_decode($raw_body, true);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new Exception(json_last_error_msg());
