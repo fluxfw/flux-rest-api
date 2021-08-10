@@ -32,8 +32,8 @@ class RawRequestDto
         $dto->method = $method;
         $dto->query = $query ?? [];
         $dto->body = $body;
-        $dto->post = $post;
-        $dto->files = $files;
+        $dto->post = $post ?? [];
+        $dto->files = $files ?? [];
         $dto->headers = $headers ?? [];
         $dto->cookies = $cookies ?? [];
 
