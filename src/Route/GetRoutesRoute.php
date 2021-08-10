@@ -2,8 +2,7 @@
 
 namespace Fluxlabs\FluxRestApi\Route;
 
-use Fluxlabs\FluxRestApi\Body\BodyDto;
-use Fluxlabs\FluxRestApi\Body\BodyType;
+use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 
@@ -44,8 +43,7 @@ class GetRoutesRoute implements Route
     public function handle(RequestDto $request) : ResponseDto
     {
         return ResponseDto::new(
-            BodyDto::new(
-                BodyType::JSON,
+            JsonBodyDto::new(
                 ($this->get_routes)()
             )
         );

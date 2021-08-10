@@ -3,7 +3,7 @@
 namespace Fluxlabs\FluxRestApi\Route;
 
 use Exception;
-use Fluxlabs\FluxRestApi\Body\BodyType;
+use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 
@@ -23,8 +23,8 @@ trait ProxyRoute
 
             $curl = curl_init($url);
 
-            if ($request->getParsedBody() !== null && $request->getParsedBody()->getType() === BodyType::FORM_DATA) {
-                throw new Exception(BodyType::FORM_DATA . " is not supported");
+            if ($request->getParsedBody() instanceof FormDataBodyDto) {
+                throw new Exception("Proxy form data body is not supported");
             }
 
             curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getRawBody());

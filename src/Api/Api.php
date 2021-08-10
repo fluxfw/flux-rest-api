@@ -5,6 +5,10 @@ namespace Fluxlabs\FluxRestApi\Api;
 use Exception;
 use Fluxlabs\FluxRestApi\Body\BodyDto;
 use Fluxlabs\FluxRestApi\Body\BodyType;
+use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
+use Fluxlabs\FluxRestApi\Body\HtmlBodyDto;
+use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
+use Fluxlabs\FluxRestApi\Body\TextBodyDto;
 use Fluxlabs\FluxRestApi\Config\Config;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
@@ -56,8 +60,7 @@ class Api
 
             return $this->toRawBody(
                 ResponseDto::new(
-                    BodyDto::new(
-                        BodyType::TEXT,
+                    TextBodyDto::new(
                         "Route not found"
                     ),
                     404
@@ -161,8 +164,7 @@ class Api
 
             return $this->toRawBody(
                 ResponseDto::new(
-                    BodyDto::new(
-                        BodyType::TEXT,
+                    TextBodyDto::new(
                         "Authorization needed"
                     ),
                     404,
@@ -227,12 +229,15 @@ class Api
 
         $param_keys = [];
         $param_values = [];
-        preg_match("/^\/" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)\\\}/", function (array $matches) use (&$param_keys) {
+        preg_match("/^\/" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
                 $param_keys[] = $matches[1];
 
-                return "([A-Za-z0-9-_]+)";
-            }, preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(),
-            $param_values);
+                if ($matches[2] === "\\.") {
+                    return "([A-Za-z0-9-_.\/]+)";
+                } else {
+                    return "([A-Za-z0-9-_.]+)";
+                }
+            }, preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(), $param_values);
 
         if (empty($param_values) || count($param_values) < 1) {
             return null;
@@ -248,7 +253,7 @@ class Api
             $route,
             array_combine(
                 $param_keys,
-                $param_values
+                array_map(fn(string $value) : string => trim($value, "/"), $param_values)
             )
         );
     }
@@ -270,38 +275,37 @@ class Api
 
         switch ($route_body_type) {
             case BodyType::FORM_DATA:
-                $body = [
-                    "post"  => $post,
-                    "files" => $files
-                ];
-                break;
+                return FormDataBodyDto::new(
+                    $post,
+                    $files
+                );
 
             case BodyType::JSON:
-                $body = json_decode($raw_body, true);
+                $data = json_decode($raw_body, true);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new Exception(json_last_error_msg());
                 }
-                break;
+
+                return JsonBodyDto::new(
+                    $data
+                );
 
             default:
                 throw new Exception("Body type " . $route_body_type . " is not supported");
         }
-
-        return BodyDto::new(
-            $route_body_type,
-            $body
-        );
     }
 
 
     private function toRawBody(ResponseDto $response) : ResponseDto
     {
-        if ($response->getSendfile() !== null && ($response->getBody() !== null || $response->getRawBody() !== null)) {
+        $body = $response->getBody();
+
+        if ($response->getSendfile() !== null && ($body !== null || $response->getRawBody() !== null)) {
             throw new LogicException("Can't set both body and sendfile");
         }
 
-        if ($response->getBody() === null) {
+        if ($body === null) {
             return $response;
         }
 
@@ -309,29 +313,32 @@ class Api
             throw new LogicException("Can't set both body and raw body");
         }
 
-        switch ($response->getBody()->getType()) {
-            case BodyType::HTML:
-            case BodyType::TEXT:
-                $raw_body = $response->getBody()->getBody();
+        switch (true) {
+            case $body instanceof HtmlBodyDto:
+                $raw_body = $body->getHtml();
                 break;
 
-            case BodyType::JSON:
-                $raw_body = json_encode($response->getBody()->getBody(), JSON_UNESCAPED_SLASHES);
+            case $body instanceof JsonBodyDto:
+                $raw_body = json_encode($body->getData(), JSON_UNESCAPED_SLASHES);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new Exception(json_last_error_msg());
                 }
                 break;
 
+            case $body instanceof TextBodyDto:
+                $raw_body = $body->getText();
+                break;
+
             default:
-                throw new Exception("Body type " . $response->getBody()->getType() . " is not supported");
+                throw new Exception("Body type " . $body->getType() . " is not supported");
         }
 
         return ResponseDto::new(
             null,
             $response->getStatus(),
             $response->getHeaders() + [
-                "Content-Type" => $response->getBody()->getType()
+                "Content-Type" => $body->getType()
             ],
             $response->getCookies(),
             $response->getSendfile(),
