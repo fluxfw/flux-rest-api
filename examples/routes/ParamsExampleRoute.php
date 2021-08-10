@@ -2,8 +2,7 @@
 
 namespace Fluxlabs\FluxRestApi\Route\Example;
 
-use Fluxlabs\FluxRestApi\Body\BodyDto;
-use Fluxlabs\FluxRestApi\Body\BodyType;
+use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Route;
@@ -40,8 +39,7 @@ class ParamsExampleRoute implements Route
     public function handle(RequestDto $request) : ResponseDto
     {
         return ResponseDto::new(
-            BodyDto::new(
-                BodyType::JSON,
+            JsonBodyDto::new(
                 [
                     "params" => $request->getParams(),
                     "query"  => $request->getQuery()
