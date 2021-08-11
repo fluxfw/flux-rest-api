@@ -232,7 +232,7 @@ class Api
         preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
                 $param_keys[] = $matches[1];
 
-                if ($matches[2] === "\\.") {
+                if (isset($matches[2]) && $matches[2] === "\\.") {
                     return "([A-Za-z0-9-_.\/]+)";
                 } else {
                     return "([A-Za-z0-9-_.]+)";
