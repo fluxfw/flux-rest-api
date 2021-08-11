@@ -78,6 +78,7 @@ class SwooleHandler
 
         if ($api_response->getSendfile() !== null) {
             $response->sendfile($api_response->getSendfile());
+            return;
         }
 
         $response->end();
