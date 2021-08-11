@@ -56,12 +56,6 @@ class CookieDto
     }
 
 
-    public function getHttpOnly() : ?bool
-    {
-        return $this->http_only;
-    }
-
-
     public function getName() : string
     {
         return $this->name;
@@ -86,14 +80,20 @@ class CookieDto
     }
 
 
-    public function getSecure() : ?bool
-    {
-        return $this->secure;
-    }
-
-
     public function getValue() : ?string
     {
         return $this->value;
+    }
+
+
+    public function isHttpOnly() : ?bool
+    {
+        return $this->http_only;
+    }
+
+
+    public function isSecure() : ?bool
+    {
+        return $this->secure;
     }
 }
