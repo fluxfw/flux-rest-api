@@ -133,7 +133,7 @@ class Api
     {
         $this->docu_routes ??= (function () : array {
             $routes = array_map(fn(Route $route) : array => [
-                "route"     => "/" . trim($route->getRoute(), "/"),
+                "route"     => $this->normalizeRoute($route->getRoute()),
                 "method"    => $route->getMethod(),
                 "body_type" => $route->getBodyType()
             ], $this->collectRoutes());
@@ -229,7 +229,7 @@ class Api
 
         $param_keys = [];
         $param_values = [];
-        preg_match("/^\/" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
+        preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
                 $param_keys[] = $matches[1];
 
                 if ($matches[2] === "\\.") {
@@ -237,7 +237,7 @@ class Api
                 } else {
                     return "([A-Za-z0-9-_.]+)";
                 }
-            }, preg_quote(trim($route->getRoute(), "/"), "/")) . "\/?$/", $request->getRoute(), $param_values);
+            }, preg_quote($this->normalizeRoute($route->getRoute()), "/")) . "$/", $this->normalizeRoute($request->getRoute()), $param_values);
 
         if (empty($param_values) || count($param_values) < 1) {
             return null;
@@ -253,9 +253,15 @@ class Api
             $route,
             array_combine(
                 $param_keys,
-                array_map(fn(string $value) : string => trim($value, "/"), $param_values)
+                array_map([$this, "removeNormalizeRoute"], $param_values)
             )
         );
+    }
+
+
+    private function normalizeRoute(string $route) : string
+    {
+        return "/" . $this->removeNormalizeRoute($route);
     }
 
 
@@ -294,6 +300,12 @@ class Api
             default:
                 throw new Exception("Body type " . $route_body_type . " is not supported");
         }
+    }
+
+
+    private function removeNormalizeRoute(string $route) : string
+    {
+        return trim($route, "/");
     }
 
 
