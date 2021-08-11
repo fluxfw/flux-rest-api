@@ -134,7 +134,7 @@ class Api
         $this->docu_routes ??= (function () : array {
             $routes = array_map(fn(Route $route) : array => [
                 "route"     => $this->normalizeRoute($route->getRoute()),
-                "method"    => $route->getMethod(),
+                "method"    => $this->normalizeMethod($route->getMethod()),
                 "body_type" => $route->getBodyType()
             ], $this->collectRoutes());
 
@@ -223,7 +223,7 @@ class Api
 
     private function matchRoute(Route $route, RawRequestDto $request) : ?MatchedRouteDto
     {
-        if ($route->getMethod() !== $request->getMethod()) {
+        if ($this->normalizeMethod($route->getMethod()) !== $this->normalizeMethod($request->getMethod())) {
             return null;
         }
 
@@ -259,6 +259,12 @@ class Api
     }
 
 
+    private function normalizeMethod(string $method) : string
+    {
+        return strtoupper($method);
+    }
+
+
     private function normalizeRoute(string $route) : string
     {
         return "/" . $this->removeNormalizeRoute($route);
@@ -287,7 +293,7 @@ class Api
                 );
 
             case BodyType::JSON:
-                $data = json_decode($raw_body, true);
+                $data = json_decode($raw_body);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     throw new Exception(json_last_error_msg());
