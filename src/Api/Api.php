@@ -311,7 +311,7 @@ class Api
 
     private function removeNormalizeRoute(string $route) : string
     {
-        return trim($route, "/");
+        return trim(preg_replace("/\.+/", ".", preg_replace("/\/+/", "/", $route)), "/");
     }
 
 
