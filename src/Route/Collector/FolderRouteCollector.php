@@ -9,15 +9,17 @@ use RecursiveIteratorIterator;
 class FolderRouteCollector implements RouteCollector
 {
 
+    private array $arguments;
     private string $folder;
     private array $route_classes = [];
 
 
-    public static function new(string $folder) : /*static*/ self
+    public static function new(string $folder, ?array $arguments = null) : /*static*/ self
     {
         $collector = new static();
 
         $collector->folder = $folder;
+        $collector->arguments = $arguments ?? [];
 
         return $collector;
     }
@@ -76,7 +78,7 @@ class FolderRouteCollector implements RouteCollector
                 continue;
             }
 
-            $routes[] = [$route_class, "new"]();
+            $routes[] = [$route_class, "new"](...$this->arguments);
         }
 
         return $routes;
