@@ -3,17 +3,18 @@
 namespace Fluxlabs\FluxRestApi\Api;
 
 use Exception;
+use Fluxlabs\FluxRestApi\Authorization\Authorization;
 use Fluxlabs\FluxRestApi\Body\BodyDto;
 use Fluxlabs\FluxRestApi\Body\BodyType;
 use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
 use Fluxlabs\FluxRestApi\Body\HtmlBodyDto;
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
 use Fluxlabs\FluxRestApi\Body\TextBodyDto;
-use Fluxlabs\FluxRestApi\Config\Config;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Collector\CombinedRouteCollector;
+use Fluxlabs\FluxRestApi\Route\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Route\Collector\StaticRouteCollector;
 use Fluxlabs\FluxRestApi\Route\GetRoutesRoute;
 use Fluxlabs\FluxRestApi\Route\MatchedRouteDto;
@@ -24,16 +25,28 @@ use Throwable;
 class Api
 {
 
-    private Config $config;
+    private ?Authorization $authorization;
     private ?array $docu_routes = null;
+    private RouteCollector $route_collector;
     private ?array $routes = null;
 
 
-    public static function new(Config $config) : /*static*/ self
+    public static function new(RouteCollector $route_collector, ?Authorization $authorization = null) : /*static*/ self
     {
         $api = new static();
 
-        $api->config = $config;
+        $api->route_collector = CombinedRouteCollector::new([
+            StaticRouteCollector::new([
+                GetRoutesRoute::new(
+                    fn() : array => $this->getRoutesDocu()
+                )
+            ]),
+            /*FolderRouteCollector::new(
+                __DIR__ . "/../../examples/routes"
+            ),*/
+            $route_collector
+        ]);
+        $api->authorization = $authorization;
 
         return $api;
     }
@@ -91,18 +104,7 @@ class Api
     private function collectRoutes() : array
     {
         $this->routes ??= (function () : array {
-            $routes = CombinedRouteCollector::new([
-                StaticRouteCollector::new([
-                    GetRoutesRoute::new(
-                        fn() : array => $this->getRoutesDocu()
-                    )
-                ]),
-                /*FolderRouteCollector::new(
-                    __DIR__ . "/../../examples/routes"
-                ),*/
-                $this->config->getRouteCollector()
-            ])
-                ->collectRoutes();
+            $routes = $this->route_collector->collectRoutes();
 
             usort($routes, fn(Route $route1, Route $route2) : int => strnatcasecmp($route2->getRoute(), $route1->getRoute()));
 
@@ -149,12 +151,12 @@ class Api
 
     private function handleAuthorization(RawRequestDto $request) : ?ResponseDto
     {
-        if ($this->config->getAuthorization() === null) {
+        if ($this->authorization === null) {
             return null;
         }
 
         try {
-            $this->config->getAuthorization()->authorize(
+            $this->authorization->authorize(
                 $request
             );
         } catch (Throwable $ex) {
@@ -168,7 +170,7 @@ class Api
                         "Authorization needed"
                     ),
                     404,
-                    $this->config->getAuthorization()->get401Headers()
+                    $this->authorization->get401Headers()
                 )
             );
         }

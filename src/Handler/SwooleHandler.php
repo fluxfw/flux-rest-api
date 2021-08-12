@@ -3,9 +3,10 @@
 namespace Fluxlabs\FluxRestApi\Handler;
 
 use Fluxlabs\FluxRestApi\Api\Api;
-use Fluxlabs\FluxRestApi\Config\Config;
+use Fluxlabs\FluxRestApi\Authorization\Authorization;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use Fluxlabs\FluxRestApi\Route\Collector\RouteCollector;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
@@ -15,12 +16,13 @@ class SwooleHandler
     private Api $api;
 
 
-    public static function new(Config $config) : /*static*/ self
+    public static function new(RouteCollector $route_collector, ?Authorization $authorization = null) : /*static*/ self
     {
         $handler = new static();
 
         $handler->api = Api::new(
-            $config
+            $route_collector,
+            $authorization
         );
 
         return $handler;
