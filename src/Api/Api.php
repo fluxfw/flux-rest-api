@@ -168,7 +168,7 @@ class Api
                     TextBodyDto::new(
                         "Authorization needed"
                     ),
-                    404,
+                    401,
                     $this->authorization->get401Headers()
                 )
             );
