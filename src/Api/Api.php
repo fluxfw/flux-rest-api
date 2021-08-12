@@ -15,7 +15,6 @@ use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Collector\CombinedRouteCollector;
 use Fluxlabs\FluxRestApi\Route\Collector\RouteCollector;
-use Fluxlabs\FluxRestApi\Route\Collector\StaticRouteCollector;
 use Fluxlabs\FluxRestApi\Route\GetRoutesRoute;
 use Fluxlabs\FluxRestApi\Route\MatchedRouteDto;
 use Fluxlabs\FluxRestApi\Route\Route;
@@ -35,17 +34,17 @@ class Api
     {
         $api = new static();
 
-        $api->route_collector = CombinedRouteCollector::new([
-            StaticRouteCollector::new([
+        $api->route_collector = CombinedRouteCollector::new(
+            [
                 GetRoutesRoute::new(
-                    fn() : array => $this->getRoutesDocu()
-                )
-            ]),
-            /*FolderRouteCollector::new(
-                __DIR__ . "/../../examples/routes"
-            ),*/
-            $route_collector
-        ]);
+                    fn() : array => $api->getRoutesDocu()
+                ),
+                /*FolderRouteCollector::new(
+                    __DIR__ . "/../../examples/routes"
+                ),*/
+                $route_collector
+            ]
+        );
         $api->authorization = $authorization;
 
         return $api;
