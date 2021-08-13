@@ -10,6 +10,7 @@ use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
 use Fluxlabs\FluxRestApi\Body\HtmlBodyDto;
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
 use Fluxlabs\FluxRestApi\Body\TextBodyDto;
+use Fluxlabs\FluxRestApi\Log\Log;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
@@ -23,6 +24,8 @@ use Throwable;
 
 class Api
 {
+
+    use Log;
 
     private ?Authorization $authorization;
     private ?array $docu_routes = null;
@@ -213,12 +216,6 @@ class Api
         return $route->getRoute()->handle(
             $request
         );
-    }
-
-
-    private function log(Throwable $ex) : void
-    {
-        file_put_contents("php://stdout", $ex);
     }
 
 
