@@ -29,7 +29,8 @@ trait ProxyRoute
 
             curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getRawBody());
 
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ": " . $value, array_keys($request->getHeaders()), $request->getHeaders()));
+            curl_setopt($curl, CURLOPT_HTTPHEADER,
+                array_map(fn(string $key, string $value) : string => rawurlencode($key) . ": " . rawurlencode($value), array_keys($request->getHeaders()), $request->getHeaders()));
 
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getMethod());
 
