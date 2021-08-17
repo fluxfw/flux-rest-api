@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Route;
+namespace Fluxlabs\FluxRestApi\Adapter\Route;
 
 use Exception;
 use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
@@ -37,7 +37,7 @@ trait ProxyRoute
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
             $headers = [];
-            curl_setopt($curl, CURLOPT_HEADERFUNCTION, function ($curl, $header) use (&$headers) : int {
+            curl_setopt($curl, CURLOPT_HEADERFUNCTION, function ($curl, string $header) use (&$headers) : int {
                 $len = strlen($header);
 
                 $header = array_filter(array_map("trim", explode(":", $header, 2)));

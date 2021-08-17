@@ -2,7 +2,7 @@
 
 namespace Fluxlabs\FluxRestApi\Route\Example;
 
-use Fluxlabs\FluxRestApi\Route\ProxyRoute;
+use Fluxlabs\FluxRestApi\Adapter\Route\ProxyRoute;
 use Fluxlabs\FluxRestApi\Route\Route;
 
 class ProxyExampleRoute implements Route
