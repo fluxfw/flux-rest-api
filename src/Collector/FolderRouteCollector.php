@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Route\Collector;
+namespace Fluxlabs\FluxRestApi\Collector;
 
 use Fluxlabs\FluxRestApi\Route\Route;
 use RecursiveDirectoryIterator;

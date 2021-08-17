@@ -4,9 +4,9 @@ namespace Fluxlabs\FluxRestApi\Handler;
 
 use Fluxlabs\FluxRestApi\Api\Api;
 use Fluxlabs\FluxRestApi\Authorization\Authorization;
+use Fluxlabs\FluxRestApi\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Route\Collector\RouteCollector;
 use LogicException;
 
 class DefaultHandler
