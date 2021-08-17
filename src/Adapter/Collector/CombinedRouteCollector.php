@@ -1,7 +1,8 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Collector;
+namespace Fluxlabs\FluxRestApi\Adapter\Collector;
 
+use Fluxlabs\FluxRestApi\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Route\Route;
 use LogicException;
 

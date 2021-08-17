@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Authorization\HttpBasic;
+namespace Fluxlabs\FluxRestApi\Adapter\Authorization\HttpBasic;
 
 use Exception;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;

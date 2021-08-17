@@ -1,8 +1,8 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Handler;
+namespace Fluxlabs\FluxRestApi\Adapter\Handler;
 
-use Fluxlabs\FluxRestApi\Api\Api;
+use Fluxlabs\FluxRestApi\Adapter\Api\Api;
 use Fluxlabs\FluxRestApi\Authorization\Authorization;
 use Fluxlabs\FluxRestApi\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
