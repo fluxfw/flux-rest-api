@@ -4,9 +4,10 @@ namespace Fluxlabs\FluxRestApi\Handler;
 
 use Fluxlabs\FluxRestApi\Api\Api;
 use Fluxlabs\FluxRestApi\Authorization\Authorization;
+use Fluxlabs\FluxRestApi\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Route\Collector\RouteCollector;
+use LogicException;
 
 class DefaultHandler
 {
@@ -39,6 +40,10 @@ class DefaultHandler
 
     private function handleResponse(ResponseDto $response) : void
     {
+        if (headers_sent($filename, $line)) {
+            throw new LogicException("Do not manually output headers or body in " . $filename . ":" . $line);
+        }
+
         http_response_code($response->getStatus());
 
         $headers = $response->getHeaders();

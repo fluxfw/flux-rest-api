@@ -79,6 +79,12 @@ class RequestDto
     }
 
 
+    public function getParam(string $name) : ?string
+    {
+        return $this->params[$name] ?? null;
+    }
+
+
     public function getParams() : array
     {
         return $this->params;
