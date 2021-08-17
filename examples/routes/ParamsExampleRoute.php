@@ -42,7 +42,7 @@ class ParamsExampleRoute implements Route
             JsonBodyDto::new(
                 [
                     "params" => $request->getParams(),
-                    "query"  => $request->getQuery()
+                    "query_params"  => $request->getQueryParams()
                 ]
             )
         );

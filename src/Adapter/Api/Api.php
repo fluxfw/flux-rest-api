@@ -187,7 +187,7 @@ class Api
             $request = RequestDto::new(
                 $request->getRoute(),
                 $request->getMethod(),
-                $request->getQuery(),
+                $request->getQueryParams(),
                 $request->getBody(),
                 $request->getHeaders(),
                 $request->getCookies(),

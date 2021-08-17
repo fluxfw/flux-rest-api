@@ -12,7 +12,7 @@ class RequestDto
     private string $method;
     private array $params;
     private ?BodyDto $parsed_body;
-    private array $query;
+    private array $query_params;
     private ?string $raw_body;
     private string $route;
 
@@ -20,7 +20,7 @@ class RequestDto
     public static function new(
         string $route,
         string $method,
-        ?array $query = null,
+        ?array $query_params = null,
         ?string $raw_body = null,
         ?array $headers = null,
         ?array $cookies = null,
@@ -32,7 +32,7 @@ class RequestDto
 
         $dto->route = $route;
         $dto->method = $method;
-        $dto->query = $query ?? [];
+        $dto->query_params = $query_params ?? [];
         $dto->raw_body = $raw_body;
         $dto->headers = $headers ?? [];
         $dto->cookies = $cookies ?? [];
@@ -97,9 +97,15 @@ class RequestDto
     }
 
 
-    public function getQuery() : array
+    public function getQueryParam(string $name) : ?string
     {
-        return $this->query;
+        return $this->query_params[$name] ?? null;
+    }
+
+
+    public function getQueryParams() : array
+    {
+        return $this->query_params;
     }
 
 

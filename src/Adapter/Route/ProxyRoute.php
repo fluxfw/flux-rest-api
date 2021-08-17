@@ -16,9 +16,10 @@ trait ProxyRoute
         try {
             $url = preg_replace_callback("/{([A-Za-z0-9-_]+)}/", fn(array $matches) : string => $request->getParams()[$matches[1]] ?? $matches[0], $this->getProxyUrl());
 
-            if (!empty($request->getQuery())) {
+            if (!empty($request->getQueryParams())) {
                 $url .= (str_contains($url, "?") ? "&" : "?")
-                    . implode("&", array_map(fn(string $key, string $value) : string => rawurlencode($key) . "=" . rawurlencode($value), array_keys($request->getQuery()), $request->getQuery()));
+                    . implode("&",
+                        array_map(fn(string $key, string $value) : string => rawurlencode($key) . "=" . rawurlencode($value), array_keys($request->getQueryParams()), $request->getQueryParams()));
             }
 
             $curl = curl_init($url);
