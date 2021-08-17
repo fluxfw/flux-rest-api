@@ -11,14 +11,14 @@ class RawRequestDto
     private array $headers;
     private string $method;
     private array $post;
-    private array $query;
+    private array $query_params;
     private string $route;
 
 
     public static function new(
         string $route,
         string $method,
-        ?array $query = null,
+        ?array $query_params = null,
         ?string $body = null,
         ?array $post = null,
         ?array $files = null,
@@ -30,7 +30,7 @@ class RawRequestDto
 
         $dto->route = $route;
         $dto->method = $method;
-        $dto->query = $query ?? [];
+        $dto->query_params = $query_params ?? [];
         $dto->body = $body;
         $dto->post = $post ?? [];
         $dto->files = $files ?? [];
@@ -95,9 +95,15 @@ class RawRequestDto
     }
 
 
-    public function getQuery() : array
+    public function getQueryParam(string $name) : ?string
     {
-        return $this->query;
+        return $this->query_params[$name] ?? null;
+    }
+
+
+    public function getQueryParams() : array
+    {
+        return $this->query_params;
     }
 
 
