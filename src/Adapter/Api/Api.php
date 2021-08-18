@@ -227,7 +227,7 @@ class Api
 
         $param_keys = [];
         $param_values = [];
-        preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
+        preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
                 $param_keys[] = $matches[1];
 
                 if (isset($matches[2]) && $matches[2] === "\\.") {
