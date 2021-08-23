@@ -10,6 +10,7 @@ use Fluxlabs\FluxRestApi\Route\Route;
 class GetRoutesRoute implements Route
 {
 
+    //private callable $get_routes;
     private $get_routes;
 
 
