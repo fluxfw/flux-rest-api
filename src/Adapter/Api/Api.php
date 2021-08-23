@@ -249,10 +249,7 @@ class Api
 
         return MatchedRouteDto::new(
             $route,
-            array_combine(
-                $param_keys,
-                array_map([$this, "removeNormalizeRoute"], $param_values)
-            )
+            array_combine($param_keys, array_map([$this, "removeNormalizeRoute"], $param_values))
         );
     }
 

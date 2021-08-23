@@ -5,10 +5,11 @@ namespace Fluxlabs\FluxRestApi\Body;
 class JsonBodyDto implements BodyDto
 {
 
+    //private mixed $data;
     private $data;
 
 
-    public static function new($data) : /*static*/ self
+    public static function new(/*mixed*/ $data) : /*static*/ self
     {
         $dto = new static();
 
@@ -18,7 +19,7 @@ class JsonBodyDto implements BodyDto
     }
 
 
-    public function getData()
+    public function getData()/* : mixed*/
     {
         return $this->data;
     }

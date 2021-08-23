@@ -7,11 +7,11 @@ use Fluxlabs\FluxRestApi\Body\BodyDto;
 class ResponseDto
 {
 
-    protected ?string $sendfile;
     private ?BodyDto $body;
     private array $cookies;
     private array $headers;
     private ?string $raw_body;
+    private ?string $sendfile;
     private int $status;
 
 
