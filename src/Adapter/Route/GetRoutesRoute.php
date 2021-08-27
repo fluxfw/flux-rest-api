@@ -3,6 +3,7 @@
 namespace Fluxlabs\FluxRestApi\Adapter\Route;
 
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
+use Fluxlabs\FluxRestApi\Method\Method;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Route;
@@ -10,9 +11,10 @@ use Fluxlabs\FluxRestApi\Route\Route;
 class GetRoutesRoute implements Route
 {
 
-    //private callable $get_routes;
     private $get_routes;
 
+
+    //private callable $get_routes;
 
     public static function new(callable $get_routes) : /*static*/ self
     {
@@ -24,7 +26,13 @@ class GetRoutesRoute implements Route
     }
 
 
-    public function getBodyType() : ?string
+    public function getDocuBodyTypes() : ?array
+    {
+        return null;
+    }
+
+
+    public function getDocuQueryParams() : ?array
     {
         return null;
     }
@@ -32,7 +40,7 @@ class GetRoutesRoute implements Route
 
     public function getMethod() : string
     {
-        return "GET";
+        return Method::GET;
     }
 
 

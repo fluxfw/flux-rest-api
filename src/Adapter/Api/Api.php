@@ -19,6 +19,7 @@ use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\MatchedRouteDto;
 use Fluxlabs\FluxRestApi\Route\Route;
+use Fluxlabs\FluxRestApi\Status\Status;
 use LogicException;
 use Throwable;
 
@@ -56,34 +57,29 @@ class Api
 
     public function handleRequest(RawRequestDto $request) : ResponseDto
     {
-        $response = $this->handleAuthorization(
-            $request
-        );
-        if ($response !== null) {
-            return $response;
-        }
-
         try {
+            $response = $this->handleAuthorization(
+                $request
+            );
+            if ($response !== null) {
+                return $response;
+            }
+
             $route = $this->getMatchedRoute(
                 $request,
                 $this->collectRoutes()
             );
-        } catch (Throwable $ex) {
-            $this->log(
-                $ex
-            );
+            if ($route === null) {
+                return $this->toRawBody(
+                    ResponseDto::new(
+                        TextBodyDto::new(
+                            "Route not found"
+                        ),
+                        Status::_404
+                    )
+                );
+            }
 
-            return $this->toRawBody(
-                ResponseDto::new(
-                    TextBodyDto::new(
-                        "Route not found"
-                    ),
-                    404
-                )
-            );
-        }
-
-        try {
             return $this->toRawBody(
                 $this->handleRoute(
                     $route,
@@ -97,7 +93,7 @@ class Api
 
             return ResponseDto::new(
                 null,
-                500
+                Status::_500
             );
         }
     }
@@ -117,12 +113,16 @@ class Api
     }
 
 
-    private function getMatchedRoute(RawRequestDto $request, array $routes) : MatchedRouteDto
+    private function getMatchedRoute(RawRequestDto $request, array $routes) : ?MatchedRouteDto
     {
+        if (($request->getRoute()[0] ?? null) !== "/") {
+            throw new LogicException("Invalid route format");
+        }
+
         $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute($route, $request), $routes), fn(?MatchedRouteDto $route) : bool => $route !== null);
 
         if (empty($routes)) {
-            throw new Exception("No route found for route " . $request->getRoute() . " and method " . $request->getMethod());
+            return null;
         }
 
         if (count($routes) > 1) {
@@ -137,12 +137,20 @@ class Api
     {
         $this->docu_routes ??= (function () : array {
             $routes = array_map(fn(Route $route) : array => [
-                "route"     => $this->normalizeRoute($route->getRoute()),
-                "method"    => $this->normalizeMethod($route->getMethod()),
-                "body_type" => $route->getBodyType()
+                "route"        => $this->normalizeRoute($route->getRoute()),
+                "method"       => $this->normalizeMethod($route->getMethod()),
+                "query_params" => $this->normalizeDocuArray($route->getDocuQueryParams()),
+                "body_types"   => $this->normalizeDocuArray($route->getDocuBodyTypes())
             ], $this->collectRoutes());
 
-            usort($routes, fn(array $route1, array $route2) : int => strnatcasecmp($route1["route"], $route2["route"]));
+            usort($routes, function (array $route1, array $route2) : int {
+                $sort = strnatcasecmp($route1["route"], $route2["route"]);
+                if ($sort !== 0) {
+                    return $sort;
+                }
+
+                return strnatcasecmp($route1["method"], $route2["method"]);
+            });
 
             return $routes;
         })();
@@ -158,9 +166,12 @@ class Api
         }
 
         try {
-            $this->authorization->authorize(
+            $response = $this->authorization->authorize(
                 $request
             );
+            if ($response !== null) {
+                return $response;
+            }
         } catch (Throwable $ex) {
             $this->log(
                 $ex
@@ -169,10 +180,9 @@ class Api
             return $this->toRawBody(
                 ResponseDto::new(
                     TextBodyDto::new(
-                        "Authorization needed"
+                        "Invalid authorization"
                     ),
-                    401,
-                    $this->authorization->get401Headers()
+                    Status::_403
                 )
             );
         }
@@ -198,8 +208,7 @@ class Api
                     ),
                     $request->getBody(),
                     $request->getPost(),
-                    $request->getFiles(),
-                    $route->getRoute()->getBodyType()
+                    $request->getFiles()
                 )
             );
         } catch (Throwable $ex) {
@@ -208,8 +217,10 @@ class Api
             );
 
             return ResponseDto::new(
-                null,
-                400
+                TextBodyDto::new(
+                    "Invalid body"
+                ),
+                Status::_400
             );
         }
 
@@ -254,6 +265,23 @@ class Api
     }
 
 
+    private function normalizeDocuArray(?array $array) : ?array
+    {
+        if (empty($array)) {
+            return null;
+        }
+
+        $array = array_filter(array_values(array_map("trim", $array)));
+        if (empty($array)) {
+            return null;
+        }
+
+        natcasesort($array);
+
+        return $array;
+    }
+
+
     private function normalizeMethod(string $method) : string
     {
         return strtoupper($method);
@@ -266,28 +294,25 @@ class Api
     }
 
 
-    private function parseBody(?string $type, ?string $raw_body, array $post, array $files, ?string $route_body_type) : ?BodyDto
+    private function parseBody(?string $type, ?string $raw_body, array $post, array $files) : ?BodyDto
     {
-        if ($route_body_type === null) {
-            if (!empty($type) || !empty($raw_body)) {
-                throw new Exception("Supports no body");
-            }
-
+        if (empty($type)) {
             return null;
         }
 
-        if (empty($type) || !str_contains($type, $route_body_type)) {
-            throw new Exception("Body type is not " . $route_body_type);
-        }
-
-        switch ($route_body_type) {
-            case BodyType::FORM_DATA:
+        switch (true) {
+            case str_contains($type, BodyType::FORM_DATA):
                 return FormDataBodyDto::new(
                     $post,
                     $files
                 );
 
-            case BodyType::JSON:
+            case str_contains($type, BodyType::HTML):
+                return HtmlBodyDto::new(
+                    $raw_body
+                );
+
+            case str_contains($type, BodyType::JSON):
                 $data = json_decode($raw_body);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
@@ -298,8 +323,13 @@ class Api
                     $data
                 );
 
+            case str_contains($type, BodyType::TEXT):
+                return TextBodyDto::new(
+                    $raw_body
+                );
+
             default:
-                throw new Exception("Body type " . $route_body_type . " is not supported");
+                return null;
         }
     }
 
@@ -313,8 +343,9 @@ class Api
     private function toRawBody(ResponseDto $response) : ResponseDto
     {
         $body = $response->getBody();
+        $raw_body = $response->getRawBody();
 
-        if ($response->getSendfile() !== null && ($body !== null || $response->getRawBody() !== null)) {
+        if ($response->getSendfile() !== null && ($body !== null || $raw_body !== null)) {
             throw new LogicException("Can't set both body and sendfile");
         }
 
@@ -322,7 +353,7 @@ class Api
             return $response;
         }
 
-        if ($response->getRawBody() !== null) {
+        if ($raw_body !== null) {
             throw new LogicException("Can't set both body and raw body");
         }
 

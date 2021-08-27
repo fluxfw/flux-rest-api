@@ -8,7 +8,10 @@ use Fluxlabs\FluxRestApi\Response\ResponseDto;
 interface Route
 {
 
-    public function getBodyType() : ?string;
+    public function getDocuBodyTypes() : ?array;
+
+
+    public function getDocuQueryParams() : ?array;
 
 
     public function getMethod() : string;

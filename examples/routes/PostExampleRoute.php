@@ -4,9 +4,12 @@ namespace Fluxlabs\FluxRestApi\Route\Example;
 
 use Fluxlabs\FluxRestApi\Body\BodyType;
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
+use Fluxlabs\FluxRestApi\Body\TextBodyDto;
+use Fluxlabs\FluxRestApi\Method\Method;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Route;
+use Fluxlabs\FluxRestApi\Status\Status;
 
 class PostExampleRoute implements Route
 {
@@ -19,26 +22,43 @@ class PostExampleRoute implements Route
     }
 
 
+    public function getDocuBodyTypes() : ?array
+    {
+        return [
+            BodyType::JSON
+        ];
+    }
+
+
+    public function getDocuQueryParams() : ?array
+    {
+        return null;
+    }
+
+
+    public function getMethod() : string
+    {
+        return Method::POST;
+    }
+
+
     public function getRoute() : string
     {
         return "/example/post";
     }
 
 
-    public function getMethod() : string
-    {
-        return "POST";
-    }
-
-
-    public function getBodyType() : ?string
-    {
-        return BodyType::JSON;
-    }
-
-
     public function handle(RequestDto $request) : ResponseDto
     {
+        if (!($request->getParsedBody() instanceof JsonBodyDto)) {
+            return ResponseDto::new(
+                TextBodyDto::new(
+                    "No json body"
+                ),
+                Status::_400
+            );
+        }
+
         return ResponseDto::new(
             JsonBodyDto::new(
                 [
