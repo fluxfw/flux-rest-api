@@ -53,7 +53,7 @@ class DefaultHandler
         }
 
         foreach ($headers as $key => $value) {
-            header(rawurlencode($key) . ": " . rawurlencode($value));
+            header($key . ":" . $value);
         }
 
         foreach ($response->getCookies() as $cookie) {

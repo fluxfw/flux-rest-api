@@ -3,6 +3,7 @@
 namespace Fluxlabs\FluxRestApi\Route\Example;
 
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
+use Fluxlabs\FluxRestApi\Method\Method;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Route;
@@ -18,21 +19,27 @@ class GetExampleRoute implements Route
     }
 
 
-    public function getRoute() : string
+    public function getDocuBodyTypes() : ?array
     {
-        return "/example/get";
+        return null;
+    }
+
+
+    public function getDocuQueryParams() : ?array
+    {
+        return null;
     }
 
 
     public function getMethod() : string
     {
-        return "GET";
+        return Method::GET;
     }
 
 
-    public function getBodyType() : ?string
+    public function getRoute() : string
     {
-        return null;
+        return "/example/get";
     }
 
 

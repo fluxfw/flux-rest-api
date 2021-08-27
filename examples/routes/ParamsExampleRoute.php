@@ -3,6 +3,7 @@
 namespace Fluxlabs\FluxRestApi\Route\Example;
 
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
+use Fluxlabs\FluxRestApi\Method\Method;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\Route;
@@ -18,21 +19,27 @@ class ParamsExampleRoute implements Route
     }
 
 
-    public function getRoute() : string
+    public function getDocuBodyTypes() : ?array
     {
-        return "/example/params/{param_1}/{param_2}";
+        return null;
+    }
+
+
+    public function getDocuQueryParams() : ?array
+    {
+        return null;
     }
 
 
     public function getMethod() : string
     {
-        return "GET";
+        return Method::GET;
     }
 
 
-    public function getBodyType() : ?string
+    public function getRoute() : string
     {
-        return null;
+        return "/example/params/{param_1}/{param_2}";
     }
 
 
@@ -41,8 +48,8 @@ class ParamsExampleRoute implements Route
         return ResponseDto::new(
             JsonBodyDto::new(
                 [
-                    "params" => $request->getParams(),
-                    "query_params"  => $request->getQueryParams()
+                    "params"       => $request->getParams(),
+                    "query_params" => $request->getQueryParams()
                 ]
             )
         );

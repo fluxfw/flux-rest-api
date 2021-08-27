@@ -3,27 +3,33 @@
 namespace Fluxlabs\FluxRestApi\Adapter\Authorization\HttpBasic;
 
 use Exception;
+use Fluxlabs\FluxRestApi\Body\TextBodyDto;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
+use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use Fluxlabs\FluxRestApi\Status\Status;
 
 trait HttpBasicAuthorization
 {
 
-    public function get401Headers() : array
-    {
-        return [
-            "WWW-Authenticate" => "Basic"
-        ];
-    }
-
-
-    private function parseHttpBasicAuthorization(RawRequestDto $request) : HttpBasicAuthorizationDto
+    private function parseHttpBasicAuthorization(RawRequestDto $request)/* : HttpBasicAuthorizationDto|ResponseDto*/
     {
         $authorization = $request->getHeader(
             "Authorization"
         );
+        if (empty($authorization)) {
+            return ResponseDto::new(
+                TextBodyDto::new(
+                    "Authorization needed"
+                ),
+                Status::_401,
+                [
+                    "WWW-Authenticate" => "Basic"
+                ]
+            );
+        }
 
-        if (empty($authorization) || !str_starts_with($authorization, "Basic ")) {
-            throw new Exception("Missing authorization");
+        if (!str_starts_with($authorization, "Basic ")) {
+            throw new Exception("No basic authorization");
         }
 
         $authorization = substr($authorization, 6);

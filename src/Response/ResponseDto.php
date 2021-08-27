@@ -3,6 +3,7 @@
 namespace Fluxlabs\FluxRestApi\Response;
 
 use Fluxlabs\FluxRestApi\Body\BodyDto;
+use Fluxlabs\FluxRestApi\Status\Status;
 
 class ResponseDto
 {
@@ -20,7 +21,7 @@ class ResponseDto
         $dto = new static();
 
         $dto->body = $body;
-        $dto->status = $status ?? 200;
+        $dto->status = $status ?? Status::_200;
         $dto->headers = $headers ?? [];
         $dto->cookies = $cookies ?? [];
         $dto->sendfile = $sendfile;
