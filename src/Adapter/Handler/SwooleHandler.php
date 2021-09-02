@@ -7,6 +7,7 @@ use Fluxlabs\FluxRestApi\Authorization\Authorization;
 use Fluxlabs\FluxRestApi\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use Fluxlabs\FluxRestApi\Server\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
@@ -93,8 +94,9 @@ class SwooleHandler
         return RawRequestDto::new(
             $request->server["request_uri"],
             $request->getMethod(),
+            Server::SWOOLE,
             $request->get,
-            $request->getContent(),
+            $request->getContent() ?: null,
             $request->post,
             $request->files,
             $request->header,

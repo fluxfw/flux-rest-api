@@ -19,13 +19,13 @@ class ProxyExampleRoute implements Route
     }
 
 
-    public function getDocuBodyTypes() : ?array
+    public function getDocuRequestBodyTypes() : ?array
     {
         return null;
     }
 
 
-    public function getDocuQueryParams() : ?array
+    public function getDocuRequestQueryParams() : ?array
     {
         return null;
     }

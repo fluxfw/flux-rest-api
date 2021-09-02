@@ -5,8 +5,10 @@ namespace Fluxlabs\FluxRestApi\Adapter\Handler;
 use Fluxlabs\FluxRestApi\Adapter\Api\Api;
 use Fluxlabs\FluxRestApi\Authorization\Authorization;
 use Fluxlabs\FluxRestApi\Collector\RouteCollector;
+use Fluxlabs\FluxRestApi\Header\Header;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use Fluxlabs\FluxRestApi\Server\Server;
 use LogicException;
 
 class DefaultHandler
@@ -32,13 +34,14 @@ class DefaultHandler
     {
         $this->handleResponse(
             $this->api->handleRequest(
-                $this->parseRequest()
-            )
+                $request = $this->parseRequest()
+            ),
+            $request
         );
     }
 
 
-    private function handleResponse(ResponseDto $response) : void
+    private function handleResponse(ResponseDto $response, RawRequestDto $request) : void
     {
         if (headers_sent($filename, $line)) {
             throw new LogicException("Do not manually output headers or body in " . $filename . ":" . $line);
@@ -49,7 +52,12 @@ class DefaultHandler
         $headers = $response->getHeaders();
 
         if ($response->getSendfile() !== null) {
-            $headers["X-Accel-Redirect"] = $response->getSendfile();
+            if ($request->getServer() === Server::NGINX) {
+                $headers[Header::X_ACCEL_REDIRECT] = $response->getSendfile();
+            } else {
+                $headers[Header::X_SENDFILE] = $response->getSendfile();
+            }
+            $headers[Header::CONTENT_TYPE] = "";
         }
 
         foreach ($headers as $key => $value) {
@@ -94,8 +102,9 @@ class DefaultHandler
         return RawRequestDto::new(
             $route_url,
             $_SERVER["REQUEST_METHOD"],
+            str_contains($_SERVER["SERVER_SOFTWARE"], "nginx") ? Server::NGINX : Server::APACHE,
             $query,
-            file_get_contents("php://input"),
+            file_get_contents("php://input") ?: null,
             $_POST,
             $_FILES,
             getallheaders(),
