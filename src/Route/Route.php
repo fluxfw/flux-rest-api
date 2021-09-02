@@ -8,10 +8,10 @@ use Fluxlabs\FluxRestApi\Response\ResponseDto;
 interface Route
 {
 
-    public function getDocuBodyTypes() : ?array;
+    public function getDocuRequestBodyTypes() : ?array;
 
 
-    public function getDocuQueryParams() : ?array;
+    public function getDocuRequestQueryParams() : ?array;
 
 
     public function getMethod() : string;
@@ -20,5 +20,5 @@ interface Route
     public function getRoute() : string;
 
 
-    public function handle(RequestDto $request) : ResponseDto;
+    public function handle(RequestDto $request) : ?ResponseDto;
 }

@@ -10,7 +10,7 @@ use Fluxlabs\FluxRestApi\Response\ResponseDto;
 trait ProxyRoute
 {
 
-    public final function handle(RequestDto $request) : ResponseDto
+    public final function handle(RequestDto $request) : ?ResponseDto
     {
         $curl = null;
         try {

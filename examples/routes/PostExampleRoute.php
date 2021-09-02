@@ -22,7 +22,7 @@ class PostExampleRoute implements Route
     }
 
 
-    public function getDocuBodyTypes() : ?array
+    public function getDocuRequestBodyTypes() : ?array
     {
         return [
             BodyType::JSON
@@ -30,7 +30,7 @@ class PostExampleRoute implements Route
     }
 
 
-    public function getDocuQueryParams() : ?array
+    public function getDocuRequestQueryParams() : ?array
     {
         return null;
     }
@@ -48,7 +48,7 @@ class PostExampleRoute implements Route
     }
 
 
-    public function handle(RequestDto $request) : ResponseDto
+    public function handle(RequestDto $request) : ?ResponseDto
     {
         if (!($request->getParsedBody() instanceof JsonBodyDto)) {
             return ResponseDto::new(

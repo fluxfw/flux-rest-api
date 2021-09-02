@@ -13,11 +13,13 @@ class RawRequestDto
     private array $post;
     private array $query_params;
     private string $route;
+    private string $server;
 
 
     public static function new(
         string $route,
         string $method,
+        string $server,
         ?array $query_params = null,
         ?string $body = null,
         ?array $post = null,
@@ -30,6 +32,7 @@ class RawRequestDto
 
         $dto->route = $route;
         $dto->method = $method;
+        $dto->server = $server;
         $dto->query_params = $query_params ?? [];
         $dto->body = $body;
         $dto->post = $post ?? [];
@@ -110,5 +113,11 @@ class RawRequestDto
     public function getRoute() : string
     {
         return $this->route;
+    }
+
+
+    public function getServer() : string
+    {
+        return $this->server;
     }
 }

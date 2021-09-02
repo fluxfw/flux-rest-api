@@ -13,6 +13,7 @@ use Fluxlabs\FluxRestApi\Body\HtmlBodyDto;
 use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
 use Fluxlabs\FluxRestApi\Body\TextBodyDto;
 use Fluxlabs\FluxRestApi\Collector\RouteCollector;
+use Fluxlabs\FluxRestApi\Header\Header;
 use Fluxlabs\FluxRestApi\Log\Log;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
@@ -116,7 +117,7 @@ class Api
     private function getMatchedRoute(RawRequestDto $request, array $routes) : ?MatchedRouteDto
     {
         if (($request->getRoute()[0] ?? null) !== "/") {
-            throw new LogicException("Invalid route format");
+            throw new LogicException("Invalid route format " . $request->getRoute());
         }
 
         $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute($route, $request), $routes), fn(?MatchedRouteDto $route) : bool => $route !== null);
@@ -139,8 +140,8 @@ class Api
             $routes = array_map(fn(Route $route) : array => [
                 "route"        => $this->normalizeRoute($route->getRoute()),
                 "method"       => $this->normalizeMethod($route->getMethod()),
-                "query_params" => $this->normalizeDocuArray($route->getDocuQueryParams()),
-                "body_types"   => $this->normalizeDocuArray($route->getDocuBodyTypes())
+                "query_params" => $this->normalizeDocuArray($route->getDocuRequestQueryParams()),
+                "body_types"   => $this->normalizeDocuArray($route->getDocuRequestBodyTypes())
             ], $this->collectRoutes());
 
             usort($routes, function (array $route1, array $route2) : int {
@@ -197,6 +198,7 @@ class Api
             $request = RequestDto::new(
                 $request->getRoute(),
                 $request->getMethod(),
+                $request->getServer(),
                 $request->getQueryParams(),
                 $request->getBody(),
                 $request->getHeaders(),
@@ -204,7 +206,7 @@ class Api
                 $route->getParams(),
                 $this->parseBody(
                     $request->getHeader(
-                        "Content-Type"
+                        Header::CONTENT_TYPE
                     ),
                     $request->getBody(),
                     $request->getPost(),
@@ -225,8 +227,8 @@ class Api
         }
 
         return $route->getRoute()->handle(
-            $request
-        );
+                $request
+            ) ?? ResponseDto::new();
     }
 
 
@@ -382,7 +384,7 @@ class Api
             null,
             $response->getStatus(),
             $response->getHeaders() + [
-                "Content-Type" => $body->getType()
+                Header::CONTENT_TYPE => $body->getType()
             ],
             $response->getCookies(),
             $response->getSendfile(),

@@ -26,13 +26,13 @@ class GetRoutesRoute implements Route
     }
 
 
-    public function getDocuBodyTypes() : ?array
+    public function getDocuRequestBodyTypes() : ?array
     {
         return null;
     }
 
 
-    public function getDocuQueryParams() : ?array
+    public function getDocuRequestQueryParams() : ?array
     {
         return null;
     }
@@ -50,7 +50,7 @@ class GetRoutesRoute implements Route
     }
 
 
-    public function handle(RequestDto $request) : ResponseDto
+    public function handle(RequestDto $request) : ?ResponseDto
     {
         return ResponseDto::new(
             JsonBodyDto::new(
