@@ -311,7 +311,7 @@ class Api
 
             case str_contains($type, BodyType::HTML):
                 return HtmlBodyDto::new(
-                    $raw_body
+                    $raw_body ?? ""
                 );
 
             case str_contains($type, BodyType::JSON):
@@ -327,7 +327,7 @@ class Api
 
             case str_contains($type, BodyType::TEXT):
                 return TextBodyDto::new(
-                    $raw_body
+                    $raw_body ?? ""
                 );
 
             default:
