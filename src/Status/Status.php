@@ -11,5 +11,6 @@ final class Status
     const _401 = "401";
     const _403 = "403";
     const _404 = "404";
+    const _405 = "405";
     const _500 = "500";
 }
