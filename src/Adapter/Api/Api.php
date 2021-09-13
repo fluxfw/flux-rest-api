@@ -15,11 +15,13 @@ use Fluxlabs\FluxRestApi\Body\TextBodyDto;
 use Fluxlabs\FluxRestApi\Collector\RouteCollector;
 use Fluxlabs\FluxRestApi\Header\Header;
 use Fluxlabs\FluxRestApi\Log\Log;
+use Fluxlabs\FluxRestApi\Method\Method;
 use Fluxlabs\FluxRestApi\Request\RawRequestDto;
 use Fluxlabs\FluxRestApi\Request\RequestDto;
 use Fluxlabs\FluxRestApi\Response\ResponseDto;
 use Fluxlabs\FluxRestApi\Route\MatchedRouteDto;
 use Fluxlabs\FluxRestApi\Route\Route;
+use Fluxlabs\FluxRestApi\Server\Server;
 use Fluxlabs\FluxRestApi\Status\Status;
 use LogicException;
 use Throwable;
@@ -59,6 +61,13 @@ class Api
     public function handleRequest(RawRequestDto $request) : ResponseDto
     {
         try {
+            $request = $this->handleMethodOverride(
+                $request
+            );
+            if ($request instanceof ResponseDto) {
+                return $request;
+            }
+
             $response = $this->handleAuthorization(
                 $request
             );
@@ -70,15 +79,8 @@ class Api
                 $request,
                 $this->collectRoutes()
             );
-            if ($route === null) {
-                return $this->toRawBody(
-                    ResponseDto::new(
-                        TextBodyDto::new(
-                            "Route not found"
-                        ),
-                        Status::_404
-                    )
-                );
+            if ($route instanceof ResponseDto) {
+                return $route;
             }
 
             return $this->toRawBody(
@@ -114,23 +116,58 @@ class Api
     }
 
 
-    private function getMatchedRoute(RawRequestDto $request, array $routes) : ?MatchedRouteDto
+    private function getMatchedRoute(RawRequestDto $request, array $routes)/* : MatchedRouteDto|ResponseDto*/
     {
-        if (($request->getRoute()[0] ?? null) !== "/") {
-            throw new LogicException("Invalid route format " . $request->getRoute());
+        try {
+            if (($request->getRoute()[0] ?? null) !== "/") {
+                throw new LogicException("Invalid route format " . $request->getRoute());
+            }
+
+            $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute($route, $request), $routes), fn(?MatchedRouteDto $route) : bool => $route !== null);
+
+            if (empty($routes)) {
+                return $this->toRawBody(
+                    ResponseDto::new(
+                        TextBodyDto::new(
+                            "Route not found"
+                        ),
+                        Status::_404
+                    )
+                );
+            }
+
+            $routes = array_filter($routes, fn(MatchedRouteDto $route) : bool => $this->normalizeMethod($route->getRoute()->getMethod()) === $this->normalizeMethod($request->getMethod()));
+
+            if (empty($routes)) {
+                return $this->toRawBody(
+                    ResponseDto::new(
+                        TextBodyDto::new(
+                            "Invalid method"
+                        ),
+                        Status::_405
+                    )
+                );
+            }
+
+            if (count($routes) > 1) {
+                throw new LogicException("Multiple routes found for route " . $request->getRoute() . " and method " . $request->getMethod());
+            }
+
+            return current($routes);
+        } catch (Throwable $ex) {
+            $this->log(
+                $ex
+            );
+
+            return $this->toRawBody(
+                ResponseDto::new(
+                    TextBodyDto::new(
+                        "Invalid route"
+                    ),
+                    Status::_400
+                )
+            );
         }
-
-        $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute($route, $request), $routes), fn(?MatchedRouteDto $route) : bool => $route !== null);
-
-        if (empty($routes)) {
-            return null;
-        }
-
-        if (count($routes) > 1) {
-            throw new LogicException("Multiple routes found for route " . $request->getRoute() . "and method " . $request->getMethod());
-        }
-
-        return current($routes);
     }
 
 
@@ -171,7 +208,9 @@ class Api
                 $request
             );
             if ($response !== null) {
-                return $response;
+                return $this->toRawBody(
+                    $response
+                );
             }
         } catch (Throwable $ex) {
             $this->log(
@@ -189,6 +228,59 @@ class Api
         }
 
         return null;
+    }
+
+
+    private function handleMethodOverride(RawRequestDto $request)/* : RawRequestDto|ResponseDto*/
+    {
+        $method_override = $request->getHeader(
+            Header::X_HTTP_METHOD_OVERRIDE
+        );
+
+        if ($method_override === null) {
+            return $request;
+        }
+
+        try {
+            if ($request->getServer() !== Server::NGINX) {
+                throw new Exception("Method overriding not enabled/needed for server " . $request->getServer());
+            }
+
+            $method_override = $this->normalizeMethod($method_override);
+
+            if ($this->normalizeMethod($request->getMethod()) !== Method::POST) {
+                throw new Exception("Method overriding only for " . Method::POST);
+            }
+
+            if (!in_array($method_override, [Method::DELETE, Method::PATCH, Method::PUT])) {
+                throw new Exception("Method overriding with " . $method_override . " not supported");
+            }
+
+            return RawRequestDto::new(
+                $request->getRoute(),
+                $method_override,
+                $request->getServer(),
+                $request->getQueryParams(),
+                $request->getBody(),
+                $request->getPost(),
+                $request->getFiles(),
+                $request->getHeaders(),
+                $request->getCookies()
+            );
+        } catch (Throwable $ex) {
+            $this->log(
+                $ex
+            );
+
+            return $this->toRawBody(
+                ResponseDto::new(
+                    TextBodyDto::new(
+                        "Invalid method"
+                    ),
+                    Status::_405
+                )
+            );
+        }
     }
 
 
@@ -234,10 +326,6 @@ class Api
 
     private function matchRoute(Route $route, RawRequestDto $request) : ?MatchedRouteDto
     {
-        if ($this->normalizeMethod($route->getMethod()) !== $this->normalizeMethod($request->getMethod())) {
-            return null;
-        }
-
         $param_keys = [];
         $param_values = [];
         preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
