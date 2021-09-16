@@ -8,8 +8,8 @@ await (await fetch("?/example/post", {
         "Content-Type": "application/json"
     },
     body: JSON.stringify({
-        "name": "My Name",
-        "count": 4
+        name: "My Name",
+        count: 4
     })
 })).json();
 

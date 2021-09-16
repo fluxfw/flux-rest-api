@@ -123,7 +123,10 @@ class Api
                 throw new LogicException("Invalid route format " . $request->getRoute());
             }
 
-            $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute($route, $request), $routes), fn(?MatchedRouteDto $route) : bool => $route !== null);
+            $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute(
+                $route,
+                $request
+            ), $routes), fn(?MatchedRouteDto $route) : bool => $route !== null);
 
             if (empty($routes)) {
                 return $this->toRawBody(
@@ -136,7 +139,11 @@ class Api
                 );
             }
 
-            $routes = array_filter($routes, fn(MatchedRouteDto $route) : bool => $this->normalizeMethod($route->getRoute()->getMethod()) === $this->normalizeMethod($request->getMethod()));
+            $routes = array_filter($routes, fn(MatchedRouteDto $route) : bool => $this->normalizeMethod(
+                    $route->getRoute()->getMethod()
+                ) === $this->normalizeMethod(
+                    $request->getMethod()
+                ));
 
             if (empty($routes)) {
                 return $this->toRawBody(
@@ -175,10 +182,18 @@ class Api
     {
         $this->docu_routes ??= (function () : array {
             $routes = array_map(fn(Route $route) : array => [
-                "route"        => $this->normalizeRoute($route->getRoute()),
-                "method"       => $this->normalizeMethod($route->getMethod()),
-                "query_params" => $this->normalizeDocuArray($route->getDocuRequestQueryParams()),
-                "body_types"   => $this->normalizeDocuArray($route->getDocuRequestBodyTypes())
+                "route"        => $this->normalizeRoute(
+                    $route->getRoute()
+                ),
+                "method"       => $this->normalizeMethod(
+                    $route->getMethod()
+                ),
+                "query_params" => $this->normalizeDocuArray(
+                    $route->getDocuRequestQueryParams()
+                ),
+                "body_types"   => $this->normalizeDocuArray(
+                    $route->getDocuRequestBodyTypes()
+                )
             ], $this->collectRoutes());
 
             usort($routes, function (array $route1, array $route2) : int {
@@ -246,9 +261,14 @@ class Api
                 throw new Exception("Method overriding not enabled/needed for server " . $request->getServer());
             }
 
-            $method_override = $this->normalizeMethod($method_override);
+            $method_override = $this->normalizeMethod(
+                $method_override
+            );
 
-            if ($this->normalizeMethod($request->getMethod()) !== Method::POST) {
+            if ($this->normalizeMethod(
+                    $request->getMethod()
+                ) !== Method::POST
+            ) {
                 throw new Exception("Method overriding only for " . Method::POST);
             }
 
@@ -336,7 +356,11 @@ class Api
                 } else {
                     return "([A-Za-z0-9-_.]+)";
                 }
-            }, preg_quote($this->normalizeRoute($route->getRoute()), "/")) . "$/", $this->normalizeRoute($request->getRoute()), $param_values);
+            }, preg_quote($this->normalizeRoute(
+                $route->getRoute()
+            ), "/")) . "$/", $this->normalizeRoute(
+            $request->getRoute()
+        ), $param_values);
 
         if (empty($param_values) || count($param_values) < 1) {
             return null;
@@ -380,7 +404,9 @@ class Api
 
     private function normalizeRoute(string $route) : string
     {
-        return "/" . $this->removeNormalizeRoute($route);
+        return "/" . $this->removeNormalizeRoute(
+                $route
+            );
     }
 
 
