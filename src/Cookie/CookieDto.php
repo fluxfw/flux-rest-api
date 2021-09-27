@@ -6,7 +6,7 @@ class CookieDto
 {
 
     private ?string $domain;
-    private ?int $expires;
+    private ?int $expires_in;
     private ?bool $http_only;
     private string $name;
     private ?string $path;
@@ -19,7 +19,7 @@ class CookieDto
     public static function new(
         string $name,
         ?string $value = null,
-        ?int $expires = null,
+        ?int $expires_in = null,
         ?string $path = null,
         ?string $domain = null,
         ?bool $secure = null,
@@ -32,7 +32,7 @@ class CookieDto
 
         $dto->name = $name;
         $dto->value = $value;
-        $dto->expires = $expires;
+        $dto->expires_in = $expires_in;
         $dto->path = $path;
         $dto->domain = $domain;
         $dto->secure = $secure;
@@ -50,9 +50,9 @@ class CookieDto
     }
 
 
-    public function getExpires() : ?int
+    public function getExpiresIn() : ?int
     {
-        return $this->expires;
+        return $this->expires_in;
     }
 
 
