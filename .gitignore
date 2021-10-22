@@ -1,2 +1,10 @@
-.idea
-vendor
+*
+!examples
+!examples/**
+!src
+!src/**
+!.gitignore
+!.gitlab-ci.yml
+!composer.json
+!composer.lock
+!README.md
