@@ -24,13 +24,13 @@ trait HttpBasicAuthorization
                 ),
                 Status::_401,
                 [
-                    Header::WWW_AUTHENTICATE => "Basic"
+                    Header::WWW_AUTHENTICATE => Header::WWW_AUTHENTICATE_BASIC
                 ]
             );
         }
 
-        if (!str_starts_with($authorization, "Basic ")) {
-            throw new Exception("No basic authorization");
+        if (!str_starts_with($authorization, Header::WWW_AUTHENTICATE_BASIC . " ")) {
+            throw new Exception("No " . Header::WWW_AUTHENTICATE_BASIC . " authorization");
         }
 
         $authorization = substr($authorization, 6);
