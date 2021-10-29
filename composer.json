@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Fluxlabs\\FluxRestApi\\": "src/"
+      "FluxRestApi\\": "src/"
     }
   },
   "config": {
