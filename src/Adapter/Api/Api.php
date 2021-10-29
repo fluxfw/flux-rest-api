@@ -1,28 +1,28 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Adapter\Api;
+namespace FluxRestApi\Adapter\Api;
 
 use Exception;
-use Fluxlabs\FluxRestApi\Adapter\Collector\CombinedRouteCollector;
-use Fluxlabs\FluxRestApi\Adapter\Route\GetRoutesRoute;
-use Fluxlabs\FluxRestApi\Authorization\Authorization;
-use Fluxlabs\FluxRestApi\Body\BodyDto;
-use Fluxlabs\FluxRestApi\Body\BodyType;
-use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
-use Fluxlabs\FluxRestApi\Body\HtmlBodyDto;
-use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
-use Fluxlabs\FluxRestApi\Body\TextBodyDto;
-use Fluxlabs\FluxRestApi\Collector\RouteCollector;
-use Fluxlabs\FluxRestApi\Header\Header;
-use Fluxlabs\FluxRestApi\Log\Log;
-use Fluxlabs\FluxRestApi\Method\Method;
-use Fluxlabs\FluxRestApi\Request\RawRequestDto;
-use Fluxlabs\FluxRestApi\Request\RequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Route\MatchedRouteDto;
-use Fluxlabs\FluxRestApi\Route\Route;
-use Fluxlabs\FluxRestApi\Server\Server;
-use Fluxlabs\FluxRestApi\Status\Status;
+use FluxRestApi\Adapter\Collector\CombinedRouteCollector;
+use FluxRestApi\Adapter\Route\GetRoutesRoute;
+use FluxRestApi\Authorization\Authorization;
+use FluxRestApi\Body\BodyDto;
+use FluxRestApi\Body\BodyType;
+use FluxRestApi\Body\FormDataBodyDto;
+use FluxRestApi\Body\HtmlBodyDto;
+use FluxRestApi\Body\JsonBodyDto;
+use FluxRestApi\Body\TextBodyDto;
+use FluxRestApi\Collector\RouteCollector;
+use FluxRestApi\Header\Header;
+use FluxRestApi\Log\Log;
+use FluxRestApi\Method\Method;
+use FluxRestApi\Request\RawRequestDto;
+use FluxRestApi\Request\RequestDto;
+use FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Route\MatchedRouteDto;
+use FluxRestApi\Route\Route;
+use FluxRestApi\Server\Server;
+use FluxRestApi\Status\Status;
 use LogicException;
 use Throwable;
 

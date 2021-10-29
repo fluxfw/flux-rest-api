@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Header;
+namespace FluxRestApi\Header;
 
 final class Header
 {

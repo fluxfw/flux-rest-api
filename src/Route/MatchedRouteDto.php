@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Route;
+namespace FluxRestApi\Route;
 
 class MatchedRouteDto
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Response;
+namespace FluxRestApi\Response;
 
-use Fluxlabs\FluxRestApi\Body\BodyDto;
-use Fluxlabs\FluxRestApi\Status\Status;
+use FluxRestApi\Body\BodyDto;
+use FluxRestApi\Status\Status;
 
 class ResponseDto
 {

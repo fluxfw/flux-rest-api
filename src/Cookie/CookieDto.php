@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Cookie;
+namespace FluxRestApi\Cookie;
 
 class CookieDto
 {

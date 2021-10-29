@@ -1,13 +1,13 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Adapter\Authorization\HttpBasic;
+namespace FluxRestApi\Adapter\Authorization\HttpBasic;
 
 use Exception;
-use Fluxlabs\FluxRestApi\Body\TextBodyDto;
-use Fluxlabs\FluxRestApi\Header\Header;
-use Fluxlabs\FluxRestApi\Request\RawRequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Status\Status;
+use FluxRestApi\Body\TextBodyDto;
+use FluxRestApi\Header\Header;
+use FluxRestApi\Request\RawRequestDto;
+use FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Status\Status;
 
 trait HttpBasicAuthorization
 {

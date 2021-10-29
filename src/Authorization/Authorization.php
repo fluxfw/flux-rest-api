@@ -1,9 +1,9 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Authorization;
+namespace FluxRestApi\Authorization;
 
-use Fluxlabs\FluxRestApi\Request\RawRequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Request\RawRequestDto;
+use FluxRestApi\Response\ResponseDto;
 
 interface Authorization
 {

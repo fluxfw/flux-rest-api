@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Status;
+namespace FluxRestApi\Status;
 
 final class Status
 {

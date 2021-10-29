@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Method;
+namespace FluxRestApi\Method;
 
 final class Method
 {
