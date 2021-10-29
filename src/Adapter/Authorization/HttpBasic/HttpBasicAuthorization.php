@@ -24,26 +24,26 @@ trait HttpBasicAuthorization
                 ),
                 Status::_401,
                 [
-                    Header::WWW_AUTHENTICATE => Header::WWW_AUTHENTICATE_BASIC
+                    Header::WWW_AUTHENTICATE => HttpBasic::BASIC_AUTHORIZATION
                 ]
             );
         }
 
-        if (!str_starts_with($authorization, Header::WWW_AUTHENTICATE_BASIC . " ")) {
-            throw new Exception("No " . Header::WWW_AUTHENTICATE_BASIC . " authorization");
+        if (!str_starts_with($authorization, HttpBasic::BASIC_AUTHORIZATION . " ")) {
+            throw new Exception("No " . HttpBasic::BASIC_AUTHORIZATION . " authorization");
         }
 
-        $authorization = substr($authorization, 6);
+        $authorization = substr($authorization, strlen(HttpBasic::BASIC_AUTHORIZATION) + 1);
 
         $authorization = base64_decode($authorization);
 
-        if (empty($authorization) || !str_contains($authorization, ":")) {
+        if (empty($authorization) || !str_contains($authorization, HttpBasic::SPLIT_USER_PASSWORD)) {
             throw new Exception("Missing user and password");
         }
 
-        $password = explode(":", $authorization);
+        $password = explode(HttpBasic::SPLIT_USER_PASSWORD, $authorization);
         $user = array_shift($password);
-        $password = implode(":", $password);
+        $password = implode(HttpBasic::SPLIT_USER_PASSWORD, $password);
 
         if (empty($user) || empty($password)) {
             throw new Exception("Missing user or password");
