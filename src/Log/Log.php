@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Log;
+namespace FluxRestApi\Log;
 
 use Throwable;
 

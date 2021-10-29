@@ -1,9 +1,9 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Route;
+namespace FluxRestApi\Route;
 
-use Fluxlabs\FluxRestApi\Request\RequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Request\RequestDto;
+use FluxRestApi\Response\ResponseDto;
 
 interface Route
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Adapter\Handler;
+namespace FluxRestApi\Adapter\Handler;
 
-use Fluxlabs\FluxRestApi\Adapter\Api\Api;
-use Fluxlabs\FluxRestApi\Authorization\Authorization;
-use Fluxlabs\FluxRestApi\Collector\RouteCollector;
-use Fluxlabs\FluxRestApi\Request\RawRequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Server\Server;
+use FluxRestApi\Adapter\Api\Api;
+use FluxRestApi\Authorization\Authorization;
+use FluxRestApi\Collector\RouteCollector;
+use FluxRestApi\Request\RawRequestDto;
+use FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Server\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 

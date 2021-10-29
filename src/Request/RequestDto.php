@@ -1,8 +1,8 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Request;
+namespace FluxRestApi\Request;
 
-use Fluxlabs\FluxRestApi\Body\BodyDto;
+use FluxRestApi\Body\BodyDto;
 
 class RequestDto
 {

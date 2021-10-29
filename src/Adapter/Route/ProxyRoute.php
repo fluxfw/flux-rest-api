@@ -1,11 +1,11 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Adapter\Route;
+namespace FluxRestApi\Adapter\Route;
 
 use Exception;
-use Fluxlabs\FluxRestApi\Body\FormDataBodyDto;
-use Fluxlabs\FluxRestApi\Request\RequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Body\FormDataBodyDto;
+use FluxRestApi\Request\RequestDto;
+use FluxRestApi\Response\ResponseDto;
 
 trait ProxyRoute
 {

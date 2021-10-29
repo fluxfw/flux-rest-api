@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Header;
+namespace FluxRestApi\Header;
 
 final class Header
 {
@@ -11,7 +11,6 @@ final class Header
     const LOCATION = "Location";
     const USER_AGENT = "User-Agent";
     const WWW_AUTHENTICATE = "WWW-Authenticate";
-    const WWW_AUTHENTICATE_BASIC = "Basic";
     const X_ACCEL_REDIRECT = "X-Accel-Redirect";
     const X_HTTP_METHOD_OVERRIDE = "X-Http-Method-Override";
     const X_SENDFILE = "X-Sendfile";

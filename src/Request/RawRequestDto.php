@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Request;
+namespace FluxRestApi\Request;
 
 class RawRequestDto
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Route\Example;
+namespace FluxRestApi\Route\Example;
 
-use Fluxlabs\FluxRestApi\Adapter\Route\ProxyRoute;
-use Fluxlabs\FluxRestApi\Method\Method;
-use Fluxlabs\FluxRestApi\Route\Route;
+use FluxRestApi\Adapter\Route\ProxyRoute;
+use FluxRestApi\Method\Method;
+use FluxRestApi\Route\Route;
 
 class ProxyExampleRoute implements Route
 {

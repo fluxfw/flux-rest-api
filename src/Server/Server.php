@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Server;
+namespace FluxRestApi\Server;
 
 final class Server
 {

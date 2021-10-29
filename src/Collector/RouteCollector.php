@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Collector;
+namespace FluxRestApi\Collector;
 
 interface RouteCollector
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Body;
+namespace FluxRestApi\Body;
 
 class TextBodyDto implements BodyDto
 {

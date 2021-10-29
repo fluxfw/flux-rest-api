@@ -1,12 +1,12 @@
 <?php
 
-namespace Fluxlabs\FluxRestApi\Adapter\Route;
+namespace FluxRestApi\Adapter\Route;
 
-use Fluxlabs\FluxRestApi\Body\JsonBodyDto;
-use Fluxlabs\FluxRestApi\Method\Method;
-use Fluxlabs\FluxRestApi\Request\RequestDto;
-use Fluxlabs\FluxRestApi\Response\ResponseDto;
-use Fluxlabs\FluxRestApi\Route\Route;
+use FluxRestApi\Body\JsonBodyDto;
+use FluxRestApi\Method\Method;
+use FluxRestApi\Request\RequestDto;
+use FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Route\Route;
 
 class GetRoutesRoute implements Route
 {
