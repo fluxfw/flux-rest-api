@@ -9,4 +9,5 @@
 !.gitlab-ci.yml
 !composer.json
 !composer.lock
+!metadata.json
 !README.md
