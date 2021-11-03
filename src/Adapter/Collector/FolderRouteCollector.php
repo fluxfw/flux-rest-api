@@ -39,7 +39,7 @@ class FolderRouteCollector implements RouteCollector
                 continue;
             }
 
-            if (str_ends_with($file->getPathName(), "/vendor/autoload.php")) {
+            if (str_ends_with($file->getPathName(), "/autoload.php")) {
                 require_once $file->getPathName();
 
                 continue;
