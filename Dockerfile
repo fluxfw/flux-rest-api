@@ -1,6 +1,6 @@
 FROM alpine:latest AS build
 
-RUN (mkdir -p /FluxRestApi/libs/polyfill-php80 && cd /FluxRestApi/libs/polyfill-php80 && wget -O - https://github.com/symfony/polyfill-php80/archive/main.tar.gz | tar -xz --strip-components=1)
+COPY --from=docker-registry.fluxpublisher.ch/flux-autoload/api:latest /FluxAutoloadApi /FluxRestApi/libs/FluxAutoloadApi
 COPY . /FluxRestApi
 
 FROM scratch
