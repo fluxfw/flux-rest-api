@@ -30,6 +30,10 @@ class FolderRouteCollector implements RouteCollector
     {
         $routes = [];
 
+        if (!file_exists($this->folder)) {
+            return $routes;
+        }
+
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->folder, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
             if (!$file->isFile()) {
                 continue;
