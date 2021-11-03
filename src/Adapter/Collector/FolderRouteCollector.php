@@ -30,12 +30,16 @@ class FolderRouteCollector implements RouteCollector
     {
         $routes = [];
 
+        if (!file_exists($this->folder)) {
+            return $routes;
+        }
+
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->folder, RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
             if (!$file->isFile()) {
                 continue;
             }
 
-            if (str_ends_with($file->getPathName(), "/vendor/autoload.php")) {
+            if (str_ends_with($file->getPathName(), "/autoload.php")) {
                 require_once $file->getPathName();
 
                 continue;
