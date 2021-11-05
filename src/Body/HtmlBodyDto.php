@@ -2,6 +2,8 @@
 
 namespace FluxRestApi\Body;
 
+use FluxRestBaseApi\Body\BodyType;
+
 class HtmlBodyDto implements BodyDto
 {
 
