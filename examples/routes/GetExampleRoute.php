@@ -3,7 +3,7 @@
 namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Body\JsonBodyDto;
-use FluxRestApi\Method\Method;
+use FluxRestBaseApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;

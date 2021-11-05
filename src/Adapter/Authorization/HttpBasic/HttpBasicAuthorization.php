@@ -4,10 +4,10 @@ namespace FluxRestApi\Adapter\Authorization\HttpBasic;
 
 use Exception;
 use FluxRestApi\Body\TextBodyDto;
-use FluxRestApi\Header\Header;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
-use FluxRestApi\Status\Status;
+use FluxRestBaseApi\Header\Header;
+use FluxRestBaseApi\Status\Status;
 
 trait HttpBasicAuthorization
 {
