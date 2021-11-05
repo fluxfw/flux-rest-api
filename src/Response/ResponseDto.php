@@ -3,7 +3,7 @@
 namespace FluxRestApi\Response;
 
 use FluxRestApi\Body\BodyDto;
-use FluxRestApi\Status\Status;
+use FluxRestBaseApi\Status\Status;
 
 class ResponseDto
 {

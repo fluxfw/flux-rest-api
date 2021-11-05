@@ -1,6 +1,6 @@
 FROM alpine:latest AS build
 
-COPY --from=docker-registry.fluxpublisher.ch/flux-autoload/api:latest /FluxAutoloadApi /FluxRestApi/libs/FluxAutoloadApi
+COPY --from=docker-registry.fluxpublisher.ch/flux-rest/base-api:latest /FluxRestBaseApi /FluxRestApi/libs/FluxRestBaseApi
 COPY . /FluxRestApi
 
 FROM scratch

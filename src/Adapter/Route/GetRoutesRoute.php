@@ -3,10 +3,10 @@
 namespace FluxRestApi\Adapter\Route;
 
 use FluxRestApi\Body\JsonBodyDto;
-use FluxRestApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
+use FluxRestBaseApi\Method\Method;
 
 class GetRoutesRoute implements Route
 {

@@ -5,10 +5,10 @@ namespace FluxRestApi\Adapter\Handler;
 use FluxRestApi\Adapter\Api\Api;
 use FluxRestApi\Authorization\Authorization;
 use FluxRestApi\Collector\RouteCollector;
-use FluxRestApi\Header\Header;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Server\Server;
+use FluxRestBaseApi\Header\Header;
 use LogicException;
 
 class DefaultHandler

@@ -2,14 +2,14 @@
 
 namespace FluxRestApi\Route\Example;
 
-use FluxRestApi\Body\BodyType;
+use FluxRestBaseApi\Body\BodyType;
 use FluxRestApi\Body\JsonBodyDto;
 use FluxRestApi\Body\TextBodyDto;
-use FluxRestApi\Method\Method;
+use FluxRestBaseApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestApi\Status\Status;
+use FluxRestBaseApi\Status\Status;
 
 class PostExampleRoute implements Route
 {
