@@ -3,10 +3,10 @@
 namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Body\JsonBodyDto;
-use FluxRestBaseApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
+use FluxRestBaseApi\Method\Method;
 
 class GetExampleRoute implements Route
 {
