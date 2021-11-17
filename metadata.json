@@ -4,6 +4,8 @@
     "alpha",
     "api",
     "experimental",
+    "library",
+    "php",
     "rest"
   ],
   "homepage": "https://github.com/fluxapps/flux-rest-api"
