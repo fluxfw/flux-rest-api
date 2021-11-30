@@ -7,7 +7,8 @@ use FluxRestApi\Authorization\Authorization;
 use FluxRestApi\Collector\RouteCollector;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
-use FluxRestApi\Server\Server;
+use FluxRestApi\Server\LegacyDefaultServer;
+use FluxRestBaseApi\Method\CustomMethod;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
@@ -45,7 +46,7 @@ class SwooleHandler
 
     private function handleResponse(Response $response, ResponseDto $api_response) : void
     {
-        $response->status($api_response->getStatus());
+        $response->status($api_response->getStatus()->value);
 
         foreach ($api_response->getHeaders() as $key => $value) {
             $response->header($key, $value);
@@ -61,8 +62,8 @@ class SwooleHandler
                     $cookie->getDomain(),
                     $cookie->isSecure(),
                     $cookie->isHttpOnly(),
-                    $cookie->getSameSite(),
-                    $cookie->getPriority()
+                    $cookie->getSameSite() !== null ? $cookie->getSameSite()->value : null,
+                    $cookie->getPriority() !== null ? $cookie->getPriority()->value : null
                 );
             } else {
                 $response->cookie(
@@ -93,8 +94,8 @@ class SwooleHandler
     {
         return RawRequestDto::new(
             $request->server["request_uri"],
-            $request->getMethod(),
-            Server::SWOOLE,
+            CustomMethod::factory($request->getMethod()),
+            LegacyDefaultServer::SWOOLE(),
             $request->get,
             $request->getContent() ?: null,
             $request->post,

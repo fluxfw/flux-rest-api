@@ -2,10 +2,9 @@
 
 namespace FluxRestApi\Server;
 
-final class Server
+use FluxLegacyEnum\Backed\StringBackedEnumValue;
+
+interface Server extends StringBackedEnumValue
 {
 
-    const APACHE = "apache";
-    const NGINX = "nginx";
-    const SWOOLE = "swoole";
 }

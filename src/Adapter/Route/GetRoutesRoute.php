@@ -6,6 +6,7 @@ use FluxRestApi\Body\JsonBodyDto;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
+use FluxRestBaseApi\Method\LegacyDefaultMethod;
 use FluxRestBaseApi\Method\Method;
 
 class GetRoutesRoute implements Route
@@ -13,8 +14,6 @@ class GetRoutesRoute implements Route
 
     private $get_routes;
 
-
-    //private callable $get_routes;
 
     public static function new(callable $get_routes) : /*static*/ self
     {
@@ -38,9 +37,9 @@ class GetRoutesRoute implements Route
     }
 
 
-    public function getMethod() : string
+    public function getMethod() : Method
     {
-        return Method::GET;
+        return LegacyDefaultMethod::GET();
     }
 
 

@@ -7,8 +7,9 @@ use FluxRestApi\Authorization\Authorization;
 use FluxRestApi\Collector\RouteCollector;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
-use FluxRestApi\Server\Server;
-use FluxRestBaseApi\Header\Header;
+use FluxRestApi\Server\LegacyDefaultServer;
+use FluxRestBaseApi\Header\LegacyDefaultHeader;
+use FluxRestBaseApi\Method\CustomMethod;
 use LogicException;
 
 class DefaultHandler
@@ -47,17 +48,17 @@ class DefaultHandler
             throw new LogicException("Do not manually output headers or body in " . $filename . ":" . $line);
         }
 
-        http_response_code($response->getStatus());
+        http_response_code($response->getStatus()->value);
 
         $headers = $response->getHeaders();
 
         if ($response->getSendfile() !== null) {
-            if ($request->getServer() === Server::NGINX) {
-                $headers[Header::X_ACCEL_REDIRECT] = $response->getSendfile();
+            if ($request->getServer()->value === LegacyDefaultServer::NGINX()->value) {
+                $headers[LegacyDefaultHeader::X_ACCEL_REDIRECT()->value] = $response->getSendfile();
             } else {
-                $headers[Header::X_SENDFILE] = $response->getSendfile();
+                $headers[LegacyDefaultHeader::X_SENDFILE()->value] = $response->getSendfile();
             }
-            $headers[Header::CONTENT_TYPE] = "";
+            $headers[LegacyDefaultHeader::CONTENT_TYPE()->value] = "";
         }
 
         foreach ($headers as $key => $value) {
@@ -101,8 +102,8 @@ class DefaultHandler
 
         return RawRequestDto::new(
             $route_url,
-            $_SERVER["REQUEST_METHOD"],
-            str_contains($_SERVER["SERVER_SOFTWARE"], "nginx") ? Server::NGINX : Server::APACHE,
+            CustomMethod::factory($_SERVER["REQUEST_METHOD"]),
+            str_contains($_SERVER["SERVER_SOFTWARE"], "nginx") ? LegacyDefaultServer::NGINX() : LegacyDefaultServer::APACHE(),
             $query,
             file_get_contents("php://input") ?: null,
             $_POST,

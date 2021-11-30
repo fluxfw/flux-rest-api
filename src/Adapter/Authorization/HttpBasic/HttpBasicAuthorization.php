@@ -6,8 +6,8 @@ use Exception;
 use FluxRestApi\Body\TextBodyDto;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
-use FluxRestBaseApi\Header\Header;
-use FluxRestBaseApi\Status\Status;
+use FluxRestBaseApi\Header\LegacyDefaultHeader;
+use FluxRestBaseApi\Status\LegacyDefaultStatus;
 
 trait HttpBasicAuthorization
 {
@@ -15,16 +15,16 @@ trait HttpBasicAuthorization
     private function parseHttpBasicAuthorization(RawRequestDto $request)/* : HttpBasicAuthorizationDto|ResponseDto*/
     {
         $authorization = $request->getHeader(
-            Header::AUTHORIZATION
+            LegacyDefaultHeader::AUTHORIZATION()->value
         );
         if (empty($authorization)) {
             return ResponseDto::new(
                 TextBodyDto::new(
                     "Authorization needed"
                 ),
-                Status::_401,
+                LegacyDefaultStatus::_401(),
                 [
-                    Header::WWW_AUTHENTICATE => HttpBasic::BASIC_AUTHORIZATION
+                    LegacyDefaultHeader::WWW_AUTHENTICATE()->value => HttpBasic::BASIC_AUTHORIZATION
                 ]
             );
         }

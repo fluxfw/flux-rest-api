@@ -3,11 +3,11 @@
 namespace FluxRestApi\Body;
 
 use FluxRestBaseApi\Body\BodyType;
+use FluxRestBaseApi\Body\LegacyDefaultBodyType;
 
 class JsonBodyDto implements BodyDto
 {
 
-    //private mixed $data;
     private $data;
 
 
@@ -27,8 +27,8 @@ class JsonBodyDto implements BodyDto
     }
 
 
-    public function getType() : string
+    public function getType() : BodyType
     {
-        return BodyType::JSON;
+        return LegacyDefaultBodyType::JSON();
     }
 }

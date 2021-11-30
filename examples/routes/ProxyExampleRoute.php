@@ -4,6 +4,7 @@ namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Adapter\Route\ProxyRoute;
 use FluxRestApi\Route\Route;
+use FluxRestBaseApi\Method\LegacyDefaultMethod;
 use FluxRestBaseApi\Method\Method;
 
 class ProxyExampleRoute implements Route
@@ -31,9 +32,9 @@ class ProxyExampleRoute implements Route
     }
 
 
-    public function getMethod() : string
+    public function getMethod() : Method
     {
-        return Method::GET;
+        return LegacyDefaultMethod::GET();
     }
 
 

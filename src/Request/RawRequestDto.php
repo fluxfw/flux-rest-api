@@ -2,6 +2,9 @@
 
 namespace FluxRestApi\Request;
 
+use FluxRestApi\Server\Server;
+use FluxRestBaseApi\Method\Method;
+
 class RawRequestDto
 {
 
@@ -9,17 +12,17 @@ class RawRequestDto
     private array $cookies;
     private array $files;
     private array $headers;
-    private string $method;
+    private Method $method;
     private array $post;
     private array $query_params;
     private string $route;
-    private string $server;
+    private Server $server;
 
 
     public static function new(
         string $route,
-        string $method,
-        string $server,
+        Method $method,
+        Server $server,
         ?array $query_params = null,
         ?string $body = null,
         ?array $post = null,
@@ -86,7 +89,7 @@ class RawRequestDto
     }
 
 
-    public function getMethod() : string
+    public function getMethod() : Method
     {
         return $this->method;
     }
@@ -116,7 +119,7 @@ class RawRequestDto
     }
 
 
-    public function getServer() : string
+    public function getServer() : Server
     {
         return $this->server;
     }

@@ -3,6 +3,7 @@
 namespace FluxRestApi\Response;
 
 use FluxRestApi\Body\BodyDto;
+use FluxRestBaseApi\Status\LegacyDefaultStatus;
 use FluxRestBaseApi\Status\Status;
 
 class ResponseDto
@@ -13,15 +14,15 @@ class ResponseDto
     private array $headers;
     private ?string $raw_body;
     private ?string $sendfile;
-    private int $status;
+    private Status $status;
 
 
-    public static function new(?BodyDto $body = null, ?int $status = null, ?array $headers = null, ?array $cookies = null, ?string $sendfile = null, ?string $raw_body = null) : /*static*/ self
+    public static function new(?BodyDto $body = null, ?Status $status = null, ?array $headers = null, ?array $cookies = null, ?string $sendfile = null, ?string $raw_body = null) : /*static*/ self
     {
         $dto = new static();
 
         $dto->body = $body;
-        $dto->status = $status ?? Status::_200;
+        $dto->status = $status ?? LegacyDefaultStatus::_200();
         $dto->headers = $headers ?? [];
         $dto->cookies = $cookies ?? [];
         $dto->sendfile = $sendfile;
@@ -61,7 +62,7 @@ class ResponseDto
     }
 
 
-    public function getStatus() : int
+    public function getStatus() : Status
     {
         return $this->status;
     }

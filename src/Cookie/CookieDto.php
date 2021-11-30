@@ -10,8 +10,8 @@ class CookieDto
     private ?bool $http_only;
     private string $name;
     private ?string $path;
-    private ?string $priority;
-    private ?string $same_site;
+    private ?CookiePriority $priority;
+    private ?CookieSameSite $same_site;
     private ?bool $secure;
     private ?string $value;
 
@@ -24,8 +24,8 @@ class CookieDto
         ?string $domain = null,
         ?bool $secure = null,
         ?bool $http_only = null,
-        ?string $same_site = null,
-        ?string $priority = null
+        ?CookieSameSite $same_site = null,
+        ?CookiePriority $priority = null
     ) : /*static*/ self
     {
         $dto = new static();
@@ -68,13 +68,13 @@ class CookieDto
     }
 
 
-    public function getPriority() : ?string
+    public function getPriority() : ?CookiePriority
     {
         return $this->priority;
     }
 
 
-    public function getSameSite() : ?string
+    public function getSameSite() : ?CookieSameSite
     {
         return $this->same_site;
     }
