@@ -4,6 +4,7 @@ namespace FluxRestApi\Route;
 
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
+use FluxRestBaseApi\Method\Method;
 
 interface Route
 {
@@ -14,7 +15,7 @@ interface Route
     public function getDocuRequestQueryParams() : ?array;
 
 
-    public function getMethod() : string;
+    public function getMethod() : Method;
 
 
     public function getRoute() : string;

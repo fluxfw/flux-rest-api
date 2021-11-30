@@ -3,6 +3,7 @@
 namespace FluxRestApi\Body;
 
 use FluxRestBaseApi\Body\BodyType;
+use FluxRestBaseApi\Body\LegacyDefaultBodyType;
 
 class FormDataBodyDto implements BodyDto
 {
@@ -34,8 +35,8 @@ class FormDataBodyDto implements BodyDto
     }
 
 
-    public function getType() : string
+    public function getType() : BodyType
     {
-        return BodyType::FORM_DATA;
+        return LegacyDefaultBodyType::FORM_DATA();
     }
 }

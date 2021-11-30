@@ -7,9 +7,10 @@ use FluxRestApi\Body\TextBodyDto;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestBaseApi\Body\BodyType;
+use FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestBaseApi\Method\LegacyDefaultMethod;
 use FluxRestBaseApi\Method\Method;
-use FluxRestBaseApi\Status\Status;
+use FluxRestBaseApi\Status\LegacyDefaultStatus;
 
 class PostExampleRoute implements Route
 {
@@ -25,7 +26,7 @@ class PostExampleRoute implements Route
     public function getDocuRequestBodyTypes() : ?array
     {
         return [
-            BodyType::JSON
+            LegacyDefaultBodyType::JSON()
         ];
     }
 
@@ -36,9 +37,9 @@ class PostExampleRoute implements Route
     }
 
 
-    public function getMethod() : string
+    public function getMethod() : Method
     {
-        return Method::POST;
+        return LegacyDefaultMethod::POST();
     }
 
 
@@ -55,7 +56,7 @@ class PostExampleRoute implements Route
                 TextBodyDto::new(
                     "No json body"
                 ),
-                Status::_400
+                LegacyDefaultStatus::_400()
             );
         }
 

@@ -18,11 +18,13 @@ use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\MatchedRouteDto;
 use FluxRestApi\Route\Route;
-use FluxRestApi\Server\Server;
+use FluxRestApi\Server\LegacyDefaultServer;
 use FluxRestBaseApi\Body\BodyType;
-use FluxRestBaseApi\Header\Header;
-use FluxRestBaseApi\Method\Method;
-use FluxRestBaseApi\Status\Status;
+use FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestBaseApi\Header\LegacyDefaultHeader;
+use FluxRestBaseApi\Method\CustomMethod;
+use FluxRestBaseApi\Method\LegacyDefaultMethod;
+use FluxRestBaseApi\Status\LegacyDefaultStatus;
 use LogicException;
 use Throwable;
 
@@ -96,7 +98,7 @@ class Api
 
             return ResponseDto::new(
                 null,
-                Status::_500
+                LegacyDefaultStatus::_500()
             );
         }
     }
@@ -134,16 +136,13 @@ class Api
                         TextBodyDto::new(
                             "Route not found"
                         ),
-                        Status::_404
+                        LegacyDefaultStatus::_404()
                     )
                 );
             }
 
-            $routes = array_filter($routes, fn(MatchedRouteDto $route) : bool => $this->normalizeMethod(
-                    $route->getRoute()->getMethod()
-                ) === $this->normalizeMethod(
-                    $request->getMethod()
-                ));
+            $routes = array_filter($routes,
+                fn(MatchedRouteDto $route) : bool => $route->getRoute()->getMethod()->value === $request->getMethod()->value);
 
             if (empty($routes)) {
                 return $this->toRawBody(
@@ -151,13 +150,13 @@ class Api
                         TextBodyDto::new(
                             "Invalid method"
                         ),
-                        Status::_405
+                        LegacyDefaultStatus::_405()
                     )
                 );
             }
 
             if (count($routes) > 1) {
-                throw new LogicException("Multiple routes found for route " . $request->getRoute() . " and method " . $request->getMethod());
+                throw new LogicException("Multiple routes found for route " . $request->getRoute() . " and method " . $request->getMethod()->value);
             }
 
             return current($routes);
@@ -171,7 +170,7 @@ class Api
                     TextBodyDto::new(
                         "Invalid route"
                     ),
-                    Status::_400
+                    LegacyDefaultStatus::_400()
                 )
             );
         }
@@ -185,14 +184,12 @@ class Api
                 "route"        => $this->normalizeRoute(
                     $route->getRoute()
                 ),
-                "method"       => $this->normalizeMethod(
-                    $route->getMethod()
-                ),
+                "method"       => $route->getMethod()->value,
                 "query_params" => $this->normalizeDocuArray(
                     $route->getDocuRequestQueryParams()
                 ),
                 "body_types"   => $this->normalizeDocuArray(
-                    $route->getDocuRequestBodyTypes()
+                    array_map(fn(BodyType $body_type) : string => $body_type->value, $route->getDocuRequestBodyTypes() ?? [])
                 )
             ], $this->collectRoutes());
 
@@ -237,7 +234,7 @@ class Api
                     TextBodyDto::new(
                         "Invalid authorization"
                     ),
-                    Status::_403
+                    LegacyDefaultStatus::_403()
                 )
             );
         }
@@ -249,7 +246,7 @@ class Api
     private function handleMethodOverride(RawRequestDto $request)/* : RawRequestDto|ResponseDto*/
     {
         $method_override = $request->getHeader(
-            Header::X_HTTP_METHOD_OVERRIDE
+            LegacyDefaultHeader::X_HTTP_METHOD_OVERRIDE()->value
         );
 
         if ($method_override === null) {
@@ -257,23 +254,18 @@ class Api
         }
 
         try {
-            if ($request->getServer() !== Server::NGINX) {
-                throw new Exception("Method overriding not enabled/needed for server " . $request->getServer());
+            if ($request->getServer()->value !== LegacyDefaultServer::NGINX()->value) {
+                throw new Exception("Method overriding not enabled/needed for server " . $request->getServer()->value);
             }
 
-            $method_override = $this->normalizeMethod(
-                $method_override
-            );
+            $method_override = CustomMethod::factory($method_override);
 
-            if ($this->normalizeMethod(
-                    $request->getMethod()
-                ) !== Method::POST
-            ) {
-                throw new Exception("Method overriding only for " . Method::POST);
+            if ($request->getMethod()->value !== LegacyDefaultMethod::POST()->value) {
+                throw new Exception("Method overriding only for " . LegacyDefaultMethod::POST()->value);
             }
 
-            if (!in_array($method_override, [Method::DELETE, Method::PATCH, Method::PUT])) {
-                throw new Exception("Method overriding with " . $method_override . " not supported");
+            if (!in_array($method_override->value, [LegacyDefaultMethod::DELETE()->value, LegacyDefaultMethod::PATCH()->value, LegacyDefaultMethod::PUT()->value])) {
+                throw new Exception("Method overriding with " . $method_override->value . " not supported");
             }
 
             return RawRequestDto::new(
@@ -297,7 +289,7 @@ class Api
                     TextBodyDto::new(
                         "Invalid method"
                     ),
-                    Status::_405
+                    LegacyDefaultStatus::_405()
                 )
             );
         }
@@ -318,7 +310,7 @@ class Api
                 $route->getParams(),
                 $this->parseBody(
                     $request->getHeader(
-                        Header::CONTENT_TYPE
+                        LegacyDefaultHeader::CONTENT_TYPE()->value
                     ),
                     $request->getBody(),
                     $request->getPost(),
@@ -334,7 +326,7 @@ class Api
                 TextBodyDto::new(
                     "Invalid body"
                 ),
-                Status::_400
+                LegacyDefaultStatus::_400()
             );
         }
 
@@ -396,12 +388,6 @@ class Api
     }
 
 
-    private function normalizeMethod(string $method) : string
-    {
-        return strtoupper($method);
-    }
-
-
     private function normalizeRoute(string $route) : string
     {
         return "/" . $this->removeNormalizeRoute(
@@ -417,18 +403,18 @@ class Api
         }
 
         switch (true) {
-            case str_contains($type, BodyType::FORM_DATA):
+            case str_contains($type, LegacyDefaultBodyType::FORM_DATA()->value):
                 return FormDataBodyDto::new(
                     $post,
                     $files
                 );
 
-            case str_contains($type, BodyType::HTML):
+            case str_contains($type, LegacyDefaultBodyType::HTML()->value):
                 return HtmlBodyDto::new(
                     $raw_body ?? ""
                 );
 
-            case str_contains($type, BodyType::JSON):
+            case str_contains($type, LegacyDefaultBodyType::JSON()->value):
                 $data = json_decode($raw_body);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
@@ -439,7 +425,7 @@ class Api
                     $data
                 );
 
-            case str_contains($type, BodyType::TEXT):
+            case str_contains($type, LegacyDefaultBodyType::TEXT()->value):
                 return TextBodyDto::new(
                     $raw_body ?? ""
                 );
@@ -491,14 +477,14 @@ class Api
                 break;
 
             default:
-                throw new Exception("Body type " . $body->getType() . " is not supported");
+                throw new Exception("Body type " . $body->getType()->value . " is not supported");
         }
 
         return ResponseDto::new(
             null,
             $response->getStatus(),
             $response->getHeaders() + [
-                Header::CONTENT_TYPE => $body->getType()
+                LegacyDefaultHeader::CONTENT_TYPE()->value => $body->getType()->value
             ],
             $response->getCookies(),
             $response->getSendfile(),

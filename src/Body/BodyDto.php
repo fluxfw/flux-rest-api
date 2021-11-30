@@ -2,8 +2,10 @@
 
 namespace FluxRestApi\Body;
 
+use FluxRestBaseApi\Body\BodyType;
+
 interface BodyDto
 {
 
-    public function getType() : string;
+    public function getType() : BodyType;
 }

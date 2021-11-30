@@ -6,6 +6,7 @@ use Exception;
 use FluxRestApi\Body\FormDataBodyDto;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
+use FluxRestBaseApi\Status\CustomStatus;
 
 trait ProxyRoute
 {
@@ -32,7 +33,7 @@ trait ProxyRoute
 
             curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->getHeaders()), $request->getHeaders()));
 
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getMethod());
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getMethod()->value);
 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
@@ -51,14 +52,9 @@ trait ProxyRoute
 
             $raw_body = curl_exec($curl);
 
-            $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            if (empty($status)) {
-                throw new Exception("Invalid status from proxy " . $url);
-            }
-
             return ResponseDto::new(
                 null,
-                $status,
+                CustomStatus::factory(curl_getinfo($curl, CURLINFO_HTTP_CODE)),
                 $headers,
                 null,
                 null,

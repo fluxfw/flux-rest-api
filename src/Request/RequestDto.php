@@ -3,25 +3,27 @@
 namespace FluxRestApi\Request;
 
 use FluxRestApi\Body\BodyDto;
+use FluxRestApi\Server\Server;
+use FluxRestBaseApi\Method\Method;
 
 class RequestDto
 {
 
     private array $cookies;
     private array $headers;
-    private string $method;
+    private Method $method;
     private array $params;
     private ?BodyDto $parsed_body;
     private array $query_params;
     private ?string $raw_body;
     private string $route;
-    private string $server;
+    private Server $server;
 
 
     public static function new(
         string $route,
-        string $method,
-        string $server,
+        Method $method,
+        Server $server,
         ?array $query_params = null,
         ?string $raw_body = null,
         ?array $headers = null,
@@ -76,7 +78,7 @@ class RequestDto
     }
 
 
-    public function getMethod() : string
+    public function getMethod() : Method
     {
         return $this->method;
     }
@@ -124,7 +126,7 @@ class RequestDto
     }
 
 
-    public function getServer() : string
+    public function getServer() : Server
     {
         return $this->server;
     }
