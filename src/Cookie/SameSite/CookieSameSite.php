@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Cookie;
+namespace FluxRestApi\Cookie\SameSite;
 
 use FluxLegacyEnum\Backed\StringBackedEnumValue;
 

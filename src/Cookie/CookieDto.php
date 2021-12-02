@@ -2,6 +2,9 @@
 
 namespace FluxRestApi\Cookie;
 
+use FluxRestApi\Cookie\Priority\CookiePriority;
+use FluxRestApi\Cookie\SameSite\CookieSameSite;
+
 class CookieDto
 {
 

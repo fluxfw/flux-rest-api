@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Cookie;
+namespace FluxRestApi\Cookie\Priority;
 
 enum DefaultCookiePriority: string implements CookiePriority
 {
