@@ -34,9 +34,9 @@ class Api
     use Log;
 
     private ?Authorization $authorization;
-    private ?array $docu_routes = null;
+    private array $docu_routes;
     private RouteCollector $route_collector;
-    private ?array $routes = null;
+    private array $routes;
 
 
     public static function new(RouteCollector $route_collector, ?Authorization $authorization = null) : /*static*/ self
