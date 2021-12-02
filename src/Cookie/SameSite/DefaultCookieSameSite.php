@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Cookie;
+namespace FluxRestApi\Cookie\SameSite;
 
 enum DefaultCookieSameSite: string implements CookieSameSite
 {

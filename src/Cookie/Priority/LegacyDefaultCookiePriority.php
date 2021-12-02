@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Cookie;
+namespace FluxRestApi\Cookie\Priority;
 
 use FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
 
