@@ -57,19 +57,19 @@ class SwooleHandler
                 $response->cookie(
                     $cookie->getName(),
                     $cookie->getValue(),
-                    $cookie->getExpiresIn() !== null ? (time() + $cookie->getExpiresIn()) : null,
+                    $cookie->getExpiresIn() !== null ? (time() + $cookie->getExpiresIn()) : 0,
                     $cookie->getPath(),
                     $cookie->getDomain(),
                     $cookie->isSecure(),
                     $cookie->isHttpOnly(),
-                    $cookie->getSameSite() !== null ? $cookie->getSameSite()->value : null,
-                    $cookie->getPriority() !== null ? $cookie->getPriority()->value : null
+                    $cookie->getSameSite() !== null ? $cookie->getSameSite()->value : "",
+                    $cookie->getPriority() !== null ? $cookie->getPriority()->value : ""
                 );
             } else {
                 $response->cookie(
                     $cookie->getName(),
-                    null,
-                    null,
+                    "",
+                    0,
                     $cookie->getPath(),
                     $cookie->getDomain()
                 );

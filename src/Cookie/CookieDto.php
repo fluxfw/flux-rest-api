@@ -8,14 +8,14 @@ use FluxRestApi\Cookie\SameSite\CookieSameSite;
 class CookieDto
 {
 
-    private ?string $domain;
+    private string $domain;
     private ?int $expires_in;
-    private ?bool $http_only;
+    private bool $http_only;
     private string $name;
-    private ?string $path;
+    private string $path;
     private ?CookiePriority $priority;
     private ?CookieSameSite $same_site;
-    private ?bool $secure;
+    private bool $secure;
     private ?string $value;
 
 
@@ -36,10 +36,10 @@ class CookieDto
         $dto->name = $name;
         $dto->value = $value;
         $dto->expires_in = $expires_in;
-        $dto->path = $path;
-        $dto->domain = $domain;
-        $dto->secure = $secure;
-        $dto->http_only = $http_only;
+        $dto->path = $path ?? "/";
+        $dto->domain = $domain ?? "";
+        $dto->secure = $secure ?? true;
+        $dto->http_only = $http_only ?? true;
         $dto->same_site = $same_site;
         $dto->priority = $priority;
 
@@ -47,7 +47,7 @@ class CookieDto
     }
 
 
-    public function getDomain() : ?string
+    public function getDomain() : string
     {
         return $this->domain;
     }
@@ -65,7 +65,7 @@ class CookieDto
     }
 
 
-    public function getPath() : ?string
+    public function getPath() : string
     {
         return $this->path;
     }
@@ -89,13 +89,13 @@ class CookieDto
     }
 
 
-    public function isHttpOnly() : ?bool
+    public function isHttpOnly() : bool
     {
         return $this->http_only;
     }
 
 
-    public function isSecure() : ?bool
+    public function isSecure() : bool
     {
         return $this->secure;
     }

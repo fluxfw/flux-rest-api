@@ -70,7 +70,7 @@ class DefaultHandler
                 setcookie(
                     $cookie->getName(),
                     $cookie->getValue(),
-                    $cookie->getExpiresIn() !== null ? (time() + $cookie->getExpiresIn()) : null,
+                    $cookie->getExpiresIn() !== null ? (time() + $cookie->getExpiresIn()) : 0,
                     $cookie->getPath(),
                     $cookie->getDomain(),
                     $cookie->isSecure(),
@@ -79,8 +79,8 @@ class DefaultHandler
             } else {
                 setcookie(
                     $cookie->getName(),
-                    null,
-                    null,
+                    "",
+                    0,
                     $cookie->getPath(),
                     $cookie->getDomain()
                 );
