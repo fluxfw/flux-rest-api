@@ -52,6 +52,10 @@ trait ProxyRoute
 
             $raw_body = curl_exec($curl);
 
+            if (curl_errno($curl) !== 0) {
+                throw new Exception(curl_error($curl));
+            }
+
             return ResponseDto::new(
                 null,
                 CustomStatus::factory(curl_getinfo($curl, CURLINFO_HTTP_CODE)),
