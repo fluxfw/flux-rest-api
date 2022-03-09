@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Body;
 
-use FluxRestBaseApi\Body\BodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
 
 interface BodyDto
 {

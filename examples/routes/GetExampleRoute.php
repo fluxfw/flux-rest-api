@@ -6,17 +6,21 @@ use FluxRestApi\Body\JsonBodyDto;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestBaseApi\Method\Method;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 
 class GetExampleRoute implements Route
 {
 
+    private function __construct()
+    {
+
+    }
+
+
     public static function new() : /*static*/ self
     {
-        $route = new static();
-
-        return $route;
+        return new static();
     }
 
 

@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Cookie\SameSite;
 
-use FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
+use FluxRestApi\Libs\FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
 
 /**
  * @method static static LAX() Lax

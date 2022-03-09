@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Cookie\Priority;
 
-use FluxLegacyEnum\Backed\StringBackedEnumValue;
+use FluxRestApi\Libs\FluxLegacyEnum\Backed\StringBackedEnumValue;
 
 interface CookiePriority extends StringBackedEnumValue
 {

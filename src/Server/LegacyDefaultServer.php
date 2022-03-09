@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Server;
 
-use FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
+use FluxRestApi\Libs\FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
 
 /**
  * @method static static APACHE() apache

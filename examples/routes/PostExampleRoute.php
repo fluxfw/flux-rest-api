@@ -7,19 +7,23 @@ use FluxRestApi\Body\TextBodyDto;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestBaseApi\Body\LegacyDefaultBodyType;
-use FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestBaseApi\Method\Method;
-use FluxRestBaseApi\Status\LegacyDefaultStatus;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
+use FluxRestApi\Libs\FluxRestBaseApi\Status\LegacyDefaultStatus;
 
 class PostExampleRoute implements Route
 {
 
+    private function __construct()
+    {
+
+    }
+
+
     public static function new() : /*static*/ self
     {
-        $route = new static();
-
-        return $route;
+        return new static();
     }
 
 

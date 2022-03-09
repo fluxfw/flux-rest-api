@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Cookie\SameSite;
 
-use FluxLegacyEnum\Backed\StringBackedEnumValue;
+use FluxRestApi\Libs\FluxLegacyEnum\Backed\StringBackedEnumValue;
 
 interface CookieSameSite extends StringBackedEnumValue
 {

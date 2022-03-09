@@ -4,19 +4,23 @@ namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Adapter\Route\ProxyRoute;
 use FluxRestApi\Route\Route;
-use FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestBaseApi\Method\Method;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 
 class ProxyExampleRoute implements Route
 {
 
     use ProxyRoute;
 
+    private function __construct()
+    {
+
+    }
+
+
     public static function new() : /*static*/ self
     {
-        $route = new static();
-
-        return $route;
+        return new static();
     }
 
 

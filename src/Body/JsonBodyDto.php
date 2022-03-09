@@ -2,8 +2,8 @@
 
 namespace FluxRestApi\Body;
 
-use FluxRestBaseApi\Body\BodyType;
-use FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\LegacyDefaultBodyType;
 
 class JsonBodyDto implements BodyDto
 {
@@ -11,13 +11,20 @@ class JsonBodyDto implements BodyDto
     private $data;
 
 
-    public static function new(/*mixed*/ $data) : /*static*/ self
+    private function __construct(
+        /*public readonly mixed*/ $data
+    ) {
+        $this->data = $data;
+    }
+
+
+    public static function new(
+        /*mixed*/ $data
+    ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->data = $data;
-
-        return $dto;
+        return new static(
+            $data
+        );
     }
 
 

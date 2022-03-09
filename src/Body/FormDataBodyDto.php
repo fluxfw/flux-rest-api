@@ -2,8 +2,8 @@
 
 namespace FluxRestApi\Body;
 
-use FluxRestBaseApi\Body\BodyType;
-use FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\LegacyDefaultBodyType;
 
 class FormDataBodyDto implements BodyDto
 {
@@ -12,14 +12,24 @@ class FormDataBodyDto implements BodyDto
     private array $files;
 
 
-    public static function new(array $data, array $files) : /*static*/ self
+    private function __construct(
+        /*public readonly*/ array $data,
+        /*public readonly*/ array $files
+    ) {
+        $this->data = $data;
+        $this->files = $files;
+    }
+
+
+    public static function new(
+        array $data,
+        array $files
+    ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->data = $data;
-        $dto->files = $files;
-
-        return $dto;
+        return new static(
+            $data,
+            $files
+        );
     }
 
 

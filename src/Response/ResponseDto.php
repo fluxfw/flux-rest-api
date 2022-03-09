@@ -3,8 +3,8 @@
 namespace FluxRestApi\Response;
 
 use FluxRestApi\Body\BodyDto;
-use FluxRestBaseApi\Status\LegacyDefaultStatus;
-use FluxRestBaseApi\Status\Status;
+use FluxRestApi\Libs\FluxRestBaseApi\Status\LegacyDefaultStatus;
+use FluxRestApi\Libs\FluxRestBaseApi\Status\Status;
 
 class ResponseDto
 {
@@ -17,18 +17,40 @@ class ResponseDto
     private Status $status;
 
 
-    public static function new(?BodyDto $body = null, ?Status $status = null, ?array $headers = null, ?array $cookies = null, ?string $sendfile = null, ?string $raw_body = null) : /*static*/ self
+    private function __construct(
+        /*public readonly*/ ?BodyDto $body,
+        /*public readonly*/ Status $status,
+        /*public readonly*/ array $headers,
+        /*public readonly*/ array $cookies,
+        /*public readonly*/ ?string $sendfile,
+        /*public readonly*/ ?string $raw_body
+    ) {
+        $this->body = $body;
+        $this->status = $status;
+        $this->headers = $headers;
+        $this->cookies = $cookies;
+        $this->sendfile = $sendfile;
+        $this->raw_body = $raw_body;
+    }
+
+
+    public static function new(
+        ?BodyDto $body = null,
+        ?Status $status = null,
+        ?array $headers = null,
+        ?array $cookies = null,
+        ?string $sendfile = null,
+        ?string $raw_body = null
+    ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->body = $body;
-        $dto->status = $status ?? LegacyDefaultStatus::_200();
-        $dto->headers = $headers ?? [];
-        $dto->cookies = $cookies ?? [];
-        $dto->sendfile = $sendfile;
-        $dto->raw_body = $raw_body;
-
-        return $dto;
+        return new static(
+            $body,
+            $status ?? LegacyDefaultStatus::_200(),
+            $headers ?? [],
+            $cookies ?? [],
+            $sendfile,
+            $raw_body
+        );
     }
 
 

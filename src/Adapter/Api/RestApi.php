@@ -12,6 +12,12 @@ use FluxRestApi\Body\HtmlBodyDto;
 use FluxRestApi\Body\JsonBodyDto;
 use FluxRestApi\Body\TextBodyDto;
 use FluxRestApi\Collector\RouteCollector;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Header\LegacyDefaultHeader;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\CustomMethod;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Libs\FluxRestBaseApi\Status\LegacyDefaultStatus;
 use FluxRestApi\Log\Log;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Request\RequestDto;
@@ -19,16 +25,10 @@ use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\MatchedRouteDto;
 use FluxRestApi\Route\Route;
 use FluxRestApi\Server\LegacyDefaultServer;
-use FluxRestBaseApi\Body\BodyType;
-use FluxRestBaseApi\Body\LegacyDefaultBodyType;
-use FluxRestBaseApi\Header\LegacyDefaultHeader;
-use FluxRestBaseApi\Method\CustomMethod;
-use FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestBaseApi\Status\LegacyDefaultStatus;
 use LogicException;
 use Throwable;
 
-class Api
+class RestApi
 {
 
     use Log;
@@ -39,24 +39,38 @@ class Api
     private array $routes;
 
 
-    public static function new(RouteCollector $route_collector, ?Authorization $authorization = null) : /*static*/ self
-    {
-        $api = new static();
-
-        $api->route_collector = CombinedRouteCollector::new(
+    private function __construct(
+        /*private readonly*/ RouteCollector $route_collector,
+        /*private readonly*/ ?Authorization $authorization
+    ) {
+        $this->route_collector = CombinedRouteCollector::new(
             [
                 GetRoutesRoute::new(
-                    fn() : array => $api->getRoutesDocu()
+                    fn() : array => $this->getRoutesDocu()
                 ),
-                /*FolderRouteCollector::new(
-                    __DIR__ . "/../../examples/routes"
-                ),*/
                 $route_collector
             ]
         );
-        $api->authorization = $authorization;
+        $this->authorization = $authorization;
+    }
 
-        return $api;
+
+    public static function new(
+        RouteCollector $route_collector,
+        ?Authorization $authorization = null
+    ) : /*static*/ self
+    {
+        return new static(
+        /*CombinedRouteCollector::new(
+            [
+                FolderRouteCollector::new(
+                    __DIR__ . "/../../examples/routes"
+                ),*/
+            $route_collector
+            /*]
+        )*/,
+            $authorization
+        );
     }
 
 

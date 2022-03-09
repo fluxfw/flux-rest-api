@@ -19,6 +19,29 @@ class CookieDto
     private ?string $value;
 
 
+    private function __construct(
+        /*public readonly*/ string $name,
+        /*public readonly*/ ?string $value,
+        /*public readonly*/ ?int $expires_in,
+        /*public readonly*/ string $path,
+        /*public readonly*/ string $domain,
+        /*public readonly*/ bool $secure,
+        /*public readonly*/ bool $http_only,
+        /*public readonly*/ ?CookieSameSite $same_site,
+        /*public readonly*/ ?CookiePriority $priority
+    ) {
+        $this->name = $name;
+        $this->value = $value;
+        $this->expires_in = $expires_in;
+        $this->path = $path;
+        $this->domain = $domain;
+        $this->secure = $secure;
+        $this->http_only = $http_only;
+        $this->same_site = $same_site;
+        $this->priority = $priority;
+    }
+
+
     public static function new(
         string $name,
         ?string $value = null,
@@ -31,19 +54,17 @@ class CookieDto
         ?CookiePriority $priority = null
     ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->name = $name;
-        $dto->value = $value;
-        $dto->expires_in = $expires_in;
-        $dto->path = $path ?? "/";
-        $dto->domain = $domain ?? "";
-        $dto->secure = $secure ?? true;
-        $dto->http_only = $http_only ?? true;
-        $dto->same_site = $same_site;
-        $dto->priority = $priority;
-
-        return $dto;
+        return new static(
+            $name,
+            $value,
+            $expires_in,
+            $path ?? "/",
+            $domain ?? "",
+            $secure ?? true,
+            $http_only ?? true,
+            $same_site,
+            $priority
+        );
     }
 
 

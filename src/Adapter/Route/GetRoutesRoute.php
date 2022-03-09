@@ -3,11 +3,11 @@
 namespace FluxRestApi\Adapter\Route;
 
 use FluxRestApi\Body\JsonBodyDto;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestBaseApi\Method\Method;
 
 class GetRoutesRoute implements Route
 {
@@ -15,13 +15,20 @@ class GetRoutesRoute implements Route
     private $get_routes;
 
 
-    public static function new(callable $get_routes) : /*static*/ self
+    private function __construct(
+        /*private readonly*/ callable $get_routes
+    ) {
+        $this->get_routes = $get_routes;
+    }
+
+
+    public static function new(
+        callable $get_routes
+    ) : /*static*/ self
     {
-        $route = new static();
-
-        $route->get_routes = $get_routes;
-
-        return $route;
+        return new static(
+            $get_routes
+        );
     }
 
 

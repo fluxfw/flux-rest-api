@@ -1,12 +1,12 @@
 {
-  "description": "Rest Api (Experimental Alpha Version)",
-  "topics": [
-    "alpha",
-    "api",
-    "experimental",
-    "library",
-    "php",
-    "rest"
-  ],
-  "homepage": "https://github.com/fluxapps/flux-rest-api"
+    "description": "Rest Api (Experimental Alpha Version)",
+    "topics": [
+        "alpha",
+        "api",
+        "experimental",
+        "library",
+        "php",
+        "rest"
+    ],
+    "homepage": "https://github.com/fluxapps/flux-rest-api"
 }
