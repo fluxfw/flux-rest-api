@@ -2,8 +2,8 @@
 
 namespace FluxRestApi\Request;
 
+use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 use FluxRestApi\Server\Server;
-use FluxRestBaseApi\Method\Method;
 
 class RawRequestDto
 {
@@ -19,6 +19,29 @@ class RawRequestDto
     private Server $server;
 
 
+    private function __construct(
+        /*public readonly*/ string $route,
+        /*public readonly*/ Method $method,
+        /*public readonly*/ Server $server,
+        /*public readonly*/ array $query_params,
+        /*public readonly*/ ?string $body,
+        /*public readonly*/ array $post,
+        /*public readonly*/ array $files,
+        /*public readonly*/ array $headers,
+        /*public readonly*/ array $cookies
+    ) {
+        $this->route = $route;
+        $this->method = $method;
+        $this->server = $server;
+        $this->query_params = $query_params;
+        $this->body = $body;
+        $this->post = $post;
+        $this->files = $files;
+        $this->headers = $headers;
+        $this->cookies = $cookies;
+    }
+
+
     public static function new(
         string $route,
         Method $method,
@@ -31,19 +54,17 @@ class RawRequestDto
         ?array $cookies = null
     ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->route = $route;
-        $dto->method = $method;
-        $dto->server = $server;
-        $dto->query_params = $query_params ?? [];
-        $dto->body = $body;
-        $dto->post = $post ?? [];
-        $dto->files = $files ?? [];
-        $dto->headers = $headers ?? [];
-        $dto->cookies = $cookies ?? [];
-
-        return $dto;
+        return new static(
+            $route,
+            $method,
+            $server,
+            $query_params ?? [],
+            $body,
+            $post ?? [],
+            $files ?? [],
+            $headers ?? [],
+            $cookies ?? []
+        );
     }
 
 

@@ -2,9 +2,9 @@
 
 namespace FluxRestApi\Route;
 
+use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
-use FluxRestBaseApi\Method\Method;
 
 interface Route
 {

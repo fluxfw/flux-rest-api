@@ -9,14 +9,24 @@ class HttpBasicAuthorizationDto
     private string $user;
 
 
-    public static function new(string $user, string $password) : /*static*/ self
+    private function __construct(
+        /*public readonly*/ string $user,
+        /*public readonly*/ string $password
+    ) {
+        $this->user = $user;
+        $this->password = $password;
+    }
+
+
+    public static function new(
+        string $user,
+        string $password
+    ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->user = $user;
-        $dto->password = $password;
-
-        return $dto;
+        return new static(
+            $user,
+            $password
+        );
     }
 
 

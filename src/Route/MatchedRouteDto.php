@@ -9,14 +9,24 @@ class MatchedRouteDto
     private Route $route;
 
 
-    public static function new(Route $route, ?array $params) : /*static*/ self
+    private function __construct(
+        /*public readonly*/ Route $route,
+        /*public readonly*/ array $params
+    ) {
+        $this->route = $route;
+        $this->params = $params;
+    }
+
+
+    public static function new(
+        Route $route,
+        ?array $params
+    ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->route = $route;
-        $dto->params = $params ?? [];
-
-        return $dto;
+        return new static(
+            $route,
+            $params ?? []
+        );
     }
 
 

@@ -12,13 +12,20 @@ class CombinedRouteCollector implements RouteCollector
     private array $route_collectors;
 
 
-    public static function new(array $route_collectors) : /*static*/ self
+    private function __construct(
+        /*private readonly*/ array $route_collectors
+    ) {
+        $this->route_collectors = $route_collectors;
+    }
+
+
+    public static function new(
+        array $route_collectors
+    ) : /*static*/ self
     {
-        $collector = new static();
-
-        $collector->route_collectors = $route_collectors;
-
-        return $collector;
+        return new static(
+            $route_collectors
+        );
     }
 
 

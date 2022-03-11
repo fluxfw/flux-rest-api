@@ -2,8 +2,8 @@
 
 namespace FluxRestApi\Body;
 
-use FluxRestBaseApi\Body\BodyType;
-use FluxRestBaseApi\Body\LegacyDefaultBodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
+use FluxRestApi\Libs\FluxRestBaseApi\Body\LegacyDefaultBodyType;
 
 class TextBodyDto implements BodyDto
 {
@@ -11,13 +11,20 @@ class TextBodyDto implements BodyDto
     private string $text;
 
 
-    public static function new(string $text) : /*static*/ self
+    private function __construct(
+        /*public readonly*/ string $text
+    ) {
+        $this->text = $text;
+    }
+
+
+    public static function new(
+        string $text
+    ) : /*static*/ self
     {
-        $dto = new static();
-
-        $dto->text = $text;
-
-        return $dto;
+        return new static(
+            $text
+        );
     }
 
 

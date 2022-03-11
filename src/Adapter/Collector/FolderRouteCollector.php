@@ -15,14 +15,24 @@ class FolderRouteCollector implements RouteCollector
     private array $route_classes = [];
 
 
-    public static function new(string $folder, ?array $arguments = null) : /*static*/ self
+    private function __construct(
+        /*private readonly*/ string $folder,
+        /*private readonly*/ array $arguments
+    ) {
+        $this->folder = $folder;
+        $this->arguments = $arguments;
+    }
+
+
+    public static function new(
+        string $folder,
+        ?array $arguments = null
+    ) : /*static*/ self
     {
-        $collector = new static();
-
-        $collector->folder = $folder;
-        $collector->arguments = $arguments ?? [];
-
-        return $collector;
+        return new static(
+            $folder,
+            $arguments ?? []
+        );
     }
 
 

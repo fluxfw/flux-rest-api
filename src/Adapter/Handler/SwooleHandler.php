@@ -2,32 +2,40 @@
 
 namespace FluxRestApi\Adapter\Handler;
 
-use FluxRestApi\Adapter\Api\Api;
+use FluxRestApi\Adapter\Api\RestApi;
 use FluxRestApi\Authorization\Authorization;
 use FluxRestApi\Collector\RouteCollector;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\CustomMethod;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Server\LegacyDefaultServer;
-use FluxRestBaseApi\Method\CustomMethod;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
 class SwooleHandler
 {
 
-    private Api $api;
+    private RestApi $rest_api;
 
 
-    public static function new(RouteCollector $route_collector, ?Authorization $authorization = null) : /*static*/ self
+    private function __construct(
+        /*private readonly*/ RestApi $rest_api
+    ) {
+        $this->rest_api = $rest_api;
+    }
+
+
+    public static function new(
+        RouteCollector $route_collector,
+        ?Authorization $authorization = null
+    ) : /*static*/ self
     {
-        $handler = new static();
-
-        $handler->api = Api::new(
-            $route_collector,
-            $authorization
+        return new static(
+            RestApi::new(
+                $route_collector,
+                $authorization
+            )
         );
-
-        return $handler;
     }
 
 
@@ -35,7 +43,7 @@ class SwooleHandler
     {
         $this->handleResponse(
             $response,
-            $this->api->handleRequest(
+            $this->rest_api->handleRequest(
                 $this->parseRequest(
                     $request
                 )

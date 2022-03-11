@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Server;
 
-use FluxLegacyEnum\Backed\StringBackedEnumValue;
+use FluxRestApi\Libs\FluxLegacyEnum\Backed\StringBackedEnumValue;
 
 interface Server extends StringBackedEnumValue
 {

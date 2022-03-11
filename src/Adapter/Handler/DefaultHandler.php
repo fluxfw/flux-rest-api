@@ -2,39 +2,47 @@
 
 namespace FluxRestApi\Adapter\Handler;
 
-use FluxRestApi\Adapter\Api\Api;
+use FluxRestApi\Adapter\Api\RestApi;
 use FluxRestApi\Authorization\Authorization;
 use FluxRestApi\Collector\RouteCollector;
+use FluxRestApi\Libs\FluxRestBaseApi\Header\LegacyDefaultHeader;
+use FluxRestApi\Libs\FluxRestBaseApi\Method\CustomMethod;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Server\LegacyDefaultServer;
-use FluxRestBaseApi\Header\LegacyDefaultHeader;
-use FluxRestBaseApi\Method\CustomMethod;
 use LogicException;
 
 class DefaultHandler
 {
 
-    private Api $api;
+    private RestApi $rest_api;
 
 
-    public static function new(RouteCollector $route_collector, ?Authorization $authorization = null) : /*static*/ self
+    private function __construct(
+        /*private readonly*/ RestApi $rest_api
+    ) {
+        $this->rest_api = $rest_api;
+    }
+
+
+    public static function new(
+        RouteCollector $route_collector,
+        ?Authorization $authorization = null
+    ) : /*static*/ self
     {
-        $handler = new static();
-
-        $handler->api = Api::new(
-            $route_collector,
-            $authorization
+        return new static(
+            RestApi::new(
+                $route_collector,
+                $authorization
+            )
         );
-
-        return $handler;
     }
 
 
     public function handle() : void
     {
         $this->handleResponse(
-            $this->api->handleRequest(
+            $this->rest_api->handleRequest(
                 $request = $this->parseRequest()
             ),
             $request
