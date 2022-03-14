@@ -1,9 +1,7 @@
 {
-    "description": "Rest Api (Experimental Alpha Version)",
+    "description": "Rest Api",
     "topics": [
-        "alpha",
         "api",
-        "experimental",
         "library",
         "php",
         "rest"

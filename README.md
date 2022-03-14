@@ -1,6 +1,6 @@
 # flux-rest-api
 
-Experimental Alpha Version
+Rest Api
 
 ## Installation
 
@@ -8,6 +8,12 @@ Experimental Alpha Version
 COPY --from=docker-registry.fluxpublisher.ch/flux-rest/api:latest /flux-rest-api /%path%/libs/flux-rest-api
 ```
 
+## Usage
+
 ```php
 require_once __DIR__ . "/%path%/libs/flux-rest-api/autoload.php";
 ```
+
+## Example
+
+[examples](examples)
