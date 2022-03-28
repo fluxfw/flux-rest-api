@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Adapter\Handler;
+namespace FluxRestApi\Adapter\Server;
 
 use FluxRestApi\Adapter\Api\RestApi;
 use FluxRestApi\Authorization\Authorization;
@@ -11,35 +11,73 @@ use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Server\LegacyDefaultServer;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Swoole\Http\Server;
 
-class SwooleHandler
+class SwooleRestApiServer
 {
 
     private RestApi $rest_api;
+    private SwooleRestApiServerConfigDto $swoole_rest_api_server_config;
 
 
     private function __construct(
-        /*private readonly*/ RestApi $rest_api
+        /*private readonly*/ RestApi $rest_api,
+        /*private readonly*/ SwooleRestApiServerConfigDto $swoole_rest_api_server_config
     ) {
         $this->rest_api = $rest_api;
+        $this->swoole_rest_api_server_config = $swoole_rest_api_server_config;
     }
 
 
     public static function new(
         RouteCollector $route_collector,
-        ?Authorization $authorization = null
+        ?Authorization $authorization = null,
+        ?SwooleRestApiServerConfigDto $swoole_rest_api_server_config = null
     ) : /*static*/ self
     {
         return new static(
             RestApi::new(
                 $route_collector,
                 $authorization
-            )
+            ),
+            $swoole_rest_api_server_config ?? SwooleRestApiServerConfigDto::new()
         );
     }
 
 
-    public function handle(Request $request, Response $response) : void
+    public function init() : void
+    {
+        $options = [];
+        $sock_type = SWOOLE_TCP;
+
+        if ($this->swoole_rest_api_server_config->getMaxUploadSize() !== null) {
+            $options["package_max_length"] = $this->swoole_rest_api_server_config->getMaxUploadSize();
+        }
+
+        if ($this->swoole_rest_api_server_config->getHttpsCert() !== null) {
+            $options += [
+                "ssl_cert_file" => $this->swoole_rest_api_server_config->getHttpsCert(),
+                "ssl_key_file"  => $this->swoole_rest_api_server_config->getHttpsKey()
+            ];
+            $sock_type += SWOOLE_SSL;
+        }
+
+        $server = new Server($this->swoole_rest_api_server_config->getListen(), $this->swoole_rest_api_server_config->getPort(), SWOOLE_PROCESS, $sock_type);
+
+        $server->set($options);
+
+        $server->on("request", function (Request $request, Response $response) : void {
+            $this->handle(
+                $request,
+                $response
+            );
+        });
+
+        $server->start();
+    }
+
+
+    private function handle(Request $request, Response $response) : void
     {
         $this->handleResponse(
             $response,

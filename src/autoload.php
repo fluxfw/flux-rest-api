@@ -20,6 +20,7 @@ PhpExtChecker::new(
     [
         "curl",
         "json"
+        //"swoole"
     ]
 )
     ->checkAndDie(
