@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Adapter\Handler;
+namespace FluxRestApi\Adapter\Server;
 
 use FluxRestApi\Adapter\Api\RestApi;
 use FluxRestApi\Authorization\Authorization;
@@ -12,7 +12,7 @@ use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Server\LegacyDefaultServer;
 use LogicException;
 
-class DefaultHandler
+class DefaultRestApiServer
 {
 
     private RestApi $rest_api;
