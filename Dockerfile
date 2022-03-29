@@ -34,7 +34,7 @@ COPY . /flux-rest-api
 
 FROM scratch
 
-LABEL org.opencontainers.image.source="https://github.com/fluxapps/flux-rest-api"
+LABEL org.opencontainers.image.source="https://github.com/flux-eco/flux-rest-api"
 LABEL maintainer="fluxlabs <support@fluxlabs.ch> (https://fluxlabs.ch)"
 
 COPY --from=build /flux-rest-api /flux-rest-api
