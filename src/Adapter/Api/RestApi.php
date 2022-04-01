@@ -36,6 +36,9 @@ class RestApi
     private ?Authorization $authorization;
     private array $docu_routes;
     private RouteCollector $route_collector;
+    /**
+     * @var Route[]
+     */
     private array $routes;
 
 
@@ -118,6 +121,9 @@ class RestApi
     }
 
 
+    /**
+     * @return Route[]
+     */
     private function collectRoutes() : array
     {
         $this->routes ??= (function () : array {
@@ -132,6 +138,9 @@ class RestApi
     }
 
 
+    /**
+     * @param Route[] $routes
+     */
     private function getMatchedRoute(RawRequestDto $request, array $routes)/* : MatchedRouteDto|ResponseDto*/
     {
         try {

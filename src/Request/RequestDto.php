@@ -9,17 +9,35 @@ use FluxRestApi\Server\Server;
 class RequestDto
 {
 
+    /**
+     * @var string[]
+     */
     private array $cookies;
+    /**
+     * @var string[]
+     */
     private array $headers;
     private Method $method;
+    /**
+     * @var string[]
+     */
     private array $params;
     private ?BodyDto $parsed_body;
+    /**
+     * @var string[]
+     */
     private array $query_params;
     private ?string $raw_body;
     private string $route;
     private Server $server;
 
 
+    /**
+     * @param string[] $query_params
+     * @param string[] $headers
+     * @param string[] $cookies
+     * @param string[] $params
+     */
     private function __construct(
         /*public readonly*/ string $route,
         /*public readonly*/ Method $method,
@@ -43,6 +61,12 @@ class RequestDto
     }
 
 
+    /**
+     * @param string[]|null $query_params
+     * @param string[]|null $headers
+     * @param string[]|null $cookies
+     * @param string[]|null $params
+     */
     public static function new(
         string $route,
         Method $method,
@@ -75,6 +99,9 @@ class RequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getCookies() : array
     {
         return $this->cookies;
@@ -93,6 +120,9 @@ class RequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getHeaders() : array
     {
         return $this->headers;
@@ -111,6 +141,9 @@ class RequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getParams() : array
     {
         return $this->params;
@@ -129,6 +162,9 @@ class RequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getQueryParams() : array
     {
         return $this->query_params;
