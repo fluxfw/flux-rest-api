@@ -3,6 +3,7 @@
 namespace FluxRestApi\Response;
 
 use FluxRestApi\Body\BodyDto;
+use FluxRestApi\Cookie\CookieDto;
 use FluxRestApi\Libs\FluxRestBaseApi\Status\LegacyDefaultStatus;
 use FluxRestApi\Libs\FluxRestBaseApi\Status\Status;
 
@@ -10,13 +11,23 @@ class ResponseDto
 {
 
     private ?BodyDto $body;
+    /**
+     * @var CookieDto[]
+     */
     private array $cookies;
+    /**
+     * @var string[]
+     */
     private array $headers;
     private ?string $raw_body;
     private ?string $sendfile;
     private Status $status;
 
 
+    /**
+     * @param string[]    $headers
+     * @param CookieDto[] $cookies
+     */
     private function __construct(
         /*public readonly*/ ?BodyDto $body,
         /*public readonly*/ Status $status,
@@ -34,6 +45,10 @@ class ResponseDto
     }
 
 
+    /**
+     * @param string[]|null    $headers
+     * @param CookieDto[]|null $cookies
+     */
     public static function new(
         ?BodyDto $body = null,
         ?Status $status = null,
@@ -60,12 +75,18 @@ class ResponseDto
     }
 
 
+    /**
+     * @return CookieDto[]
+     */
     public function getCookies() : array
     {
         return $this->cookies;
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getHeaders() : array
     {
         return $this->headers;

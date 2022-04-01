@@ -5,10 +5,16 @@ namespace FluxRestApi\Route;
 class MatchedRouteDto
 {
 
+    /**
+     * @var string[]
+     */
     private array $params;
     private Route $route;
 
 
+    /**
+     * @param string[] $params
+     */
     private function __construct(
         /*public readonly*/ Route $route,
         /*public readonly*/ array $params
@@ -18,6 +24,9 @@ class MatchedRouteDto
     }
 
 
+    /**
+     * @param string[]|null $params
+     */
     public static function new(
         Route $route,
         ?array $params
@@ -30,6 +39,9 @@ class MatchedRouteDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getParams() : array
     {
         return $this->params;

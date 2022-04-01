@@ -12,7 +12,10 @@ class FolderRouteCollector implements RouteCollector
 
     private array $arguments;
     private string $folder;
-    private array $route_classes = [];
+    /**
+     * @var string[]
+     */
+    private array $route_classes;
 
 
     private function __construct(
@@ -38,6 +41,7 @@ class FolderRouteCollector implements RouteCollector
 
     public function collectRoutes() : array
     {
+        $this->route_classes ??= [];
         $routes = [];
 
         if (!file_exists($this->folder)) {

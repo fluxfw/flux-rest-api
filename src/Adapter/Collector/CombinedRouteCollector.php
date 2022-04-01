@@ -9,9 +9,15 @@ use LogicException;
 class CombinedRouteCollector implements RouteCollector
 {
 
+    /**
+     * @var RouteCollector[]|Route[]
+     */
     private array $route_collectors;
 
 
+    /**
+     * @param RouteCollector[]|Route[] $route_collectors
+     */
     private function __construct(
         /*private readonly*/ array $route_collectors
     ) {
@@ -19,6 +25,9 @@ class CombinedRouteCollector implements RouteCollector
     }
 
 
+    /**
+     * @param RouteCollector[]|Route[] $route_collectors
+     */
     public static function new(
         array $route_collectors
     ) : /*static*/ self

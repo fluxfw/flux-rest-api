@@ -12,11 +12,17 @@ use FluxRestApi\Route\Route;
 class GetRoutesRoute implements Route
 {
 
+    /**
+     * @var callable
+     */
     private $get_routes;
 
 
+    /**
+     * @param callable $get_routes
+     */
     private function __construct(
-        /*private readonly*/ callable $get_routes
+        /*private readonly mixed*/ callable $get_routes
     ) {
         $this->get_routes = $get_routes;
     }

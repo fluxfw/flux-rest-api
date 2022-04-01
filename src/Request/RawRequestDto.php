@@ -9,16 +9,30 @@ class RawRequestDto
 {
 
     private ?string $body;
+    /**
+     * @var string[]
+     */
     private array $cookies;
     private array $files;
+    /**
+     * @var string[]
+     */
     private array $headers;
     private Method $method;
     private array $post;
+    /**
+     * @var string[]
+     */
     private array $query_params;
     private string $route;
     private Server $server;
 
 
+    /**
+     * @param string[] $query_params
+     * @param string[] $headers
+     * @param string[] $cookies
+     */
     private function __construct(
         /*public readonly*/ string $route,
         /*public readonly*/ Method $method,
@@ -42,6 +56,11 @@ class RawRequestDto
     }
 
 
+    /**
+     * @param string[]|null $query_params
+     * @param string[]|null $headers
+     * @param string[]|null $cookies
+     */
     public static function new(
         string $route,
         Method $method,
@@ -80,6 +99,9 @@ class RawRequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getCookies() : array
     {
         return $this->cookies;
@@ -104,6 +126,9 @@ class RawRequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getHeaders() : array
     {
         return $this->headers;
@@ -128,6 +153,9 @@ class RawRequestDto
     }
 
 
+    /**
+     * @return string[]
+     */
     public function getQueryParams() : array
     {
         return $this->query_params;

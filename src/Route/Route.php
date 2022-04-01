@@ -2,6 +2,7 @@
 
 namespace FluxRestApi\Route;
 
+use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
 use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
@@ -9,9 +10,15 @@ use FluxRestApi\Response\ResponseDto;
 interface Route
 {
 
+    /**
+     * @return BodyType[]|null
+     */
     public function getDocuRequestBodyTypes() : ?array;
 
 
+    /**
+     * @return string[]|null
+     */
     public function getDocuRequestQueryParams() : ?array;
 
 
