@@ -3,11 +3,11 @@
 namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Body\JsonBodyDto;
+use FluxRestApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 
 class ParamsExampleRoute implements Route
 {

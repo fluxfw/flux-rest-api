@@ -3,14 +3,14 @@
 namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Body\JsonBodyDto;
+use FluxRestApi\Body\LegacyDefaultBodyType;
 use FluxRestApi\Body\TextBodyDto;
+use FluxRestApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;
-use FluxRestApi\Libs\FluxRestBaseApi\Body\LegacyDefaultBodyType;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
-use FluxRestApi\Libs\FluxRestBaseApi\Status\LegacyDefaultStatus;
+use FluxRestApi\Status\LegacyDefaultStatus;
 
 class PostExampleRoute implements Route
 {
