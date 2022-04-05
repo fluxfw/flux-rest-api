@@ -3,9 +3,9 @@
 namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Adapter\Route\ProxyRoute;
+use FluxRestApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Method\Method;
 use FluxRestApi\Route\Route;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
 
 class ProxyExampleRoute implements Route
 {

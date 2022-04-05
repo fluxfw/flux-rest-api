@@ -3,8 +3,8 @@
 namespace FluxRestApi\Adapter\Route;
 
 use FluxRestApi\Body\JsonBodyDto;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\LegacyDefaultMethod;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
+use FluxRestApi\Method\LegacyDefaultMethod;
+use FluxRestApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Route\Route;

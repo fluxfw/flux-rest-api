@@ -4,9 +4,9 @@ namespace FluxRestApi\Adapter\Route;
 
 use Exception;
 use FluxRestApi\Body\FormDataBodyDto;
-use FluxRestApi\Libs\FluxRestBaseApi\Status\CustomStatus;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
+use FluxRestApi\Status\CustomStatus;
 
 trait ProxyRoute
 {

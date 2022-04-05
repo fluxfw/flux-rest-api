@@ -3,7 +3,7 @@
 namespace FluxRestApi\Request;
 
 use FluxRestApi\Body\BodyDto;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
+use FluxRestApi\Method\Method;
 use FluxRestApi\Server\Server;
 
 class RequestDto

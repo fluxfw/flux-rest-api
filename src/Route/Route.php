@@ -2,8 +2,8 @@
 
 namespace FluxRestApi\Route;
 
-use FluxRestApi\Libs\FluxRestBaseApi\Body\BodyType;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
+use FluxRestApi\Body\BodyType;
+use FluxRestApi\Method\Method;
 use FluxRestApi\Request\RequestDto;
 use FluxRestApi\Response\ResponseDto;
 

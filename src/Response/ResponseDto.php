@@ -4,8 +4,8 @@ namespace FluxRestApi\Response;
 
 use FluxRestApi\Body\BodyDto;
 use FluxRestApi\Cookie\CookieDto;
-use FluxRestApi\Libs\FluxRestBaseApi\Status\LegacyDefaultStatus;
-use FluxRestApi\Libs\FluxRestBaseApi\Status\Status;
+use FluxRestApi\Status\LegacyDefaultStatus;
+use FluxRestApi\Status\Status;
 
 class ResponseDto
 {

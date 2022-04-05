@@ -5,7 +5,7 @@ namespace FluxRestApi\Adapter\Server;
 use FluxRestApi\Adapter\Api\RestApi;
 use FluxRestApi\Authorization\Authorization;
 use FluxRestApi\Collector\RouteCollector;
-use FluxRestApi\Libs\FluxRestBaseApi\Method\CustomMethod;
+use FluxRestApi\Method\CustomMethod;
 use FluxRestApi\Request\RawRequestDto;
 use FluxRestApi\Response\ResponseDto;
 use FluxRestApi\Server\LegacyDefaultServer;
