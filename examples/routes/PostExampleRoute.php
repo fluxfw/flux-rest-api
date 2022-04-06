@@ -2,15 +2,15 @@
 
 namespace FluxRestApi\Route\Example;
 
-use FluxRestApi\Body\JsonBodyDto;
-use FluxRestApi\Body\LegacyDefaultBodyType;
-use FluxRestApi\Body\TextBodyDto;
-use FluxRestApi\Method\LegacyDefaultMethod;
-use FluxRestApi\Method\Method;
-use FluxRestApi\Request\RequestDto;
-use FluxRestApi\Response\ResponseDto;
-use FluxRestApi\Route\Route;
-use FluxRestApi\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Body\JsonBodyDto;
+use FluxRestApi\Adapter\Body\TextBodyDto;
+use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
+use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Method\Method;
+use FluxRestApi\Adapter\Route\Route;
+use FluxRestApi\Adapter\Server\ServerRequestDto;
+use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
 class PostExampleRoute implements Route
 {
@@ -53,10 +53,10 @@ class PostExampleRoute implements Route
     }
 
 
-    public function handle(RequestDto $request) : ?ResponseDto
+    public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
         if (!($request->getParsedBody() instanceof JsonBodyDto)) {
-            return ResponseDto::new(
+            return ServerResponseDto::new(
                 TextBodyDto::new(
                     "No json body"
                 ),
@@ -64,7 +64,7 @@ class PostExampleRoute implements Route
             );
         }
 
-        return ResponseDto::new(
+        return ServerResponseDto::new(
             JsonBodyDto::new(
                 [
                     "post_data" => $request->getParsedBody()->getData()

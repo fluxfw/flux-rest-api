@@ -14,5 +14,3 @@ await (await fetch("?/example/post", {
 })).json();
 
 await (await fetch("?/example/params/1234/abcd&query_param=5678")).json();
-
-await (await fetch("?/example/proxy")).json();
