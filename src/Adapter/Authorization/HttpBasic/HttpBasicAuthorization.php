@@ -3,22 +3,22 @@
 namespace FluxRestApi\Adapter\Authorization\HttpBasic;
 
 use Exception;
-use FluxRestApi\Body\TextBodyDto;
-use FluxRestApi\Header\LegacyDefaultHeader;
-use FluxRestApi\Request\RawRequestDto;
-use FluxRestApi\Response\ResponseDto;
-use FluxRestApi\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Body\TextBodyDto;
+use FluxRestApi\Adapter\Header\LegacyDefaultHeader;
+use FluxRestApi\Adapter\Server\ServerRawRequestDto;
+use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
 trait HttpBasicAuthorization
 {
 
-    private function parseHttpBasicAuthorization(RawRequestDto $request)/* : HttpBasicAuthorizationDto|ResponseDto*/
+    private function parseHttpBasicAuthorization(ServerRawRequestDto $request)/* : HttpBasicAuthorizationDto|ServerResponseDto*/
     {
         $authorization = $request->getHeader(
             LegacyDefaultHeader::AUTHORIZATION()->value
         );
         if (empty($authorization)) {
-            return ResponseDto::new(
+            return ServerResponseDto::new(
                 TextBodyDto::new(
                     "Authorization needed"
                 ),

@@ -2,12 +2,12 @@
 
 namespace FluxRestApi\Route\Example;
 
-use FluxRestApi\Body\JsonBodyDto;
-use FluxRestApi\Method\LegacyDefaultMethod;
-use FluxRestApi\Method\Method;
-use FluxRestApi\Request\RequestDto;
-use FluxRestApi\Response\ResponseDto;
-use FluxRestApi\Route\Route;
+use FluxRestApi\Adapter\Body\JsonBodyDto;
+use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Method\Method;
+use FluxRestApi\Adapter\Route\Route;
+use FluxRestApi\Adapter\Server\ServerRequestDto;
+use FluxRestApi\Adapter\Server\ServerResponseDto;
 
 class ParamsExampleRoute implements Route
 {
@@ -48,9 +48,9 @@ class ParamsExampleRoute implements Route
     }
 
 
-    public function handle(RequestDto $request) : ?ResponseDto
+    public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        return ResponseDto::new(
+        return ServerResponseDto::new(
             JsonBodyDto::new(
                 [
                     "params"       => $request->getParams(),

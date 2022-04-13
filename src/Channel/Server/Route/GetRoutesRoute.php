@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Route\Example;
+namespace FluxRestApi\Channel\Server\Route;
 
 use FluxRestApi\Adapter\Body\JsonBodyDto;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
@@ -9,18 +9,32 @@ use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 
-class GetExampleRoute implements Route
+class GetRoutesRoute implements Route
 {
 
-    private function __construct()
-    {
+    /**
+     * @var callable
+     */
+    private $get_routes;
 
+
+    /**
+     * @param callable $get_routes
+     */
+    private function __construct(
+        /*private readonly mixed*/ callable $get_routes
+    ) {
+        $this->get_routes = $get_routes;
     }
 
 
-    public static function new() : /*static*/ self
+    public static function new(
+        callable $get_routes
+    ) : /*static*/ self
     {
-        return new static();
+        return new static(
+            $get_routes
+        );
     }
 
 
@@ -44,7 +58,7 @@ class GetExampleRoute implements Route
 
     public function getRoute() : string
     {
-        return "/example/get";
+        return "/routes";
     }
 
 
@@ -52,11 +66,7 @@ class GetExampleRoute implements Route
     {
         return ServerResponseDto::new(
             JsonBodyDto::new(
-                [
-                    "Some test data",
-                    1234,
-                    true
-                ]
+                ($this->get_routes)()
             )
         );
     }
