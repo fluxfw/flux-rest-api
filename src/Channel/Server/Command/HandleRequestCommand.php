@@ -2,14 +2,11 @@
 
 namespace FluxRestApi\Channel\Server\Command;
 
-use Exception;
 use FluxRestApi\Adapter\Authorization\Authorization;
 use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxRestApi\Adapter\Body\Type\BodyType;
 use FluxRestApi\Adapter\Header\LegacyDefaultHeader;
-use FluxRestApi\Adapter\Method\CustomMethod;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Route\Collector\CombinedRouteCollector;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 use FluxRestApi\Adapter\Route\Route;
@@ -17,7 +14,6 @@ use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 use FluxRestApi\Channel\Body\Port\BodyService;
 use FluxRestApi\Channel\Server\Route\GetRoutesRoute;
@@ -80,9 +76,9 @@ class HandleRequestCommand
     public function handleRequest(ServerRawRequestDto $request) : ServerRawResponseDto
     {
         try {
-            $request = $this->handleMethodOverride(
-                $request
-            );
+            $request = $this->body_service->handleMethodOverride(
+                    $request
+                ) ?? $request;
             if ($request instanceof ServerResponseDto) {
                 return $this->toRawResponse(
                     $request
@@ -115,9 +111,7 @@ class HandleRequestCommand
                 )
             );
         } catch (Throwable $ex) {
-            $this->log(
-                $ex
-            );
+            file_put_contents("php://stdout", $ex);
 
             return $this->toRawResponse(
                 ServerResponseDto::new(
@@ -188,9 +182,7 @@ class HandleRequestCommand
 
             return current($routes);
         } catch (Throwable $ex) {
-            $this->log(
-                $ex
-            );
+            file_put_contents("php://stdout", $ex);
 
             return ServerResponseDto::new(
                 TextBodyDto::new(
@@ -248,9 +240,7 @@ class HandleRequestCommand
                 return $response;
             }
         } catch (Throwable $ex) {
-            $this->log(
-                $ex
-            );
+            file_put_contents("php://stdout", $ex);
 
             return ServerResponseDto::new(
                 TextBodyDto::new(
@@ -261,57 +251,6 @@ class HandleRequestCommand
         }
 
         return null;
-    }
-
-
-    private function handleMethodOverride(ServerRawRequestDto $request)/* : ServerRawRequestDto|ServerResponseDto*/
-    {
-        $method_override = $request->getHeader(
-            LegacyDefaultHeader::X_HTTP_METHOD_OVERRIDE()->value
-        );
-
-        if ($method_override === null) {
-            return $request;
-        }
-
-        try {
-            if ($request->getServerType()->value !== LegacyDefaultServerType::NGINX()->value) {
-                throw new Exception("Method overriding not enabled/needed for server " . $request->getServerType()->value);
-            }
-
-            $method_override = CustomMethod::factory($method_override);
-
-            if ($request->getMethod()->value !== LegacyDefaultMethod::POST()->value) {
-                throw new Exception("Method overriding only for " . LegacyDefaultMethod::POST()->value);
-            }
-
-            if (!in_array($method_override->value, [LegacyDefaultMethod::DELETE()->value, LegacyDefaultMethod::PATCH()->value, LegacyDefaultMethod::PUT()->value])) {
-                throw new Exception("Method overriding with " . $method_override->value . " not supported");
-            }
-
-            return ServerRawRequestDto::new(
-                $request->getRoute(),
-                $method_override,
-                $request->getServerType(),
-                $request->getQueryParams(),
-                $request->getBody(),
-                $request->getPost(),
-                $request->getFiles(),
-                $request->getHeaders(),
-                $request->getCookies()
-            );
-        } catch (Throwable $ex) {
-            $this->log(
-                $ex
-            );
-
-            return ServerResponseDto::new(
-                TextBodyDto::new(
-                    "Invalid method"
-                ),
-                LegacyDefaultStatus::_405()
-            );
-        }
     }
 
 
@@ -339,9 +278,7 @@ class HandleRequestCommand
                 )
             );
         } catch (Throwable $ex) {
-            $this->log(
-                $ex
-            );
+            file_put_contents("php://stdout", $ex);
 
             return ServerResponseDto::new(
                 TextBodyDto::new(
@@ -354,12 +291,6 @@ class HandleRequestCommand
         return $route->getRoute()->handle(
                 $request
             ) ?? ServerResponseDto::new();
-    }
-
-
-    private function log(Throwable $ex) : void
-    {
-        file_put_contents("php://stdout", $ex);
     }
 
 
