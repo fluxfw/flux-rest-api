@@ -59,7 +59,7 @@ class MakeRequestCommand
             }
 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
+            
             $headers = [];
             if ($request->isResponse()) {
                 curl_setopt($curl, CURLOPT_HEADERFUNCTION, function (/*CurlHandle*/ $curl, string $header) use (&$headers) : int {
