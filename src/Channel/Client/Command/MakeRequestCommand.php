@@ -58,10 +58,10 @@ class MakeRequestCommand
                 curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->getHeaders()), $request->getHeaders()));
             }
 
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
             $headers = [];
             if ($request->isResponse()) {
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
                 curl_setopt($curl, CURLOPT_HEADERFUNCTION, function (/*CurlHandle*/ $curl, string $header) use (&$headers) : int {
                     $len = strlen($header);
 
