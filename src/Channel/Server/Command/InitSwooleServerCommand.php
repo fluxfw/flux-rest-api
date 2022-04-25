@@ -95,7 +95,7 @@ class InitSwooleServerCommand
 
         foreach ($api_response->getCookies() as $cookie) {
             if ($cookie->getValue() !== null) {
-                $response->cookie(
+                $response->rawcookie(
                     $cookie->getName(),
                     $cookie->getValue(),
                     $cookie->getExpiresIn() !== null ? (time() + $cookie->getExpiresIn()) : 0,
@@ -107,7 +107,7 @@ class InitSwooleServerCommand
                     $cookie->getPriority() !== null ? $cookie->getPriority()->value : ""
                 );
             } else {
-                $response->cookie(
+                $response->rawcookie(
                     $cookie->getName(),
                     "",
                     0,
