@@ -7,14 +7,14 @@ FROM $FLUX_NAMESPACE_CHANGER_IMAGE:latest AS flux_autoload_api_build
 ENV FLUX_NAMESPACE_CHANGER_FROM_NAMESPACE FluxAutoloadApi
 ENV FLUX_NAMESPACE_CHANGER_TO_NAMESPACE FluxRestApi\\Libs\\FluxAutoloadApi
 COPY --from=flux_autoload_api /flux-autoload-api /code
-RUN /flux-namespace-changer/bin/change-namespace.php
+RUN change-namespace
 
 FROM $FLUX_LEGACY_ENUM_IMAGE:latest AS flux_legacy_enum
 FROM $FLUX_NAMESPACE_CHANGER_IMAGE:latest AS flux_legacy_enum_build
 ENV FLUX_NAMESPACE_CHANGER_FROM_NAMESPACE FluxLegacyEnum
 ENV FLUX_NAMESPACE_CHANGER_TO_NAMESPACE FluxRestApi\\Libs\\FluxLegacyEnum
 COPY --from=flux_legacy_enum /flux-legacy-enum /code
-RUN /flux-namespace-changer/bin/change-namespace.php
+RUN change-namespace
 
 FROM alpine:latest AS build
 
