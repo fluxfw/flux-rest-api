@@ -34,6 +34,7 @@ class ParseBodyCommand
 
         switch (true) {
             case str_contains($body->getType(), LegacyDefaultBodyType::FORM_DATA()->value):
+            case str_contains($body->getType(), LegacyDefaultBodyType::FORM_DATA_2()->value):
                 return FormDataBodyDto::new(
                     $post,
                     $files
