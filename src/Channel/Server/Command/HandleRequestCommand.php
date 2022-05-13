@@ -232,25 +232,9 @@ class HandleRequestCommand
             return null;
         }
 
-        try {
-            $response = $this->authorization->authorize(
-                $request
-            );
-            if ($response !== null) {
-                return $response;
-            }
-        } catch (Throwable $ex) {
-            file_put_contents("php://stdout", $ex);
-
-            return ServerResponseDto::new(
-                TextBodyDto::new(
-                    "Invalid authorization"
-                ),
-                LegacyDefaultStatus::_403()
-            );
-        }
-
-        return null;
+        return $this->authorization->authorize(
+            $request
+        );
     }
 
 
