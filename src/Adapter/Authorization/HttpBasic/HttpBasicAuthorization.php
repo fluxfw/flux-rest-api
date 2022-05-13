@@ -2,7 +2,6 @@
 
 namespace FluxRestApi\Adapter\Authorization\HttpBasic;
 
-use Exception;
 use FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxRestApi\Adapter\Header\LegacyDefaultHeader;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
@@ -30,7 +29,12 @@ trait HttpBasicAuthorization
         }
 
         if (!str_starts_with($authorization, HttpBasic::BASIC_AUTHORIZATION . " ")) {
-            throw new Exception("No " . HttpBasic::BASIC_AUTHORIZATION . " authorization");
+            return ServerResponseDto::new(
+                TextBodyDto::new(
+                    "Invalid authorization type"
+                ),
+                LegacyDefaultStatus::_400()
+            );
         }
 
         $authorization = substr($authorization, strlen(HttpBasic::BASIC_AUTHORIZATION) + 1);
@@ -38,7 +42,12 @@ trait HttpBasicAuthorization
         $authorization = base64_decode($authorization);
 
         if (empty($authorization) || !str_contains($authorization, HttpBasic::SPLIT_USER_PASSWORD)) {
-            throw new Exception("Missing user and password");
+            return ServerResponseDto::new(
+                TextBodyDto::new(
+                    "Missing user or password"
+                ),
+                LegacyDefaultStatus::_400()
+            );
         }
 
         $password = explode(HttpBasic::SPLIT_USER_PASSWORD, $authorization);
@@ -46,7 +55,12 @@ trait HttpBasicAuthorization
         $password = implode(HttpBasic::SPLIT_USER_PASSWORD, $password);
 
         if (empty($user) || empty($password)) {
-            throw new Exception("Missing user or password");
+            return ServerResponseDto::new(
+                TextBodyDto::new(
+                    "Missing user or password"
+                ),
+                LegacyDefaultStatus::_400()
+            );
         }
 
         return HttpBasicAuthorizationDto::new(
