@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Adapter\Authorization\HttpBasic;
+namespace FluxRestApi\Adapter\Authorization\ParseHttpBasic;
 
 class HttpBasicAuthorizationDto
 {
