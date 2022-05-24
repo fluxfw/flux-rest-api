@@ -2,11 +2,12 @@
 
 namespace FluxRestApi\Adapter\Header;
 
-enum DefaultHeader: string implements Header
+enum DefaultHeaderKey: string implements HeaderKey
 {
 
     case ACCEPT = "accept";
     case AUTHORIZATION = "authorization";
+    case CONTENT_DISPOSITION = "content-disposition";
     case CONTENT_TYPE = "content-type";
     case LOCATION = "location";
     case USER_AGENT = "user-agent";

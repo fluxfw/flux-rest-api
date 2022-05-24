@@ -3,6 +3,7 @@
 namespace FluxRestApi\Adapter\Server;
 
 use FluxRestApi\Adapter\Body\BodyDto;
+use FluxRestApi\Adapter\Header\HeaderKey;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\ServerType\ServerType;
 
@@ -110,9 +111,9 @@ class ServerRequestDto
     }
 
 
-    public function getHeader(string $key) : ?string
+    public function getHeader(HeaderKey $key) : ?string
     {
-        return $this->headers[strtolower($key)] ?? null;
+        return $this->headers[strtolower($key->value)] ?? null;
     }
 
 

@@ -84,7 +84,9 @@ class MakeRequestCommand
 
             if ($request->isResponse()) {
                 return ClientResponseDto::new(
-                    CustomStatus::factory(curl_getinfo($curl, CURLINFO_HTTP_CODE)),
+                    CustomStatus::factory(
+                        curl_getinfo($curl, CURLINFO_HTTP_CODE)
+                    ),
                     $headers,
                     $body
                 );

@@ -135,7 +135,9 @@ class InitSwooleServerCommand
     {
         return ServerRawRequestDto::new(
             $request->server["request_uri"],
-            CustomMethod::factory($request->getMethod()),
+            CustomMethod::factory(
+                $request->getMethod()
+            ),
             LegacyDefaultServerType::SWOOLE(),
             $request->get,
             $request->getContent() ?: null,

@@ -1,11 +1,11 @@
 <?php
 
-namespace FluxRestApi\Adapter\Authorization\Schema;
+namespace FluxRestApi\Adapter\Header;
 
 use JsonSerializable;
 use LogicException;
 
-class CustomAuthorizationSchema implements AuthorizationSchema, JsonSerializable
+class CustomHeaderKey implements HeaderKey, JsonSerializable
 {
 
     private string $_value;
@@ -18,15 +18,17 @@ class CustomAuthorizationSchema implements AuthorizationSchema, JsonSerializable
     }
 
 
-    public static function factory(string $value) : AuthorizationSchema
+    public static function factory(string $value) : HeaderKey
     {
+        $value = strtolower($value);
+
         if (PHP_VERSION_ID >= 80100) {
-            $schema = DefaultAuthorizationSchema::tryFrom($value);
+            $key = DefaultHeaderKey::tryFrom($value);
         } else {
-            $schema = LegacyDefaultAuthorizationSchema::tryFrom($value);
+            $key = LegacyDefaultHeaderKey::tryFrom($value);
         }
 
-        return $schema ?? static::new(
+        return $key ?? static::new(
                 $value
             );
     }

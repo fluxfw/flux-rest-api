@@ -4,7 +4,7 @@ namespace FluxRestApi\Channel\Body\Command;
 
 use Exception;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Header\LegacyDefaultHeader;
+use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
 use FluxRestApi\Adapter\Method\CustomMethod;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
@@ -34,7 +34,7 @@ class HandleMethodOverrideCommand
     public function handleMethodOverride(ServerRawRequestDto $request)/* : ServerRawRequestDto|ServerResponseDto|null*/
     {
         $method_override = $request->getHeader(
-            LegacyDefaultHeader::X_HTTP_METHOD_OVERRIDE()->value
+            LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()
         );
 
         if ($method_override === null) {
@@ -46,7 +46,9 @@ class HandleMethodOverrideCommand
                 throw new Exception("Method overriding not enabled/needed for server " . $request->getServerType()->value);
             }
 
-            $method_override = CustomMethod::factory($method_override);
+            $method_override = CustomMethod::factory(
+                $method_override
+            );
 
             if ($request->getMethod()->value !== LegacyDefaultMethod::POST()->value) {
                 throw new Exception("Method overriding only for " . LegacyDefaultMethod::POST()->value);
@@ -64,7 +66,7 @@ class HandleMethodOverrideCommand
                 $request->getBody(),
                 $request->getPost(),
                 $request->getFiles(),
-                array_filter($request->getHeaders(), fn(string $header) : bool => $header !== LegacyDefaultHeader::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
+                array_filter($request->getHeaders(), fn(string $header) : bool => $header !== LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
                 $request->getCookies()
             );
         } catch (Throwable $ex) {

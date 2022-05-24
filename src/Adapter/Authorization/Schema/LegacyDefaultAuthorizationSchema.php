@@ -7,7 +7,7 @@ use FluxRestApi\Libs\FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
 /**
  * @method static static BASIC() Basic
  */
-class LegacyAuthorizationSchema extends LegacyStringBackedEnum implements AuthorizationSchema
+class LegacyDefaultAuthorizationSchema extends LegacyStringBackedEnum implements AuthorizationSchema
 {
 
 }

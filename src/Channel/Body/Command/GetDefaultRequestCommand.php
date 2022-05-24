@@ -34,7 +34,9 @@ class GetDefaultRequestCommand
 
         return ServerRawRequestDto::new(
             $route,
-            CustomMethod::factory($_SERVER["REQUEST_METHOD"]),
+            CustomMethod::factory(
+                $_SERVER["REQUEST_METHOD"]
+            ),
             str_contains($_SERVER["SERVER_SOFTWARE"], "nginx") ? LegacyDefaultServerType::NGINX() : LegacyDefaultServerType::APACHE(),
             $query_params,
             file_get_contents("php://input") ?: null,
