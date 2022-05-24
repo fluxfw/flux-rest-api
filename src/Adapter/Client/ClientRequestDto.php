@@ -2,6 +2,7 @@
 
 namespace FluxRestApi\Adapter\Client;
 
+use FluxRestApi\Adapter\Header\HeaderKey;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 
@@ -90,9 +91,9 @@ class ClientRequestDto
     }
 
 
-    public function getHeader(string $key) : ?string
+    public function getHeader(HeaderKey $key) : ?string
     {
-        return $this->headers[strtolower($key)] ?? null;
+        return $this->headers[strtolower($key->value)] ?? null;
     }
 
 

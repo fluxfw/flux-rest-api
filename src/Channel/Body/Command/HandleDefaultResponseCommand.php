@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Channel\Body\Command;
 
-use FluxRestApi\Adapter\Header\LegacyDefaultHeader;
+use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
 use FluxRestApi\Adapter\ServerType\ServerType;
@@ -35,11 +35,11 @@ class HandleDefaultResponseCommand
 
         if ($response->getSendfile() !== null) {
             if ($server_type->value === LegacyDefaultServerType::NGINX()->value) {
-                $headers[LegacyDefaultHeader::X_ACCEL_REDIRECT()->value] = $response->getSendfile();
+                $headers[LegacyDefaultHeaderKey::X_ACCEL_REDIRECT()->value] = $response->getSendfile();
             } else {
-                $headers[LegacyDefaultHeader::X_SENDFILE()->value] = $response->getSendfile();
+                $headers[LegacyDefaultHeaderKey::X_SENDFILE()->value] = $response->getSendfile();
             }
-            $headers[LegacyDefaultHeader::CONTENT_TYPE()->value] = "";
+            $headers[LegacyDefaultHeaderKey::CONTENT_TYPE()->value] = "";
         }
 
         foreach ($headers as $key => $value) {

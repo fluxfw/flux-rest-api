@@ -3,6 +3,7 @@
 namespace FluxRestApi\Adapter\Server;
 
 use FluxRestApi\Adapter\Cookie\CookieDto;
+use FluxRestApi\Adapter\Header\HeaderKey;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 use FluxRestApi\Adapter\Status\Status;
 
@@ -86,9 +87,9 @@ class ServerRawResponseDto
     }
 
 
-    public function getHeader(string $key) : ?string
+    public function getHeader(HeaderKey $key) : ?string
     {
-        return $this->headers[strtolower($key)] ?? null;
+        return $this->headers[strtolower($key->value)] ?? null;
     }
 
 

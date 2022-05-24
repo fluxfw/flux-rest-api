@@ -4,7 +4,7 @@ namespace FluxRestApi\Adapter\Authorization\ParseHttpBasic;
 
 use FluxRestApi\Adapter\Authorization\ParseHttp\HttpAuthorizationDto;
 use FluxRestApi\Adapter\Authorization\ParseHttp\ParseHttpAuthorization;
-use FluxRestApi\Adapter\Authorization\Schema\LegacyAuthorizationSchema;
+use FluxRestApi\Adapter\Authorization\Schema\LegacyDefaultAuthorizationSchema;
 use FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
@@ -23,17 +23,17 @@ trait ParseHttpBasicAuthorization
         $authorization = $this->parseHttpAuthorization(
             $request,
             HttpAuthorizationDto::new(
-                LegacyAuthorizationSchema::BASIC()
+                LegacyDefaultAuthorizationSchema::BASIC()
             )
         );
         if ($authorization instanceof ServerResponseDto) {
             return $authorization;
         }
 
-        if ($authorization->getSchema()->value !== LegacyAuthorizationSchema::BASIC()->value) {
+        if ($authorization->getSchema()->value !== LegacyDefaultAuthorizationSchema::BASIC()->value) {
             return ServerResponseDto::new(
                 TextBodyDto::new(
-                    LegacyAuthorizationSchema::BASIC()->value . " authorization schema needed"
+                    LegacyDefaultAuthorizationSchema::BASIC()->value . " authorization schema needed"
                 ),
                 LegacyDefaultStatus::_400()
             );
@@ -44,7 +44,7 @@ trait ParseHttpBasicAuthorization
         if ($authorization === false) {
             return ServerResponseDto::new(
                 TextBodyDto::new(
-                    "Invalid " . LegacyAuthorizationSchema::BASIC()->value . " authorization"
+                    "Invalid " . LegacyDefaultAuthorizationSchema::BASIC()->value . " authorization"
                 ),
                 LegacyDefaultStatus::_400()
             );

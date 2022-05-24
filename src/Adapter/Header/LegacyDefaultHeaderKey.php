@@ -7,6 +7,7 @@ use FluxRestApi\Libs\FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
 /**
  * @method static static ACCEPT() accept
  * @method static static AUTHORIZATION() authorization
+ * @method static static CONTENT_DISPOSITION() content-disposition
  * @method static static CONTENT_TYPE() content-type
  * @method static static LOCATION() location
  * @method static static USER_AGENT() user-agent
@@ -15,7 +16,7 @@ use FluxRestApi\Libs\FluxLegacyEnum\Adapter\Backed\LegacyStringBackedEnum;
  * @method static static X_HTTP_METHOD_OVERRIDE() x-http-method-override
  * @method static static X_SENDFILE() x-sendfile
  */
-class LegacyDefaultHeader extends LegacyStringBackedEnum implements Header
+class LegacyDefaultHeaderKey extends LegacyStringBackedEnum implements HeaderKey
 {
 
 }

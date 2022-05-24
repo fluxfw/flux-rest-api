@@ -6,7 +6,7 @@ use FluxRestApi\Adapter\Authorization\Authorization;
 use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxRestApi\Adapter\Body\Type\BodyType;
-use FluxRestApi\Adapter\Header\LegacyDefaultHeader;
+use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
 use FluxRestApi\Adapter\Route\Collector\CombinedRouteCollector;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 use FluxRestApi\Adapter\Route\Route;
@@ -253,7 +253,7 @@ class HandleRequestCommand
                 $this->body_service->parseBody(
                     RawBodyDto::new(
                         $request->getHeader(
-                            LegacyDefaultHeader::CONTENT_TYPE()->value
+                            LegacyDefaultHeaderKey::CONTENT_TYPE()
                         ),
                         $request->getBody()
                     ),
@@ -372,7 +372,7 @@ class HandleRequestCommand
             $raw_body->getBody(),
             $response->getStatus(),
             $response->getHeaders() + [
-                LegacyDefaultHeader::CONTENT_TYPE()->value => $raw_body->getType()
+                LegacyDefaultHeaderKey::CONTENT_TYPE()->value => $raw_body->getType()
             ],
             $response->getCookies(),
             $response->getSendfile()
