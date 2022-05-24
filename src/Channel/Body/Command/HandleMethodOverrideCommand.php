@@ -66,7 +66,7 @@ class HandleMethodOverrideCommand
                 $request->getBody(),
                 $request->getPost(),
                 $request->getFiles(),
-                array_filter($request->getHeaders(), fn(string $header) : bool => $header !== LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
+                array_filter($request->getHeaders(), fn(string $key) : bool => $key !== LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
                 $request->getCookies()
             );
         } catch (Throwable $ex) {
