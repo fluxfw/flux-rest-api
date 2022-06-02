@@ -1,9 +1,8 @@
 <?php
 
-namespace FluxRestApi\Route\Example;
+namespace FluxRestApi\Channel\Server\Route;
 
-use FluxRestApi\Adapter\Body\JsonBodyDto;
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
+use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
@@ -11,8 +10,9 @@ use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
-class GetExampleRoute implements Route
+class GetDefaultRoute implements Route
 {
 
     private function __construct()
@@ -32,17 +32,17 @@ class GetExampleRoute implements Route
         return RouteDocumentationDto::new(
             $this->getRoute(),
             $this->getMethod(),
-            "GET example",
+            "Routes UI",
             null,
             null,
             null,
             null,
             [
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
                     null,
-                    "array",
-                    "Example data"
+                    LegacyDefaultStatus::_302(),
+                    null,
+                    "Redirect to routes UI"
                 )
             ]
         );
@@ -57,20 +57,18 @@ class GetExampleRoute implements Route
 
     public function getRoute() : string
     {
-        return "/example/get";
+        return "/";
     }
 
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
         return ServerResponseDto::new(
-            JsonBodyDto::new(
-                [
-                    "Some test data",
-                    1234,
-                    true
-                ]
-            )
+            null,
+            LegacyDefaultStatus::_302(),
+            [
+                LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->getOriginalRoute(), "/") . "/routes/ui"
+            ]
         );
     }
 }

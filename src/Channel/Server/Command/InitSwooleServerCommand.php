@@ -79,7 +79,8 @@ class InitSwooleServerCommand
             $this->server_service->handleRequest(
                 $this->parseRequest(
                     $request
-                )
+                ),
+                true
             )
         );
     }
@@ -134,6 +135,7 @@ class InitSwooleServerCommand
     private function parseRequest(Request $request) : ServerRawRequestDto
     {
         return ServerRawRequestDto::new(
+            $request->server["request_uri"],
             $request->server["request_uri"],
             CustomMethod::factory(
                 $request->getMethod()

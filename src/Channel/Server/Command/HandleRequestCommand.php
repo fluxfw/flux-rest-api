@@ -5,7 +5,6 @@ namespace FluxRestApi\Channel\Server\Command;
 use FluxRestApi\Adapter\Authorization\Authorization;
 use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Body\Type\BodyType;
 use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
 use FluxRestApi\Adapter\Route\Collector\CombinedRouteCollector;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
@@ -16,7 +15,10 @@ use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 use FluxRestApi\Channel\Body\Port\BodyService;
+use FluxRestApi\Channel\Server\Route\GetDefaultRoute;
 use FluxRestApi\Channel\Server\Route\GetRoutesRoute;
+use FluxRestApi\Channel\Server\Route\GetRoutesUIDefaultRoute;
+use FluxRestApi\Channel\Server\Route\GetRoutesUIFileRoute;
 use FluxRestApi\Channel\Server\Route\MatchedRouteDto;
 use LogicException;
 use Throwable;
@@ -26,7 +28,6 @@ class HandleRequestCommand
 
     private ?Authorization $authorization;
     private BodyService $body_service;
-    private array $docu_routes;
     private RouteCollector $route_collector;
     /**
      * @var Route[]
@@ -37,16 +38,21 @@ class HandleRequestCommand
     private function __construct(
         /*private readonly*/ BodyService $body_service,
         /*private readonly*/ RouteCollector $route_collector,
-        /*private readonly*/ ?Authorization $authorization
+        /*private readonly*/ ?Authorization $authorization,
+        $routes_ui
     ) {
         $this->body_service = $body_service;
         $this->route_collector = CombinedRouteCollector::new(
-            [
+            array_merge($routes_ui ? [
+                GetDefaultRoute::new(),
                 GetRoutesRoute::new(
-                    fn() : array => $this->getRoutesDocu()
+                    fn() : array => $this->collectRoutes()
                 ),
+                GetRoutesUIDefaultRoute::new(),
+                GetRoutesUIFileRoute::new()
+            ] : [], [
                 $route_collector
-            ]
+            ])
         );
         $this->authorization = $authorization;
     }
@@ -55,7 +61,8 @@ class HandleRequestCommand
     public static function new(
         BodyService $body_service,
         RouteCollector $route_collector,
-        ?Authorization $authorization = null
+        ?Authorization $authorization = null,
+        bool $routes_ui = false
     ) : /*static*/ self
     {
         return new static(
@@ -68,7 +75,8 @@ class HandleRequestCommand
                     */ $route_collector/*
                 ]
             )*/,
-            $authorization
+            $authorization,
+            $routes_ui
         );
     }
 
@@ -194,38 +202,6 @@ class HandleRequestCommand
     }
 
 
-    private function getRoutesDocu() : array
-    {
-        $this->docu_routes ??= (function () : array {
-            $routes = array_map(fn(Route $route) : array => [
-                "route"        => $this->normalizeRoute(
-                    $route->getRoute()
-                ),
-                "method"       => $route->getMethod()->value,
-                "query_params" => $this->normalizeDocuArray(
-                    $route->getDocuRequestQueryParams()
-                ),
-                "body_types"   => $this->normalizeDocuArray(
-                    array_map(fn(BodyType $body_type) : string => $body_type->value, $route->getDocuRequestBodyTypes() ?? [])
-                )
-            ], $this->collectRoutes());
-
-            usort($routes, function (array $route1, array $route2) : int {
-                $sort = strnatcasecmp($route1["route"], $route2["route"]);
-                if ($sort !== 0) {
-                    return $sort;
-                }
-
-                return strnatcasecmp($route1["method"], $route2["method"]);
-            });
-
-            return $routes;
-        })();
-
-        return $this->docu_routes;
-    }
-
-
     private function handleAuthorization(ServerRawRequestDto $request) : ?ServerResponseDto
     {
         if ($this->authorization === null) {
@@ -243,6 +219,7 @@ class HandleRequestCommand
         try {
             $request = ServerRequestDto::new(
                 $request->getRoute(),
+                $request->getOriginalRoute(),
                 $request->getMethod(),
                 $request->getServerType(),
                 $request->getQueryParams(),
@@ -310,23 +287,6 @@ class HandleRequestCommand
             $route,
             array_combine($param_keys, array_map([$this, "removeNormalizeRoute"], $param_values))
         );
-    }
-
-
-    private function normalizeDocuArray(?array $array) : ?array
-    {
-        if (empty($array)) {
-            return null;
-        }
-
-        $array = array_filter(array_values(array_map("trim", $array)));
-        if (empty($array)) {
-            return null;
-        }
-
-        natcasesort($array);
-
-        return $array;
     }
 
 

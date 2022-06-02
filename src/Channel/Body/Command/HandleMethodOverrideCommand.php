@@ -60,6 +60,7 @@ class HandleMethodOverrideCommand
 
             return ServerRawRequestDto::new(
                 $request->getRoute(),
+                $request->getOriginalRoute(),
                 $method_override,
                 $request->getServerType(),
                 $request->getQueryParams(),

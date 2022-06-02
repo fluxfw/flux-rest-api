@@ -37,9 +37,8 @@ class HandleDefaultRequestCommand
     {
         $this->body_service->handleDefaultResponse(
             $this->server_service->handleRequest(
-                $request = $this->body_service->getDefaultRequest(
-                    true
-                )
+                $request = $this->body_service->getDefaultRequest(),
+                true
             ),
             $request->getServerType()
         );

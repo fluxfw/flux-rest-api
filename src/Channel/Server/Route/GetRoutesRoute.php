@@ -3,8 +3,11 @@
 namespace FluxRestApi\Channel\Server\Route;
 
 use FluxRestApi\Adapter\Body\JsonBodyDto;
+use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
+use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
+use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
@@ -38,15 +41,25 @@ class GetRoutesRoute implements Route
     }
 
 
-    public function getDocuRequestBodyTypes() : ?array
+    public function getDocumentation() : ?RouteDocumentationDto
     {
-        return null;
-    }
-
-
-    public function getDocuRequestQueryParams() : ?array
-    {
-        return null;
+        return RouteDocumentationDto::new(
+            $this->getRoute(),
+            $this->getMethod(),
+            "Get routes",
+            null,
+            null,
+            null,
+            null,
+            [
+                RouteResponseDocumentationDto::new(
+                    LegacyDefaultBodyType::JSON(),
+                    null,
+                    RouteDocumentationDto::class . "[]",
+                    "Routes"
+                )
+            ]
+        );
     }
 
 
@@ -64,9 +77,38 @@ class GetRoutesRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
+        $original_route = "/" . trim(dirname($request->getOriginalRoute()), "/") . "/";
+
+        $route_documentations = array_map(fn(Route $route) : RouteDocumentationDto => ($route_documentation = $route->getDocumentation()) !== null
+            ? RouteDocumentationDto::new(
+                rtrim($original_route . ltrim($route_documentation->getRoute(), "/"), "/"),
+                $route_documentation->getMethod(),
+                $route_documentation->getTitle(),
+                $route_documentation->getDescription(),
+                $route_documentation->getRouteParams(),
+                $route_documentation->getQueryParams(),
+                $route_documentation->getContentTypes(),
+                $route_documentation->getResponses()
+            )
+            : RouteDocumentationDto::new(
+                rtrim($original_route . ltrim($route->getRoute(), "/"), "/"),
+                $route->getMethod(),
+                null,
+                "Documentation is missing"
+            ), ($this->get_routes)());
+
+        usort($route_documentations, function (RouteDocumentationDto $route_documentation1, RouteDocumentationDto $route_documentation2) : int {
+            $sort = strnatcasecmp($route_documentation1->getRoute(), $route_documentation2->getRoute());
+            if ($sort !== 0) {
+                return $sort;
+            }
+
+            return strnatcasecmp($route_documentation1->getMethod()->value, $route_documentation2->getMethod()->value);
+        });
+
         return ServerResponseDto::new(
             JsonBodyDto::new(
-                ($this->get_routes)()
+                $route_documentations
             )
         );
     }

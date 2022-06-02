@@ -20,6 +20,7 @@ class ServerRawRequestDto
      */
     private array $headers;
     private Method $method;
+    private string $original_route;
     private array $post;
     /**
      * @var string[]
@@ -36,6 +37,7 @@ class ServerRawRequestDto
      */
     private function __construct(
         /*public readonly*/ string $route,
+        /*public readonly*/ string $original_route,
         /*public readonly*/ Method $method,
         /*public readonly*/ ServerType $server_type,
         /*public readonly*/ array $query_params,
@@ -46,6 +48,7 @@ class ServerRawRequestDto
         /*public readonly*/ array $cookies
     ) {
         $this->route = $route;
+        $this->original_route = $original_route;
         $this->method = $method;
         $this->server_type = $server_type;
         $this->query_params = $query_params;
@@ -64,6 +67,7 @@ class ServerRawRequestDto
      */
     public static function new(
         string $route,
+        string $original_route,
         Method $method,
         ServerType $server_type,
         ?array $query_params = null,
@@ -78,6 +82,7 @@ class ServerRawRequestDto
 
         return new static(
             $route,
+            $original_route,
             $method,
             $server_type,
             $query_params ?? [],
@@ -135,6 +140,12 @@ class ServerRawRequestDto
     public function getMethod() : Method
     {
         return $this->method;
+    }
+
+
+    public function getOriginalRoute() : string
+    {
+        return $this->original_route;
     }
 
 

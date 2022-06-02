@@ -2,24 +2,15 @@
 
 namespace FluxRestApi\Adapter\Route;
 
-use FluxRestApi\Adapter\Body\Type\BodyType;
 use FluxRestApi\Adapter\Method\Method;
+use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 
 interface Route
 {
 
-    /**
-     * @return BodyType[]|null
-     */
-    public function getDocuRequestBodyTypes() : ?array;
-
-
-    /**
-     * @return string[]|null
-     */
-    public function getDocuRequestQueryParams() : ?array;
+    public function getDocumentation() : ?RouteDocumentationDto;
 
 
     public function getMethod() : Method;

@@ -29,12 +29,10 @@ class BodyService
     }
 
 
-    public function getDefaultRequest(?bool $rest_api_server = null) : ServerRawRequestDto
+    public function getDefaultRequest() : ServerRawRequestDto
     {
         return GetDefaultRequestCommand::new()
-            ->getDefaultRequest(
-                $rest_api_server
-            );
+            ->getDefaultRequest();
     }
 
 
