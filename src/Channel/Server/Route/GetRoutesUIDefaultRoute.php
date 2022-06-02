@@ -3,6 +3,7 @@
 namespace FluxRestApi\Channel\Server\Route;
 
 use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
+use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
@@ -10,6 +11,7 @@ use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
 class GetRoutesUIDefaultRoute implements Route
 {
@@ -42,7 +44,12 @@ class GetRoutesUIDefaultRoute implements Route
                     null,
                     null,
                     "Routes UI"
-
+                ),
+                RouteResponseDocumentationDto::new(
+                    null,
+                    LegacyDefaultStatus::_302(),
+                    null,
+                    "Redirect to routes UI"
                 )
             ]
         );
@@ -63,6 +70,16 @@ class GetRoutesUIDefaultRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
+        if (str_ends_with($request->getOriginalRoute(), "/")) {
+            return ServerResponseDto::new(
+                null,
+                LegacyDefaultStatus::_302(),
+                [
+                    LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->getOriginalRoute(), "/")
+                ]
+            );
+        }
+
         return ServerResponseDto::new(
             null,
             null,
