@@ -77,11 +77,16 @@ class GetRoutesRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        $original_route = "/" . trim(dirname($request->getOriginalRoute()), "/") . "/";
+        $original_route = trim(dirname($request->getOriginalRoute()), "/");
+        if (!empty($original_route)) {
+            $original_route = "/" . $original_route . "/";
+        } else {
+            $original_route = "/";
+        }
 
         $route_documentations = array_map(fn(Route $route) : RouteDocumentationDto => ($route_documentation = $route->getDocumentation()) !== null
             ? RouteDocumentationDto::new(
-                rtrim($original_route . ltrim($route_documentation->getRoute(), "/"), "/"),
+                $original_route . trim($route_documentation->getRoute(), "/"),
                 $route_documentation->getMethod(),
                 $route_documentation->getTitle(),
                 $route_documentation->getDescription(),
@@ -91,7 +96,7 @@ class GetRoutesRoute implements Route
                 $route_documentation->getResponses()
             )
             : RouteDocumentationDto::new(
-                rtrim($original_route . ltrim($route->getRoute(), "/"), "/"),
+                $original_route . trim($route->getRoute(), "/"),
                 $route->getMethod(),
                 null,
                 "Documentation is missing"
