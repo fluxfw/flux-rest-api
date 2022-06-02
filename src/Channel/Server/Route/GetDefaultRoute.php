@@ -32,7 +32,7 @@ class GetDefaultRoute implements Route
         return RouteDocumentationDto::new(
             $this->getRoute(),
             $this->getMethod(),
-            "Routes UI",
+            "Redirect to routes UI",
             null,
             null,
             null,
@@ -42,7 +42,7 @@ class GetDefaultRoute implements Route
                     null,
                     LegacyDefaultStatus::_302(),
                     null,
-                    "Redirect to routes UI"
+                    "Redirect to routes/ui"
                 )
             ]
         );
