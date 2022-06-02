@@ -55,12 +55,13 @@ class ServerService
     }
 
 
-    public function handleRequest(ServerRawRequestDto $request) : ServerRawResponseDto
+    public function handleRequest(ServerRawRequestDto $request, bool $routes_ui = false) : ServerRawResponseDto
     {
         return HandleRequestCommand::new(
             $this->body_service,
             $this->route_collector,
-            $this->authorization
+            $this->authorization,
+            $routes_ui
         )
             ->handleRequest(
                 $request

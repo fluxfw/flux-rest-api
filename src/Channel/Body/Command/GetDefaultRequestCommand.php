@@ -21,19 +21,16 @@ class GetDefaultRequestCommand
     }
 
 
-    public function getDefaultRequest(?bool $rest_api_server = null) : ServerRawRequestDto
+    public function getDefaultRequest() : ServerRawRequestDto
     {
         $query_params = $_GET;
 
-        if ($rest_api_server ?? false) {
-            $route = explode("&", $_SERVER["QUERY_STRING"])[0];
-            unset($query_params[$route]);
-        } else {
-            $route = explode("?", $_SERVER["REQUEST_URI"])[0];
-        }
+        $route = explode("&", $_SERVER["QUERY_STRING"])[0];
+        unset($query_params[$route]);
 
         return ServerRawRequestDto::new(
             $route,
+            explode("?", $_SERVER["REQUEST_URI"])[0],
             CustomMethod::factory(
                 $_SERVER["REQUEST_METHOD"]
             ),

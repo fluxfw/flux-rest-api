@@ -45,7 +45,7 @@ class ToRawBodyCommand
                 break;
 
             default:
-                throw new Exception("Body type " . $body->getType()->value . " is not supported");
+                throw new Exception("Content type " . $body->getType()->value . " is not supported");
         }
 
         return RawBodyDto::new(

@@ -33,12 +33,10 @@ class RestApi
     }
 
 
-    public function getDefaultRequest(?bool $rest_api_server = null) : ServerRawRequestDto
+    public function getDefaultRequest() : ServerRawRequestDto
     {
         return $this->getBodyService()
-            ->getDefaultRequest(
-                $rest_api_server
-            );
+            ->getDefaultRequest();
     }
 
 
@@ -74,14 +72,15 @@ class RestApi
     }
 
 
-    public function handleRequest(ServerRawRequestDto $request, RouteCollector $route_collector, ?Authorization $authorization = null) : ServerRawResponseDto
+    public function handleRequest(ServerRawRequestDto $request, RouteCollector $route_collector, ?Authorization $authorization = null, bool $routes_ui = false) : ServerRawResponseDto
     {
         return $this->getServerService(
             $route_collector,
             $authorization
         )
             ->handleRequest(
-                $request
+                $request,
+                $routes_ui
             );
     }
 

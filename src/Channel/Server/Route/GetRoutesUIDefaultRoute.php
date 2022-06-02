@@ -1,19 +1,17 @@
 <?php
 
-namespace FluxRestApi\Route\Example;
+namespace FluxRestApi\Channel\Server\Route;
 
-use FluxRestApi\Adapter\Body\JsonBodyDto;
 use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
-use FluxRestApi\Adapter\Route\Documentation\RouteParamDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 
-class ParamsExampleRoute implements Route
+class GetRoutesUIDefaultRoute implements Route
 {
 
     private function __construct()
@@ -33,34 +31,18 @@ class ParamsExampleRoute implements Route
         return RouteDocumentationDto::new(
             $this->getRoute(),
             $this->getMethod(),
-            "Params example",
+            "Routes UI",
             null,
-            [
-                RouteParamDocumentationDto::new(
-                    "param_1",
-                    "string",
-                    "Param 1"
-                ),
-                RouteParamDocumentationDto::new(
-                    "param_2",
-                    "string",
-                    "Param 2"
-                )
-            ],
-            [
-                RouteParamDocumentationDto::new(
-                    "*",
-                    "string",
-                    "Any params"
-                )
-            ],
+            null,
+            null,
             null,
             [
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
+                    LegacyDefaultBodyType::HTML(),
                     null,
-                    "object",
-                    "Params data"
+                    null,
+                    "Routes UI"
+
                 )
             ]
         );
@@ -75,19 +57,18 @@ class ParamsExampleRoute implements Route
 
     public function getRoute() : string
     {
-        return "/example/params/{param_1}/{param_2}";
+        return "/routes/ui";
     }
 
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
         return ServerResponseDto::new(
-            JsonBodyDto::new(
-                (object) [
-                    "params"       => $request->getParams(),
-                    "query_params" => $request->getQueryParams()
-                ]
-            )
+            null,
+            null,
+            null,
+            null,
+            __DIR__ . "/ui/index.html"
         );
     }
 }

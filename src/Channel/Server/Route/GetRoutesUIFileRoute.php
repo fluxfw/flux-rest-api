@@ -1,21 +1,19 @@
 <?php
 
-namespace FluxRestApi\Route\Example;
+namespace FluxRestApi\Channel\Server\Route;
 
-use FluxRestApi\Adapter\Body\JsonBodyDto;
-use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
+use FluxRestApi\Adapter\Body\Type\CustomBodyType;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
-use FluxRestApi\Adapter\Route\Documentation\RouteContentTypeDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
+use FluxRestApi\Adapter\Route\Documentation\RouteParamDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
-class PostExampleRoute implements Route
+class GetRoutesUIFileRoute implements Route
 {
 
     private function __construct()
@@ -35,29 +33,32 @@ class PostExampleRoute implements Route
         return RouteDocumentationDto::new(
             $this->getRoute(),
             $this->getMethod(),
-            "POST example",
-            null,
-            null,
+            "Routes UI",
             null,
             [
-                RouteContentTypeDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
-                    "*",
-                    "Some data"
+                RouteParamDocumentationDto::new(
+                    "path",
+                    "string",
+                    "File path"
                 )
             ],
+            null,
+            null,
             [
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
+                    CustomBodyType::factory(
+                        "*"
+                    ),
                     null,
-                    "object",
-                    "Post data"
+                    null,
+                    "Routes UI"
+
                 ),
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::TEXT(),
-                    LegacyDefaultStatus::_400(),
                     null,
-                    "No json body"
+                    LegacyDefaultStatus::_404(),
+                    null,
+                    "File not found"
                 )
             ]
         );
@@ -66,33 +67,35 @@ class PostExampleRoute implements Route
 
     public function getMethod() : Method
     {
-        return LegacyDefaultMethod::POST();
+        return LegacyDefaultMethod::GET();
     }
 
 
     public function getRoute() : string
     {
-        return "/example/post";
+        return "/routes/ui/{path.}";
     }
 
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        if (!($request->getParsedBody() instanceof JsonBodyDto)) {
+        $path = __DIR__ . "/ui/" . $request->getParam(
+                "path"
+            );
+
+        if (file_exists($path)) {
             return ServerResponseDto::new(
-                TextBodyDto::new(
-                    "No json body"
-                ),
-                LegacyDefaultStatus::_400()
+                null,
+                null,
+                null,
+                null,
+                $path
+            );
+        } else {
+            return ServerResponseDto::new(
+                null,
+                LegacyDefaultStatus::_404()
             );
         }
-
-        return ServerResponseDto::new(
-            JsonBodyDto::new(
-                (object) [
-                    "post_data" => $request->getParsedBody()->getData()
-                ]
-            )
-        );
     }
 }
