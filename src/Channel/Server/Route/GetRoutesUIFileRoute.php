@@ -33,7 +33,7 @@ class GetRoutesUIFileRoute implements Route
         return RouteDocumentationDto::new(
             $this->getRoute(),
             $this->getMethod(),
-            "Routes UI",
+            "Get routes UI file",
             null,
             [
                 RouteParamDocumentationDto::new(
@@ -51,14 +51,14 @@ class GetRoutesUIFileRoute implements Route
                     ),
                     null,
                     null,
-                    "Routes UI"
+                    "Routes UI file"
 
                 ),
                 RouteResponseDocumentationDto::new(
                     null,
                     LegacyDefaultStatus::_404(),
                     null,
-                    "File not found"
+                    "Routes UI file not found"
                 )
             ]
         );

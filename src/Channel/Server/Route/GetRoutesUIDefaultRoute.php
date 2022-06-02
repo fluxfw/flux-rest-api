@@ -49,7 +49,7 @@ class GetRoutesUIDefaultRoute implements Route
                     null,
                     LegacyDefaultStatus::_302(),
                     null,
-                    "Redirect to routes UI"
+                    "Redirect if has trailing / and remove it"
                 )
             ]
         );
