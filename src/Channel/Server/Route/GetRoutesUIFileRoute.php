@@ -11,6 +11,7 @@ use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
 class GetRoutesUIFileRoute implements Route
@@ -79,17 +80,17 @@ class GetRoutesUIFileRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        $path = __DIR__ . "/ui/" . $request->getParam(
+        $path = "/ui/" . $request->getParam(
                 "path"
             );
 
-        if (file_exists($path)) {
+        if (file_exists(__DIR__ . $path)) {
             return ServerResponseDto::new(
                 null,
                 null,
                 null,
                 null,
-                $path
+                $request->getServerType()->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
             );
         } else {
             return ServerResponseDto::new(

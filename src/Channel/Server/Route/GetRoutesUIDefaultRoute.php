@@ -11,6 +11,7 @@ use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 
 class GetRoutesUIDefaultRoute implements Route
@@ -80,12 +81,14 @@ class GetRoutesUIDefaultRoute implements Route
             );
         }
 
+        $path = "/ui/index.html";
+
         return ServerResponseDto::new(
             null,
             null,
             null,
             null,
-            __DIR__ . "/ui/index.html"
+            $request->getServerType()->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
         );
     }
 }
