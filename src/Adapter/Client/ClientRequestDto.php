@@ -9,21 +9,21 @@ use FluxRestApi\Adapter\Method\Method;
 class ClientRequestDto
 {
 
-    private ?string $body;
-    private bool $fail_on_status_400_or_higher;
-    private bool $follow_redirect;
+    public ?string $body;
+    public bool $fail_on_status_400_or_higher;
+    public bool $follow_redirect;
     /**
      * @var string[]
      */
-    private array $headers;
-    private Method $method;
+    public array $headers;
+    public Method $method;
     /**
      * @var string[]
      */
-    private array $query_params;
-    private bool $response;
-    private bool $trust_self_signed_certificate;
-    private string $url;
+    public array $query_params;
+    public bool $response;
+    public bool $trust_self_signed_certificate;
+    public string $url;
 
 
     /**
@@ -85,74 +85,14 @@ class ClientRequestDto
     }
 
 
-    public function getBody() : ?string
-    {
-        return $this->body;
-    }
-
-
     public function getHeader(HeaderKey $key) : ?string
     {
         return $this->headers[strtolower($key->value)] ?? null;
     }
 
 
-    /**
-     * @return string[]
-     */
-    public function getHeaders() : array
-    {
-        return $this->headers;
-    }
-
-
-    public function getMethod() : Method
-    {
-        return $this->method;
-    }
-
-
     public function getQueryParam(string $name) : ?string
     {
         return $this->query_params[$name] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getQueryParams() : array
-    {
-        return $this->query_params;
-    }
-
-
-    public function getUrl() : string
-    {
-        return $this->url;
-    }
-
-
-    public function isFailOnStatus400OrHigher() : bool
-    {
-        return $this->fail_on_status_400_or_higher;
-    }
-
-
-    public function isFollowRedirect() : bool
-    {
-        return $this->follow_redirect;
-    }
-
-
-    public function isResponse() : bool
-    {
-        return $this->response;
-    }
-
-
-    public function isTrustSelfSignedCertificate() : bool
-    {
-        return $this->trust_self_signed_certificate;
     }
 }

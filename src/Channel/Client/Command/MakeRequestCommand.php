@@ -26,42 +26,42 @@ class MakeRequestCommand
     {
         $curl = null;
         try {
-            $url = $request->getUrl();
+            $url = $request->url;
 
-            if (!empty($request->getQueryParams())) {
+            if (!empty($request->query_params)) {
                 $url .= (str_contains($url, "?") ? "&" : "?") . implode("&",
-                        array_map(fn(string $key, string $value) : string => rawurlencode($key) . "=" . rawurlencode($value), array_keys($request->getQueryParams()), $request->getQueryParams()));
+                        array_map(fn(string $key, string $value) : string => rawurlencode($key) . "=" . rawurlencode($value), array_keys($request->query_params), $request->query_params));
             }
 
             $curl = curl_init($url);
 
-            if ($request->isFailOnStatus400OrHigher()) {
+            if ($request->fail_on_status_400_or_higher) {
                 curl_setopt($curl, CURLOPT_FAILONERROR, true);
             }
 
-            if ($request->isFollowRedirect()) {
+            if ($request->follow_redirect) {
                 curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             }
 
-            if ($request->isTrustSelfSignedCertificate()) {
+            if ($request->trust_self_signed_certificate) {
                 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
                 curl_setopt($curl, CURLOPT_PROXY_SSL_VERIFYHOST, false);
             }
 
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getMethod()->value);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->method->value);
 
-            if ($request->getBody() !== null) {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getBody());
+            if ($request->body !== null) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $request->body);
             }
 
-            if (!empty($request->getHeaders())) {
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->getHeaders()), $request->getHeaders()));
+            if (!empty($request->headers)) {
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->headers), $request->headers));
             }
 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
             $headers = [];
-            if ($request->isResponse()) {
+            if ($request->response) {
                 curl_setopt($curl, CURLOPT_HEADERFUNCTION, function (/*CurlHandle*/ $curl, string $header) use (&$headers) : int {
                     $len = strlen($header);
 
@@ -82,7 +82,7 @@ class MakeRequestCommand
                 throw new Exception(curl_error($curl), $error_code);
             }
 
-            if ($request->isResponse()) {
+            if ($request->response) {
                 return ClientResponseDto::new(
                     CustomStatus::factory(
                         curl_getinfo($curl, CURLINFO_HTTP_CODE)

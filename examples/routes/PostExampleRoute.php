@@ -78,7 +78,7 @@ class PostExampleRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        if (!($request->getParsedBody() instanceof JsonBodyDto)) {
+        if (!($request->parsed_body instanceof JsonBodyDto)) {
             return ServerResponseDto::new(
                 TextBodyDto::new(
                     "No json body"
@@ -90,7 +90,7 @@ class PostExampleRoute implements Route
         return ServerResponseDto::new(
             JsonBodyDto::new(
                 (object) [
-                    "post_data" => $request->getParsedBody()->getData()
+                    "post_data" => $request->parsed_body->data
                 ]
             )
         );

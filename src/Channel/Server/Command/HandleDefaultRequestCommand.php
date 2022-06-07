@@ -40,7 +40,7 @@ class HandleDefaultRequestCommand
                 $request = $this->body_service->getDefaultRequest(),
                 true
             ),
-            $request->getServerType()
+            $request->server_type
         );
     }
 }

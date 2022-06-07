@@ -30,7 +30,7 @@ trait ParseHttpBasicAuthorization
             return $authorization;
         }
 
-        if ($authorization->getSchema()->value !== LegacyDefaultAuthorizationSchema::BASIC()->value) {
+        if ($authorization->schema->value !== LegacyDefaultAuthorizationSchema::BASIC()->value) {
             return ServerResponseDto::new(
                 TextBodyDto::new(
                     LegacyDefaultAuthorizationSchema::BASIC()->value . " authorization schema needed"
@@ -39,7 +39,7 @@ trait ParseHttpBasicAuthorization
             );
         }
 
-        $authorization = base64_decode($authorization->getParameters());
+        $authorization = base64_decode($authorization->parameters);
 
         if ($authorization === false) {
             return ServerResponseDto::new(

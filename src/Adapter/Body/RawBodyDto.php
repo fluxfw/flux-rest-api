@@ -5,8 +5,8 @@ namespace FluxRestApi\Adapter\Body;
 class RawBodyDto
 {
 
-    private string $body;
-    private string $type;
+    public string $body;
+    public string $type;
 
 
     private function __construct(
@@ -27,17 +27,5 @@ class RawBodyDto
             $type ?? "",
             $body ?? ""
         );
-    }
-
-
-    public function getBody() : string
-    {
-        return $this->body;
-    }
-
-
-    public function getType() : string
-    {
-        return $this->type;
     }
 }

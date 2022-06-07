@@ -7,8 +7,8 @@ use FluxRestApi\Adapter\Authorization\Schema\AuthorizationSchema;
 class HttpAuthorizationDto
 {
 
-    private string $parameters;
-    private AuthorizationSchema $schema;
+    public string $parameters;
+    public AuthorizationSchema $schema;
 
 
     private function __construct(
@@ -29,17 +29,5 @@ class HttpAuthorizationDto
             $schema,
             $parameters ?? ""
         );
-    }
-
-
-    public function getParameters() : string
-    {
-        return $this->parameters;
-    }
-
-
-    public function getSchema() : AuthorizationSchema
-    {
-        return $this->schema;
     }
 }

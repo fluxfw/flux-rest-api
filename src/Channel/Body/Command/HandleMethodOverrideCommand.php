@@ -42,15 +42,15 @@ class HandleMethodOverrideCommand
         }
 
         try {
-            if ($request->getServerType()->value !== LegacyDefaultServerType::NGINX()->value) {
-                throw new Exception("Method overriding not enabled/needed for server " . $request->getServerType()->value);
+            if ($request->server_type->value !== LegacyDefaultServerType::NGINX()->value) {
+                throw new Exception("Method overriding not enabled/needed for server " . $request->server_type->value);
             }
 
             $method_override = CustomMethod::factory(
                 $method_override
             );
 
-            if ($request->getMethod()->value !== LegacyDefaultMethod::POST()->value) {
+            if ($request->method->value !== LegacyDefaultMethod::POST()->value) {
                 throw new Exception("Method overriding only for " . LegacyDefaultMethod::POST()->value);
             }
 
@@ -59,16 +59,16 @@ class HandleMethodOverrideCommand
             }
 
             return ServerRawRequestDto::new(
-                $request->getRoute(),
-                $request->getOriginalRoute(),
+                $request->route,
+                $request->original_route,
                 $method_override,
-                $request->getServerType(),
-                $request->getQueryParams(),
-                $request->getBody(),
-                $request->getPost(),
-                $request->getFiles(),
-                array_filter($request->getHeaders(), fn(string $key) : bool => $key !== LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
-                $request->getCookies()
+                $request->server_type,
+                $request->query_params,
+                $request->body,
+                $request->post,
+                $request->files,
+                array_filter($request->headers, fn(string $key) : bool => $key !== LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
+                $request->cookies
             );
         } catch (Throwable $ex) {
             file_put_contents("php://stdout", $ex);

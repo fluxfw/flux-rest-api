@@ -29,15 +29,15 @@ class HandleDefaultResponseCommand
             throw new LogicException("Do not manually output headers or body in " . $filename . ":" . $line);
         }
 
-        http_response_code($response->getStatus()->value);
+        http_response_code($response->status->value);
 
-        $headers = $response->getHeaders();
+        $headers = $response->headers;
 
-        if ($response->getSendfile() !== null) {
+        if ($response->sendfile !== null) {
             if ($server_type->value === LegacyDefaultServerType::NGINX()->value) {
-                $headers[LegacyDefaultHeaderKey::X_ACCEL_REDIRECT()->value] = $response->getSendfile();
+                $headers[LegacyDefaultHeaderKey::X_ACCEL_REDIRECT()->value] = $response->sendfile;
             } else {
-                $headers[LegacyDefaultHeaderKey::X_SENDFILE()->value] = $response->getSendfile();
+                $headers[LegacyDefaultHeaderKey::X_SENDFILE()->value] = $response->sendfile;
             }
             $headers[LegacyDefaultHeaderKey::CONTENT_TYPE()->value] = "";
         }
@@ -46,30 +46,30 @@ class HandleDefaultResponseCommand
             header($key . ":" . $value);
         }
 
-        foreach ($response->getCookies() as $cookie) {
-            if ($cookie->getValue() !== null) {
+        foreach ($response->cookies as $cookie) {
+            if ($cookie->value !== null) {
                 setcookie(
-                    $cookie->getName(),
-                    $cookie->getValue(),
-                    $cookie->getExpiresIn() !== null ? (time() + $cookie->getExpiresIn()) : 0,
-                    $cookie->getPath(),
-                    $cookie->getDomain(),
-                    $cookie->isSecure(),
-                    $cookie->isHttpOnly()
+                    $cookie->name,
+                    $cookie->value,
+                    $cookie->expires_in !== null ? (time() + $cookie->expires_in) : 0,
+                    $cookie->path,
+                    $cookie->domain,
+                    $cookie->secure,
+                    $cookie->http_only
                 );
             } else {
                 setcookie(
-                    $cookie->getName(),
+                    $cookie->name,
                     "",
                     0,
-                    $cookie->getPath(),
-                    $cookie->getDomain()
+                    $cookie->path,
+                    $cookie->domain
                 );
             }
         }
 
-        if ($response->getBody() !== null) {
-            echo $response->getBody();
+        if ($response->body !== null) {
+            echo $response->body;
         }
     }
 }

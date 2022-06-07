@@ -28,25 +28,25 @@ class ParseBodyCommand
 
     public function parseBody(RawBodyDto $body, ?array $post = null, ?array $files = null) : ?BodyDto
     {
-        if (empty($body->getType())) {
+        if (empty($body->type)) {
             return null;
         }
 
         switch (true) {
-            case str_contains($body->getType(), LegacyDefaultBodyType::FORM_DATA()->value):
-            case str_contains($body->getType(), LegacyDefaultBodyType::FORM_DATA_2()->value):
+            case str_contains($body->type, LegacyDefaultBodyType::FORM_DATA()->value):
+            case str_contains($body->type, LegacyDefaultBodyType::FORM_DATA_2()->value):
                 return FormDataBodyDto::new(
                     $post,
                     $files
                 );
 
-            case str_contains($body->getType(), LegacyDefaultBodyType::HTML()->value):
+            case str_contains($body->type, LegacyDefaultBodyType::HTML()->value):
                 return HtmlBodyDto::new(
-                    $body->getBody()
+                    $body->body
                 );
 
-            case str_contains($body->getType(), LegacyDefaultBodyType::JSON()->value):
-                $data = json_decode($body->getBody());
+            case str_contains($body->type, LegacyDefaultBodyType::JSON()->value):
+                $data = json_decode($body->body);
 
                 $error_code = json_last_error();
                 if ($error_code !== JSON_ERROR_NONE) {
@@ -57,9 +57,9 @@ class ParseBodyCommand
                     $data
                 );
 
-            case str_contains($body->getType(), LegacyDefaultBodyType::TEXT()->value):
+            case str_contains($body->type, LegacyDefaultBodyType::TEXT()->value):
                 return TextBodyDto::new(
-                    $body->getBody()
+                    $body->body
                 );
 
             default:

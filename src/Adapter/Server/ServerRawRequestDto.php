@@ -9,25 +9,25 @@ use FluxRestApi\Adapter\ServerType\ServerType;
 class ServerRawRequestDto
 {
 
-    private ?string $body;
+    public ?string $body;
     /**
      * @var string[]
      */
-    private array $cookies;
-    private array $files;
+    public array $cookies;
+    public array $files;
     /**
      * @var string[]
      */
-    private array $headers;
-    private Method $method;
-    private string $original_route;
-    private array $post;
+    public array $headers;
+    public Method $method;
+    public string $original_route;
+    public array $post;
     /**
      * @var string[]
      */
-    private array $query_params;
-    private string $route;
-    private ServerType $server_type;
+    public array $query_params;
+    public string $route;
+    public ServerType $server_type;
 
 
     /**
@@ -95,30 +95,9 @@ class ServerRawRequestDto
     }
 
 
-    public function getBody() : ?string
-    {
-        return $this->body;
-    }
-
-
     public function getCookie(string $name) : ?string
     {
         return $this->cookies[$name] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getCookies() : array
-    {
-        return $this->cookies;
-    }
-
-
-    public function getFiles() : array
-    {
-        return $this->files;
     }
 
 
@@ -128,56 +107,8 @@ class ServerRawRequestDto
     }
 
 
-    /**
-     * @return string[]
-     */
-    public function getHeaders() : array
-    {
-        return $this->headers;
-    }
-
-
-    public function getMethod() : Method
-    {
-        return $this->method;
-    }
-
-
-    public function getOriginalRoute() : string
-    {
-        return $this->original_route;
-    }
-
-
-    public function getPost() : array
-    {
-        return $this->post;
-    }
-
-
     public function getQueryParam(string $name) : ?string
     {
         return $this->query_params[$name] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getQueryParams() : array
-    {
-        return $this->query_params;
-    }
-
-
-    public function getRoute() : string
-    {
-        return $this->route;
-    }
-
-
-    public function getServerType() : ServerType
-    {
-        return $this->server_type;
     }
 }

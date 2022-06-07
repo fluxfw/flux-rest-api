@@ -5,8 +5,8 @@ namespace FluxRestApi\Adapter\Authorization\ParseHttpBasic;
 class HttpBasicAuthorizationDto
 {
 
-    private string $password;
-    private string $user;
+    public string $password;
+    public string $user;
 
 
     private function __construct(
@@ -27,17 +27,5 @@ class HttpBasicAuthorizationDto
             $user,
             $password
         );
-    }
-
-
-    public function getPassword() : string
-    {
-        return $this->password;
-    }
-
-
-    public function getUser() : string
-    {
-        return $this->user;
     }
 }

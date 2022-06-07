@@ -71,12 +71,12 @@ class GetRoutesUIDefaultRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        if (str_ends_with($request->getOriginalRoute(), "/")) {
+        if (str_ends_with($request->original_route, "/")) {
             return ServerResponseDto::new(
                 null,
                 LegacyDefaultStatus::_302(),
                 [
-                    LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->getOriginalRoute(), "/")
+                    LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->original_route, "/")
                 ]
             );
         }
@@ -88,7 +88,7 @@ class GetRoutesUIDefaultRoute implements Route
             null,
             null,
             null,
-            $request->getServerType()->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
+            $request->server_type->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
         );
     }
 }

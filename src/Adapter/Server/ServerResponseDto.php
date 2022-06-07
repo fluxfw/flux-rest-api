@@ -11,18 +11,18 @@ use FluxRestApi\Adapter\Status\Status;
 class ServerResponseDto
 {
 
-    private ?BodyDto $body;
+    public ?BodyDto $body;
     /**
      * @var CookieDto[]
      */
-    private array $cookies;
+    public array $cookies;
     /**
      * @var string[]
      */
-    private array $headers;
-    private ?string $raw_body;
-    private ?string $sendfile;
-    private Status $status;
+    public array $headers;
+    public ?string $raw_body;
+    public ?string $sendfile;
+    public Status $status;
 
 
     /**
@@ -72,56 +72,14 @@ class ServerResponseDto
     }
 
 
-    public function getBody() : ?BodyDto
-    {
-        return $this->body;
-    }
-
-
     public function getCookie(string $name) : ?CookieDto
     {
         return $this->cookies[$name] ?? null;
     }
 
 
-    /**
-     * @return CookieDto[]
-     */
-    public function getCookies() : array
-    {
-        return $this->cookies;
-    }
-
-
     public function getHeader(HeaderKey $key) : ?string
     {
         return $this->headers[strtolower($key->value)] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getHeaders() : array
-    {
-        return $this->headers;
-    }
-
-
-    public function getRawBody() : ?string
-    {
-        return $this->raw_body;
-    }
-
-
-    public function getSendfile() : ?string
-    {
-        return $this->sendfile;
-    }
-
-
-    public function getStatus() : Status
-    {
-        return $this->status;
     }
 }

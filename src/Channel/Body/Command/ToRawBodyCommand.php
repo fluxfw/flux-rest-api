@@ -28,11 +28,11 @@ class ToRawBodyCommand
     {
         switch (true) {
             case $body instanceof HtmlBodyDto:
-                $raw_body = $body->getHtml();
+                $raw_body = $body->html;
                 break;
 
             case $body instanceof JsonBodyDto:
-                $raw_body = json_encode($body->getData(), JSON_UNESCAPED_SLASHES);
+                $raw_body = json_encode($body->data, JSON_UNESCAPED_SLASHES);
 
                 $error_code = json_last_error();
                 if ($error_code !== JSON_ERROR_NONE) {
@@ -41,7 +41,7 @@ class ToRawBodyCommand
                 break;
 
             case $body instanceof TextBodyDto:
-                $raw_body = $body->getText();
+                $raw_body = $body->text;
                 break;
 
             default:

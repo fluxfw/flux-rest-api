@@ -4,31 +4,30 @@ namespace FluxRestApi\Adapter\Route\Documentation;
 
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
-use JsonSerializable;
 
-class RouteDocumentationDto implements JsonSerializable
+class RouteDocumentationDto
 {
 
     /**
      * @var RouteContentTypeDocumentationDto[]
      */
-    private array $content_types;
-    private string $description;
-    private Method $method;
+    public array $content_types;
+    public string $description;
+    public Method $method;
     /**
      * @var RouteParamDocumentationDto[]
      */
-    private array $query_params;
+    public array $query_params;
     /**
      * @var RouteResponseDocumentationDto[]
      */
-    private array $responses;
-    private string $route;
+    public array $responses;
+    public string $route;
     /**
      * @var RouteParamDocumentationDto[]
      */
-    private array $route_params;
-    private string $title;
+    public array $route_params;
+    public string $title;
 
 
     /**
@@ -85,80 +84,5 @@ class RouteDocumentationDto implements JsonSerializable
             $content_types ?? [],
             $responses ?? []
         );
-    }
-
-
-    /**
-     * @return RouteContentTypeDocumentationDto[]
-     */
-    public function getContentTypes() : array
-    {
-        return $this->content_types;
-    }
-
-
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
-
-
-    public function getMethod() : Method
-    {
-        return $this->method;
-    }
-
-
-    /**
-     * @return RouteParamDocumentationDto[]
-     */
-    public function getQueryParams() : array
-    {
-        return $this->query_params;
-    }
-
-
-    /**
-     * @return RouteResponseDocumentationDto[]
-     */
-    public function getResponses() : array
-    {
-        return $this->responses;
-    }
-
-
-    public function getRoute() : string
-    {
-        return $this->route;
-    }
-
-
-    /**
-     * @return RouteParamDocumentationDto[]
-     */
-    public function getRouteParams() : array
-    {
-        return $this->route_params;
-    }
-
-
-    public function getTitle() : string
-    {
-        return $this->title;
-    }
-
-
-    public function jsonSerialize() : object
-    {
-        return (object) [
-            "content_types" => $this->content_types,
-            "description"   => $this->description,
-            "method"        => $this->method,
-            "query_params"  => $this->query_params,
-            "responses"     => $this->responses,
-            "route"         => $this->route,
-            "route_params"  => $this->route_params,
-            "title"         => $this->title
-        ];
     }
 }

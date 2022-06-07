@@ -9,12 +9,12 @@ use FluxRestApi\Adapter\Status\Status;
 class ClientResponseDto
 {
 
-    private ?string $body;
+    public ?string $body;
     /**
      * @var string[]
      */
-    private array $headers;
-    private Status $status;
+    public array $headers;
+    public Status $status;
 
 
     /**
@@ -50,29 +50,8 @@ class ClientResponseDto
     }
 
 
-    public function getBody() : ?string
-    {
-        return $this->body;
-    }
-
-
     public function getHeader(HeaderKey $key) : ?string
     {
         return $this->headers[strtolower($key->value)] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getHeaders() : array
-    {
-        return $this->headers;
-    }
-
-
-    public function getStatus() : Status
-    {
-        return $this->status;
     }
 }

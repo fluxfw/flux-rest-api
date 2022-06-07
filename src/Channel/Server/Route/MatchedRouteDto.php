@@ -10,8 +10,8 @@ class MatchedRouteDto
     /**
      * @var string[]
      */
-    private array $params;
-    private Route $route;
+    public array $params;
+    public Route $route;
 
 
     /**
@@ -38,20 +38,5 @@ class MatchedRouteDto
             $route,
             $params ?? []
         );
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getParams() : array
-    {
-        return $this->params;
-    }
-
-
-    public function getRoute() : Route
-    {
-        return $this->route;
     }
 }
