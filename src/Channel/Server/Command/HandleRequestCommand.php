@@ -150,12 +150,14 @@ class HandleRequestCommand
 
     /**
      * @param Route[] $routes
+     *
+     * @return MatchedRouteDto|ServerResponseDto
      */
     private function getMatchedRoute(ServerRawRequestDto $request, array $routes)/* : MatchedRouteDto|ServerResponseDto*/
     {
         try {
-            if (($request->getRoute()[0] ?? null) !== "/") {
-                throw new LogicException("Invalid route format " . $request->getRoute());
+            if (($request->route[0] ?? null) !== "/") {
+                throw new LogicException("Invalid route format " . $request->route);
             }
 
             $routes = array_filter(array_map(fn(Route $route) : ?MatchedRouteDto => $this->matchRoute(
@@ -173,7 +175,7 @@ class HandleRequestCommand
             }
 
             $routes = array_filter($routes,
-                fn(MatchedRouteDto $route) : bool => $route->getRoute()->getMethod()->value === $request->getMethod()->value);
+                fn(MatchedRouteDto $route) : bool => $route->route->getMethod()->value === $request->method->value);
 
             if (empty($routes)) {
                 return ServerResponseDto::new(
@@ -185,7 +187,7 @@ class HandleRequestCommand
             }
 
             if (count($routes) > 1) {
-                throw new LogicException("Multiple routes found for route " . $request->getRoute() . " and method " . $request->getMethod()->value);
+                throw new LogicException("Multiple routes found for route " . $request->route . " and method " . $request->method->value);
             }
 
             return current($routes);
@@ -218,24 +220,24 @@ class HandleRequestCommand
     {
         try {
             $request = ServerRequestDto::new(
-                $request->getRoute(),
-                $request->getOriginalRoute(),
-                $request->getMethod(),
-                $request->getServerType(),
-                $request->getQueryParams(),
-                $request->getBody(),
-                $request->getHeaders(),
-                $request->getCookies(),
-                $route->getParams(),
+                $request->route,
+                $request->original_route,
+                $request->method,
+                $request->server_type,
+                $request->query_params,
+                $request->body,
+                $request->headers,
+                $request->cookies,
+                $route->params,
                 $this->body_service->parseBody(
                     RawBodyDto::new(
                         $request->getHeader(
                             LegacyDefaultHeaderKey::CONTENT_TYPE()
                         ),
-                        $request->getBody()
+                        $request->body
                     ),
-                    $request->getPost(),
-                    $request->getFiles()
+                    $request->post,
+                    $request->files
                 )
             );
         } catch (Throwable $ex) {
@@ -249,7 +251,7 @@ class HandleRequestCommand
             );
         }
 
-        return $route->getRoute()->handle(
+        return $route->route->handle(
                 $request
             ) ?? ServerResponseDto::new();
     }
@@ -270,7 +272,7 @@ class HandleRequestCommand
             }, preg_quote($this->normalizeRoute(
                 $route->getRoute()
             ), "/")) . "$/", $this->normalizeRoute(
-            $request->getRoute()
+            $request->route
         ), $param_values);
 
         if (empty($param_values) || count($param_values) < 1) {
@@ -306,36 +308,36 @@ class HandleRequestCommand
 
     private function toRawResponse(ServerResponseDto $response) : ServerRawResponseDto
     {
-        if ($response->getSendfile() !== null && ($response->getBody() !== null || $response->getRawBody() !== null)) {
+        if ($response->sendfile !== null && ($response->body !== null || $response->raw_body !== null)) {
             throw new LogicException("Can't set both body and sendfile");
         }
 
-        if ($response->getBody() === null) {
+        if ($response->body === null) {
             return ServerRawResponseDto::new(
-                $response->getRawBody(),
-                $response->getStatus(),
-                $response->getHeaders(),
-                $response->getCookies(),
-                $response->getSendfile()
+                $response->raw_body,
+                $response->status,
+                $response->headers,
+                $response->cookies,
+                $response->sendfile
             );
         }
 
-        if ($response->getRawBody() !== null) {
+        if ($response->raw_body !== null) {
             throw new LogicException("Can't set both body and raw body");
         }
 
         $raw_body = $this->body_service->toRawBody(
-            $response->getBody()
+            $response->body
         );
 
         return ServerRawResponseDto::new(
-            $raw_body->getBody(),
-            $response->getStatus(),
-            $response->getHeaders() + [
-                LegacyDefaultHeaderKey::CONTENT_TYPE()->value => $raw_body->getType()
+            $raw_body->body,
+            $response->status,
+            $response->headers + [
+                LegacyDefaultHeaderKey::CONTENT_TYPE()->value => $raw_body->type
             ],
-            $response->getCookies(),
-            $response->getSendfile()
+            $response->cookies,
+            $response->sendfile
         );
     }
 }

@@ -2,14 +2,12 @@
 
 namespace FluxRestApi\Adapter\Route\Documentation;
 
-use JsonSerializable;
-
-class RouteParamDocumentationDto implements JsonSerializable
+class RouteParamDocumentationDto
 {
 
-    private string $description;
-    private string $name;
-    private string $type;
+    public string $description;
+    public string $name;
+    public string $type;
 
 
     private function __construct(
@@ -34,33 +32,5 @@ class RouteParamDocumentationDto implements JsonSerializable
             $type ?? "",
             $description ?? ""
         );
-    }
-
-
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
-
-
-    public function getName() : string
-    {
-        return $this->name;
-    }
-
-
-    public function getType() : string
-    {
-        return $this->type;
-    }
-
-
-    public function jsonSerialize() : object
-    {
-        return (object) [
-            "description" => $this->description,
-            "name"        => $this->name,
-            "type"        => $this->type
-        ];
     }
 }

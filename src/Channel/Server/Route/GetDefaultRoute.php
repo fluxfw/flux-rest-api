@@ -67,7 +67,7 @@ class GetDefaultRoute implements Route
             null,
             LegacyDefaultStatus::_302(),
             [
-                LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->getOriginalRoute(), "/") . "/routes/ui"
+                LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->original_route, "/") . "/routes/ui"
             ]
         );
     }

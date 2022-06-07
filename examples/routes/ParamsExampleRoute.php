@@ -84,8 +84,8 @@ class ParamsExampleRoute implements Route
         return ServerResponseDto::new(
             JsonBodyDto::new(
                 (object) [
-                    "params"       => $request->getParams(),
-                    "query_params" => $request->getQueryParams()
+                    "params"       => $request->params,
+                    "query_params" => $request->query_params
                 ]
             )
         );

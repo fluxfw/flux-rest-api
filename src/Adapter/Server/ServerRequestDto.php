@@ -13,25 +13,25 @@ class ServerRequestDto
     /**
      * @var string[]
      */
-    private array $cookies;
+    public array $cookies;
     /**
      * @var string[]
      */
-    private array $headers;
-    private Method $method;
-    private string $original_route;
+    public array $headers;
+    public Method $method;
+    public string $original_route;
     /**
      * @var string[]
      */
-    private array $params;
-    private ?BodyDto $parsed_body;
+    public array $params;
+    public ?BodyDto $parsed_body;
     /**
      * @var string[]
      */
-    private array $query_params;
-    private ?string $raw_body;
-    private string $route;
-    private ServerType $server_type;
+    public array $query_params;
+    public ?string $raw_body;
+    public string $route;
+    public ServerType $server_type;
 
 
     /**
@@ -107,39 +107,9 @@ class ServerRequestDto
     }
 
 
-    /**
-     * @return string[]
-     */
-    public function getCookies() : array
-    {
-        return $this->cookies;
-    }
-
-
     public function getHeader(HeaderKey $key) : ?string
     {
         return $this->headers[strtolower($key->value)] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getHeaders() : array
-    {
-        return $this->headers;
-    }
-
-
-    public function getMethod() : Method
-    {
-        return $this->method;
-    }
-
-
-    public function getOriginalRoute() : string
-    {
-        return $this->original_route;
     }
 
 
@@ -149,50 +119,8 @@ class ServerRequestDto
     }
 
 
-    /**
-     * @return string[]
-     */
-    public function getParams() : array
-    {
-        return $this->params;
-    }
-
-
-    public function getParsedBody() : ?BodyDto
-    {
-        return $this->parsed_body;
-    }
-
-
     public function getQueryParam(string $name) : ?string
     {
         return $this->query_params[$name] ?? null;
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getQueryParams() : array
-    {
-        return $this->query_params;
-    }
-
-
-    public function getRawBody() : ?string
-    {
-        return $this->raw_body;
-    }
-
-
-    public function getRoute() : string
-    {
-        return $this->route;
-    }
-
-
-    public function getServerType() : ServerType
-    {
-        return $this->server_type;
     }
 }

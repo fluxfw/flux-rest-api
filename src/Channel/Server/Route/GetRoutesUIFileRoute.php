@@ -90,7 +90,7 @@ class GetRoutesUIFileRoute implements Route
                 null,
                 null,
                 null,
-                $request->getServerType()->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
+                $request->server_type->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
             );
         } else {
             return ServerResponseDto::new(

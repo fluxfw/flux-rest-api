@@ -3,14 +3,13 @@
 namespace FluxRestApi\Adapter\Route\Documentation;
 
 use FluxRestApi\Adapter\Body\Type\BodyType;
-use JsonSerializable;
 
-class RouteContentTypeDocumentationDto implements JsonSerializable
+class RouteContentTypeDocumentationDto
 {
 
-    private ?BodyType $content_type;
-    private string $description;
-    private string $type;
+    public ?BodyType $content_type;
+    public string $description;
+    public string $type;
 
 
     private function __construct(
@@ -35,33 +34,5 @@ class RouteContentTypeDocumentationDto implements JsonSerializable
             $type ?? "",
             $description ?? ""
         );
-    }
-
-
-    public function getContentType() : ?BodyType
-    {
-        return $this->content_type;
-    }
-
-
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
-
-
-    public function getType() : string
-    {
-        return $this->type;
-    }
-
-
-    public function jsonSerialize() : object
-    {
-        return (object) [
-            "content_type" => $this->content_type,
-            "description"  => $this->description,
-            "type"         => $this->type
-        ];
     }
 }

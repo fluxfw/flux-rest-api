@@ -78,7 +78,7 @@ class GetRoutesRoute implements Route
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
         $getRoute = function (string $route) use ($request) : string {
-            $original_route = trim(dirname($request->getOriginalRoute()), "/");
+            $original_route = trim(dirname($request->original_route), "/");
             if (!empty($original_route)) {
                 $original_route = "/" . $original_route . "/";
             } else {
@@ -95,14 +95,14 @@ class GetRoutesRoute implements Route
 
         $route_documentations = array_map(fn(Route $route) : RouteDocumentationDto => ($route_documentation = $route->getDocumentation()) !== null
             ? RouteDocumentationDto::new(
-                $getRoute($route_documentation->getRoute()),
-                $route_documentation->getMethod(),
-                $route_documentation->getTitle(),
-                $route_documentation->getDescription(),
-                $route_documentation->getRouteParams(),
-                $route_documentation->getQueryParams(),
-                $route_documentation->getContentTypes(),
-                $route_documentation->getResponses()
+                $getRoute($route_documentation->route),
+                $route_documentation->method,
+                $route_documentation->title,
+                $route_documentation->description,
+                $route_documentation->route_params,
+                $route_documentation->query_params,
+                $route_documentation->content_types,
+                $route_documentation->responses
             )
             : RouteDocumentationDto::new(
                 $getRoute($route->getRoute()),
@@ -112,12 +112,12 @@ class GetRoutesRoute implements Route
             ), ($this->get_routes)());
 
         usort($route_documentations, function (RouteDocumentationDto $route_documentation1, RouteDocumentationDto $route_documentation2) : int {
-            $sort = strnatcasecmp($route_documentation1->getRoute(), $route_documentation2->getRoute());
+            $sort = strnatcasecmp($route_documentation1->route, $route_documentation2->route);
             if ($sort !== 0) {
                 return $sort;
             }
 
-            return strnatcasecmp($route_documentation1->getMethod()->value, $route_documentation2->getMethod()->value);
+            return strnatcasecmp($route_documentation1->method->value, $route_documentation2->method->value);
         });
 
         return ServerResponseDto::new(

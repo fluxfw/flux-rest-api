@@ -28,9 +28,9 @@ trait ParseHttpAuthorization
                 ),
                 LegacyDefaultStatus::_401(),
                 [
-                    LegacyDefaultHeaderKey::WWW_AUTHENTICATE()->value => $www_authenticate_header->getSchema()->value . (!empty($www_authenticate_header->getParameters())
+                    LegacyDefaultHeaderKey::WWW_AUTHENTICATE()->value => $www_authenticate_header->schema->value . (!empty($www_authenticate_header->parameters)
                             ? ParseHttpAuthorization_::SPLIT_SCHEMA_PARAMETERS
-                            . $www_authenticate_header->getParameters() : "")
+                            . $www_authenticate_header->parameters : "")
                 ]
             );
         }

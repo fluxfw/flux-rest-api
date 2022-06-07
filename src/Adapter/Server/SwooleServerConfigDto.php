@@ -5,11 +5,11 @@ namespace FluxRestApi\Adapter\Server;
 class SwooleServerConfigDto
 {
 
-    private ?string $https_cert;
-    private ?string $https_key;
-    private string $listen;
-    private ?int $max_upload_size;
-    private int $port;
+    public ?string $https_cert;
+    public ?string $https_key;
+    public string $listen;
+    public ?int $max_upload_size;
+    public int $port;
 
 
     private function __construct(
@@ -42,35 +42,5 @@ class SwooleServerConfigDto
             $port ?? 9501,
             $max_upload_size
         );
-    }
-
-
-    public function getHttpsCert() : ?string
-    {
-        return $this->https_cert;
-    }
-
-
-    public function getHttpsKey() : ?string
-    {
-        return $this->https_key;
-    }
-
-
-    public function getListen() : string
-    {
-        return $this->listen;
-    }
-
-
-    public function getMaxUploadSize() : ?int
-    {
-        return $this->max_upload_size;
-    }
-
-
-    public function getPort() : int
-    {
-        return $this->port;
     }
 }

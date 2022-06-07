@@ -5,15 +5,14 @@ namespace FluxRestApi\Adapter\Route\Documentation;
 use FluxRestApi\Adapter\Body\Type\BodyType;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 use FluxRestApi\Adapter\Status\Status;
-use JsonSerializable;
 
-class RouteResponseDocumentationDto implements JsonSerializable
+class RouteResponseDocumentationDto
 {
 
-    private ?BodyType $content_type;
-    private string $description;
-    private Status $status;
-    private string $type;
+    public ?BodyType $content_type;
+    public string $description;
+    public Status $status;
+    public string $type;
 
 
     private function __construct(
@@ -42,40 +41,5 @@ class RouteResponseDocumentationDto implements JsonSerializable
             $type ?? "",
             $description ?? ""
         );
-    }
-
-
-    public function getContentType() : ?BodyType
-    {
-        return $this->content_type;
-    }
-
-
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
-
-
-    public function getStatus() : Status
-    {
-        return $this->status;
-    }
-
-
-    public function getType() : string
-    {
-        return $this->type;
-    }
-
-
-    public function jsonSerialize() : object
-    {
-        return (object) [
-            "content_type" => $this->content_type,
-            "description"  => $this->description,
-            "status"       => $this->status,
-            "type"         => $this->type
-        ];
     }
 }
