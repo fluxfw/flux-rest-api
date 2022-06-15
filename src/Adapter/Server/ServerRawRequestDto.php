@@ -76,8 +76,7 @@ class ServerRawRequestDto
         ?array $files = null,
         ?array $headers = null,
         ?array $cookies = null
-    ) : /*static*/ self
-    {
+    ) : static {
         $headers ??= [];
 
         return new static(

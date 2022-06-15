@@ -24,8 +24,7 @@ class HandleDefaultRequestCommand
     public static function new(
         ServerService $server_service,
         BodyService $body_service
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $server_service,
             $body_service

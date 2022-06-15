@@ -67,8 +67,7 @@ class ClientRequestDto
         ?bool $fail_on_status_400_or_higher = null,
         ?bool $follow_redirect = null,
         ?bool $trust_self_signed_certificate = null
-    ) : /*static*/ self
-    {
+    ) : static {
         $headers ??= [];
 
         return new static(

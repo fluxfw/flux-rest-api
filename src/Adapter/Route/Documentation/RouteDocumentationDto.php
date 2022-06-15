@@ -72,8 +72,7 @@ class RouteDocumentationDto
         ?array $query_params = null,
         ?array $content_types = null,
         ?array $responses = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $route,
             $method ?? LegacyDefaultMethod::GET(),

@@ -57,8 +57,7 @@ class ServerResponseDto
         ?array $cookies = null,
         ?string $sendfile = null,
         ?string $raw_body = null
-    ) : /*static*/ self
-    {
+    ) : static {
         $headers ??= [];
 
         return new static(

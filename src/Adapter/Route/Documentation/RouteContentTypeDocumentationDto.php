@@ -27,8 +27,7 @@ class RouteContentTypeDocumentationDto
         ?BodyType $content_type = null,
         ?string $type = null,
         ?string $description = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $content_type,
             $type ?? "",

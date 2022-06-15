@@ -38,8 +38,7 @@ class ClientResponseDto
         ?Status $status = null,
         ?array $headers = null,
         ?string $body = null
-    ) : /*static*/ self
-    {
+    ) : static {
         $headers ??= [];
 
         return new static(

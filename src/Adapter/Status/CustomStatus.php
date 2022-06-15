@@ -34,8 +34,7 @@ class CustomStatus implements Status, JsonSerializable
 
     private static function new(
         int $value
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $value
         );

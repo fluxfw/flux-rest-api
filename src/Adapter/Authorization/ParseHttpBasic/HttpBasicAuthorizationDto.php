@@ -21,8 +21,7 @@ class HttpBasicAuthorizationDto
     public static function new(
         string $user,
         string $password
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $user,
             $password

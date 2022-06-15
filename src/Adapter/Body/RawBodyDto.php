@@ -21,8 +21,7 @@ class RawBodyDto
     public static function new(
         ?string $type = null,
         ?string $body = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $type ?? "",
             $body ?? ""

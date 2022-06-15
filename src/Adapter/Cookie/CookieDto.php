@@ -52,8 +52,7 @@ class CookieDto
         ?bool $http_only = null,
         ?CookieSameSite $same_site = null,
         ?CookiePriority $priority = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $name,
             $value,

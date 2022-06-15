@@ -24,8 +24,7 @@ class FormDataBodyDto implements BodyDto
     public static function new(
         ?array $data = null,
         ?array $files = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $data ?? [],
             $files ?? []

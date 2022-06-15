@@ -23,8 +23,7 @@ class HttpAuthorizationDto
     public static function new(
         AuthorizationSchema $schema,
         ?string $parameters = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $schema,
             $parameters ?? ""
