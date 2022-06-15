@@ -33,8 +33,7 @@ class GetRoutesRoute implements Route
 
     public static function new(
         callable $get_routes
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $get_routes
         );

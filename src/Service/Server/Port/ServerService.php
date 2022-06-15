@@ -35,8 +35,7 @@ class ServerService
         BodyService $body_service,
         RouteCollector $route_collector,
         ?Authorization $authorization = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $body_service,
             $route_collector,

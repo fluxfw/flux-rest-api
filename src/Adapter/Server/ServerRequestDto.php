@@ -82,8 +82,7 @@ class ServerRequestDto
         ?array $cookies = null,
         ?array $params = null,
         ?BodyDto $parsed_body = null
-    ) : /*static*/ self
-    {
+    ) : static {
         $headers ??= [];
 
         return new static(

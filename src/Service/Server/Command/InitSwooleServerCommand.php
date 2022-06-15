@@ -31,8 +31,7 @@ class InitSwooleServerCommand
     public static function new(
         ServerService $server_service,
         ?SwooleServerConfigDto $swoole_server_config = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $server_service,
             $swoole_server_config ?? SwooleServerConfigDto::new()

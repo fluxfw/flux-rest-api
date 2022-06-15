@@ -32,8 +32,7 @@ class MatchedRouteDto
     public static function new(
         Route $route,
         ?array $params
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $route,
             $params ?? []

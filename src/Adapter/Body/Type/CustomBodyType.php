@@ -34,8 +34,7 @@ class CustomBodyType implements BodyType, JsonSerializable
 
     private static function new(
         string $value
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $value
         );

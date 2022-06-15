@@ -20,8 +20,7 @@ class HtmlBodyDto implements BodyDto
 
     public static function new(
         ?string $html = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $html ?? ""
         );

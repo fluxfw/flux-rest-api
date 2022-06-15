@@ -25,8 +25,7 @@ class RouteParamDocumentationDto
         string $name,
         ?string $type = null,
         ?string $description = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $name,
             $type ?? "",

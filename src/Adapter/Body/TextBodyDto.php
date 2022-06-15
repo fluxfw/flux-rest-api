@@ -20,8 +20,7 @@ class TextBodyDto implements BodyDto
 
     public static function new(
         ?string $text = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $text ?? null
         );

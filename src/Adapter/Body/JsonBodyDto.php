@@ -23,8 +23,7 @@ class JsonBodyDto implements BodyDto
 
     public static function new(
         /*mixed*/ $data
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $data
         );

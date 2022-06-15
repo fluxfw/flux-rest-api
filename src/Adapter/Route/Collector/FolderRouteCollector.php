@@ -29,8 +29,7 @@ class FolderRouteCollector implements RouteCollector
     public static function new(
         string $folder,
         ?array $arguments = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $folder,
             $arguments ?? []

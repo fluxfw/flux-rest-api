@@ -63,8 +63,7 @@ class HandleRequestCommand
         RouteCollector $route_collector,
         ?Authorization $authorization = null,
         bool $routes_ui = false
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $body_service,
             /*CombinedRouteCollector::new(

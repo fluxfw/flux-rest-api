@@ -29,8 +29,7 @@ class CombinedRouteCollector implements RouteCollector
      */
     public static function new(
         array $route_collectors
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $route_collectors
         );

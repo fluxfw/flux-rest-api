@@ -33,8 +33,7 @@ class RouteResponseDocumentationDto
         ?Status $status = null,
         ?string $type = null,
         ?string $description = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $content_type,
             $status ?? LegacyDefaultStatus::_200(),

@@ -33,8 +33,7 @@ class SwooleServerConfigDto
         ?string $listen = null,
         ?int $port = null,
         ?int $max_upload_size = null
-    ) : /*static*/ self
-    {
+    ) : static {
         return new static(
             $https_cert,
             $https_key,
