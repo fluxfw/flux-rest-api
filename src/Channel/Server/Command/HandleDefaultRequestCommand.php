@@ -1,9 +1,9 @@
 <?php
 
-namespace FluxRestApi\Channel\Server\Command;
+namespace FluxRestApi\Service\Server\Command;
 
-use FluxRestApi\Channel\Body\Port\BodyService;
-use FluxRestApi\Channel\Server\Port\ServerService;
+use FluxRestApi\Service\Body\Port\BodyService;
+use FluxRestApi\Service\Server\Port\ServerService;
 
 class HandleDefaultRequestCommand
 {

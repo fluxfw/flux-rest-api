@@ -1,16 +1,16 @@
 <?php
 
-namespace FluxRestApi\Channel\Server\Port;
+namespace FluxRestApi\Service\Server\Port;
 
 use FluxRestApi\Adapter\Authorization\Authorization;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
-use FluxRestApi\Channel\Body\Port\BodyService;
-use FluxRestApi\Channel\Server\Command\HandleDefaultRequestCommand;
-use FluxRestApi\Channel\Server\Command\HandleRequestCommand;
-use FluxRestApi\Channel\Server\Command\InitSwooleServerCommand;
+use FluxRestApi\Service\Body\Port\BodyService;
+use FluxRestApi\Service\Server\Command\HandleDefaultRequestCommand;
+use FluxRestApi\Service\Server\Command\HandleRequestCommand;
+use FluxRestApi\Service\Server\Command\InitSwooleServerCommand;
 
 class ServerService
 {

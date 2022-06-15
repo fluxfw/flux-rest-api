@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Body\Command;
+namespace FluxRestApi\Service\Body\Command;
 
 use Exception;
 use FluxRestApi\Adapter\Body\TextBodyDto;

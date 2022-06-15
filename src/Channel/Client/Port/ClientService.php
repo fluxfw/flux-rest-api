@@ -1,10 +1,10 @@
 <?php
 
-namespace FluxRestApi\Channel\Client\Port;
+namespace FluxRestApi\Service\Client\Port;
 
 use FluxRestApi\Adapter\Client\ClientRequestDto;
 use FluxRestApi\Adapter\Client\ClientResponseDto;
-use FluxRestApi\Channel\Client\Command\MakeRequestCommand;
+use FluxRestApi\Service\Client\Command\MakeRequestCommand;
 
 class ClientService
 {

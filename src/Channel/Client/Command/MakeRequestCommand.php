@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Client\Command;
+namespace FluxRestApi\Service\Client\Command;
 
 use Exception;
 use FluxRestApi\Adapter\Client\ClientRequestDto;

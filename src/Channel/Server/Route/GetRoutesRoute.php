@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Server\Route;
+namespace FluxRestApi\Service\Server\Route;
 
 use FluxRestApi\Adapter\Body\JsonBodyDto;
 use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;

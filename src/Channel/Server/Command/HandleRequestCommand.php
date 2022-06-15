@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Server\Command;
+namespace FluxRestApi\Service\Server\Command;
 
 use FluxRestApi\Adapter\Authorization\Authorization;
 use FluxRestApi\Adapter\Body\RawBodyDto;
@@ -14,12 +14,12 @@ use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
-use FluxRestApi\Channel\Body\Port\BodyService;
-use FluxRestApi\Channel\Server\Route\GetDefaultRoute;
-use FluxRestApi\Channel\Server\Route\GetRoutesRoute;
-use FluxRestApi\Channel\Server\Route\GetRoutesUIDefaultRoute;
-use FluxRestApi\Channel\Server\Route\GetRoutesUIFileRoute;
-use FluxRestApi\Channel\Server\Route\MatchedRouteDto;
+use FluxRestApi\Service\Body\Port\BodyService;
+use FluxRestApi\Service\Server\Route\GetDefaultRoute;
+use FluxRestApi\Service\Server\Route\GetRoutesRoute;
+use FluxRestApi\Service\Server\Route\GetRoutesUIDefaultRoute;
+use FluxRestApi\Service\Server\Route\GetRoutesUIFileRoute;
+use FluxRestApi\Service\Server\Route\MatchedRouteDto;
 use LogicException;
 use Throwable;
 

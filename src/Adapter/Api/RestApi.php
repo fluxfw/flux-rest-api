@@ -13,10 +13,10 @@ use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
 use FluxRestApi\Adapter\ServerType\ServerType;
-use FluxRestApi\Channel\Body\Port\BodyService;
-use FluxRestApi\Channel\Client\Port\ClientService;
-use FluxRestApi\Channel\Server\Command\HandleMethodOverrideCommand;
-use FluxRestApi\Channel\Server\Port\ServerService;
+use FluxRestApi\Service\Body\Port\BodyService;
+use FluxRestApi\Service\Client\Port\ClientService;
+use FluxRestApi\Service\Server\Command\HandleMethodOverrideCommand;
+use FluxRestApi\Service\Server\Port\ServerService;
 
 class RestApi
 {

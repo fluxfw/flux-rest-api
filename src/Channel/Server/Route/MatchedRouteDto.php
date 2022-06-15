@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Server\Route;
+namespace FluxRestApi\Service\Server\Route;
 
 use FluxRestApi\Adapter\Route\Route;
 
