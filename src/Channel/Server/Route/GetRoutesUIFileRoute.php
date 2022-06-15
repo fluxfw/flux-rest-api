@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Server\Route;
+namespace FluxRestApi\Service\Server\Route;
 
 use FluxRestApi\Adapter\Body\Type\CustomBodyType;
 use FluxRestApi\Adapter\Method\LegacyDefaultMethod;

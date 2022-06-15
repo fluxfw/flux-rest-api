@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Body\Port;
+namespace FluxRestApi\Service\Body\Port;
 
 use FluxRestApi\Adapter\Body\BodyDto;
 use FluxRestApi\Adapter\Body\RawBodyDto;
@@ -8,11 +8,11 @@ use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\ServerType\ServerType;
-use FluxRestApi\Channel\Body\Command\GetDefaultRequestCommand;
-use FluxRestApi\Channel\Body\Command\HandleDefaultResponseCommand;
-use FluxRestApi\Channel\Body\Command\HandleMethodOverrideCommand;
-use FluxRestApi\Channel\Body\Command\ParseBodyCommand;
-use FluxRestApi\Channel\Body\Command\ToRawBodyCommand;
+use FluxRestApi\Service\Body\Command\GetDefaultRequestCommand;
+use FluxRestApi\Service\Body\Command\HandleDefaultResponseCommand;
+use FluxRestApi\Service\Body\Command\HandleMethodOverrideCommand;
+use FluxRestApi\Service\Body\Command\ParseBodyCommand;
+use FluxRestApi\Service\Body\Command\ToRawBodyCommand;
 
 class BodyService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxRestApi\Channel\Body\Command;
+namespace FluxRestApi\Service\Body\Command;
 
 use FluxRestApi\Adapter\Method\CustomMethod;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
