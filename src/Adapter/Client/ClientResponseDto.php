@@ -9,22 +9,15 @@ use FluxRestApi\Adapter\Status\Status;
 class ClientResponseDto
 {
 
-    public readonly ?string $body;
-    public readonly array $headers;
-    public readonly Status $status;
-
-
     /**
      * @param string[] $headers
      */
     private function __construct(
-        /*public readonly*/ Status $status,
-        /*public readonly*/ array $headers,
-        /*public readonly*/ ?string $body
+        public readonly Status $status,
+        public readonly array $headers,
+        public readonly ?string $body
     ) {
-        $this->status = $status;
-        $this->headers = $headers;
-        $this->body = $body;
+
     }
 
 

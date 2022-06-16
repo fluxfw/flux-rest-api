@@ -5,16 +5,11 @@ namespace FluxRestApi\Adapter\Body;
 class RawBodyDto
 {
 
-    public readonly string $body;
-    public readonly string $type;
-
-
     private function __construct(
-        /*public readonly*/ string $type,
-        /*public readonly*/ string $body
+        public readonly string $type,
+        public readonly string $body
     ) {
-        $this->type = $type;
-        $this->body = $body;
+
     }
 
 

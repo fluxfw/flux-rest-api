@@ -8,16 +8,13 @@ use LogicException;
 class CombinedRouteCollector implements RouteCollector
 {
 
-    private readonly array $route_collectors;
-
-
     /**
      * @param RouteCollector[]|Route[] $route_collectors
      */
     private function __construct(
-        /*private readonly*/ array $route_collectors
+        private readonly array $route_collectors
     ) {
-        $this->route_collectors = $route_collectors;
+
     }
 
 

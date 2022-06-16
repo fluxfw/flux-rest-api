@@ -10,18 +10,6 @@ use FluxRestApi\Adapter\ServerType\ServerType;
 class ServerRequestDto
 {
 
-    public readonly array $cookies;
-    public readonly array $headers;
-    public readonly Method $method;
-    public readonly string $original_route;
-    public readonly array $params;
-    public readonly ?BodyDto $parsed_body;
-    public readonly array $query_params;
-    public readonly ?string $raw_body;
-    public readonly string $route;
-    public readonly ServerType $server_type;
-
-
     /**
      * @param string[] $query_params
      * @param string[] $headers
@@ -29,27 +17,18 @@ class ServerRequestDto
      * @param string[] $params
      */
     private function __construct(
-        /*public readonly*/ string $route,
-        /*public readonly*/ string $original_route,
-        /*public readonly*/ Method $method,
-        /*public readonly*/ ServerType $server_type,
-        /*public readonly*/ array $query_params,
-        /*public readonly*/ ?string $raw_body,
-        /*public readonly*/ array $headers,
-        /*public readonly*/ array $cookies,
-        /*public readonly*/ array $params,
-        /*public readonly*/ ?BodyDto $parsed_body
+        public readonly string $route,
+        public readonly string $original_route,
+        public readonly Method $method,
+        public readonly ServerType $server_type,
+        public readonly array $query_params,
+        public readonly ?string $raw_body,
+        public readonly array $headers,
+        public readonly array $cookies,
+        public readonly array $params,
+        public readonly ?BodyDto $parsed_body
     ) {
-        $this->route = $route;
-        $this->original_route = $original_route;
-        $this->method = $method;
-        $this->server_type = $server_type;
-        $this->query_params = $query_params;
-        $this->raw_body = $raw_body;
-        $this->headers = $headers;
-        $this->cookies = $cookies;
-        $this->params = $params;
-        $this->parsed_body = $parsed_body;
+
     }
 
 

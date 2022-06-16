@@ -26,8 +26,6 @@ use Throwable;
 class HandleRequestCommand
 {
 
-    private readonly ?Authorization $authorization;
-    private readonly BodyService $body_service;
     private readonly RouteCollector $route_collector;
     /**
      * @var Route[]
@@ -36,12 +34,11 @@ class HandleRequestCommand
 
 
     private function __construct(
-        /*private readonly*/ BodyService $body_service,
-        /*private readonly*/ RouteCollector $route_collector,
-        /*private readonly*/ ?Authorization $authorization,
+        private readonly BodyService $body_service,
+        RouteCollector $route_collector,
+        private readonly ?Authorization $authorization,
         $routes_ui
     ) {
-        $this->body_service = $body_service;
         $this->route_collector = CombinedRouteCollector::new(
             array_merge($routes_ui ? [
                 GetDefaultRoute::new(),
@@ -54,7 +51,6 @@ class HandleRequestCommand
                 $route_collector
             ])
         );
-        $this->authorization = $authorization;
     }
 
 

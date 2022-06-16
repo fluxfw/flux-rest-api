@@ -8,37 +8,18 @@ use FluxRestApi\Adapter\Cookie\SameSite\CookieSameSite;
 class CookieDto
 {
 
-    public readonly string $domain;
-    public readonly ?int $expires_in;
-    public readonly bool $http_only;
-    public readonly string $name;
-    public readonly string $path;
-    public readonly ?CookiePriority $priority;
-    public readonly ?CookieSameSite $same_site;
-    public readonly bool $secure;
-    public readonly ?string $value;
-
-
     private function __construct(
-        /*public readonly*/ string $name,
-        /*public readonly*/ ?string $value,
-        /*public readonly*/ ?int $expires_in,
-        /*public readonly*/ string $path,
-        /*public readonly*/ string $domain,
-        /*public readonly*/ bool $secure,
-        /*public readonly*/ bool $http_only,
-        /*public readonly*/ ?CookieSameSite $same_site,
-        /*public readonly*/ ?CookiePriority $priority
+        public readonly string $name,
+        public readonly ?string $value,
+        public readonly ?int $expires_in,
+        public readonly string $path,
+        public readonly string $domain,
+        public readonly bool $secure,
+        public readonly bool $http_only,
+        public readonly ?CookieSameSite $same_site,
+        public readonly ?CookiePriority $priority
     ) {
-        $this->name = $name;
-        $this->value = $value;
-        $this->expires_in = $expires_in;
-        $this->path = $path;
-        $this->domain = $domain;
-        $this->secure = $secure;
-        $this->http_only = $http_only;
-        $this->same_site = $same_site;
-        $this->priority = $priority;
+
     }
 
 
