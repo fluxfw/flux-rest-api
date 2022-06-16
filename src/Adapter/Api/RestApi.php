@@ -15,7 +15,6 @@ use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
 use FluxRestApi\Adapter\ServerType\ServerType;
 use FluxRestApi\Service\Body\Port\BodyService;
 use FluxRestApi\Service\Client\Port\ClientService;
-use FluxRestApi\Service\Server\Command\HandleMethodOverrideCommand;
 use FluxRestApi\Service\Server\Port\ServerService;
 
 class RestApi
