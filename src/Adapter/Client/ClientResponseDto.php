@@ -9,12 +9,9 @@ use FluxRestApi\Adapter\Status\Status;
 class ClientResponseDto
 {
 
-    public ?string $body;
-    /**
-     * @var string[]
-     */
-    public array $headers;
-    public Status $status;
+    public readonly ?string $body;
+    public readonly array $headers;
+    public readonly Status $status;
 
 
     /**

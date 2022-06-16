@@ -5,9 +5,9 @@ namespace FluxRestApi\Adapter\Route\Documentation;
 class RouteParamDocumentationDto
 {
 
-    public string $description;
-    public string $name;
-    public string $type;
+    public readonly string $description;
+    public readonly string $name;
+    public readonly string $type;
 
 
     private function __construct(

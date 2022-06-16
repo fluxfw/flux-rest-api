@@ -7,11 +7,8 @@ use FluxRestApi\Adapter\Route\Route;
 class MatchedRouteDto
 {
 
-    /**
-     * @var string[]
-     */
-    public array $params;
-    public Route $route;
+    public readonly array $params;
+    public readonly Route $route;
 
 
     /**

@@ -9,8 +9,8 @@ use RecursiveIteratorIterator;
 class FolderRouteCollector implements RouteCollector
 {
 
-    private array $arguments;
-    private string $folder;
+    private readonly array $arguments;
+    private readonly string $folder;
     /**
      * @var string[]
      */

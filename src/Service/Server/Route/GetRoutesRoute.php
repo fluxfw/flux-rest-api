@@ -15,10 +15,7 @@ use FluxRestApi\Adapter\Server\ServerResponseDto;
 class GetRoutesRoute implements Route
 {
 
-    /**
-     * @var callable
-     */
-    private mixed $get_routes;
+    private readonly mixed $get_routes;
 
 
     /**

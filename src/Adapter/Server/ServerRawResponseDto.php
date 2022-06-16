@@ -10,17 +10,11 @@ use FluxRestApi\Adapter\Status\Status;
 class ServerRawResponseDto
 {
 
-    public ?string $body;
-    /**
-     * @var CookieDto[]
-     */
-    public array $cookies;
-    /**
-     * @var string[]
-     */
-    public array $headers;
-    public ?string $sendfile;
-    public Status $status;
+    public readonly ?string $body;
+    public readonly array $cookies;
+    public readonly array $headers;
+    public readonly ?string $sendfile;
+    public readonly Status $status;
 
 
     /**

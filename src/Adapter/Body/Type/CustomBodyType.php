@@ -8,11 +8,11 @@ use LogicException;
 class CustomBodyType implements BodyType, JsonSerializable
 {
 
-    private string $_value;
+    private readonly string $_value;
 
 
     private function __construct(
-        /*public readonly*/ string $value
+        /*private readonly*/ string $value
     ) {
         $this->_value = $value;
     }

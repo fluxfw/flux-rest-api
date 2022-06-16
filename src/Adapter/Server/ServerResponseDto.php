@@ -11,18 +11,12 @@ use FluxRestApi\Adapter\Status\Status;
 class ServerResponseDto
 {
 
-    public ?BodyDto $body;
-    /**
-     * @var CookieDto[]
-     */
-    public array $cookies;
-    /**
-     * @var string[]
-     */
-    public array $headers;
-    public ?string $raw_body;
-    public ?string $sendfile;
-    public Status $status;
+    public readonly ?BodyDto $body;
+    public readonly array $cookies;
+    public readonly array $headers;
+    public readonly ?string $raw_body;
+    public readonly ?string $sendfile;
+    public readonly Status $status;
 
 
     /**

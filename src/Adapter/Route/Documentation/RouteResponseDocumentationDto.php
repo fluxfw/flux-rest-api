@@ -9,10 +9,10 @@ use FluxRestApi\Adapter\Status\Status;
 class RouteResponseDocumentationDto
 {
 
-    public ?BodyType $content_type;
-    public string $description;
-    public Status $status;
-    public string $type;
+    public readonly ?BodyType $content_type;
+    public readonly string $description;
+    public readonly Status $status;
+    public readonly string $type;
 
 
     private function __construct(

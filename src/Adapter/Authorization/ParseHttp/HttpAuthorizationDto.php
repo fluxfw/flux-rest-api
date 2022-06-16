@@ -7,8 +7,8 @@ use FluxRestApi\Adapter\Authorization\Schema\AuthorizationSchema;
 class HttpAuthorizationDto
 {
 
-    public string $parameters;
-    public AuthorizationSchema $schema;
+    public readonly string $parameters;
+    public readonly AuthorizationSchema $schema;
 
 
     private function __construct(

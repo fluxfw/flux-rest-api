@@ -8,7 +8,7 @@ use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
 class HtmlBodyDto implements BodyDto
 {
 
-    public string $html;
+    public readonly string $html;
 
 
     private function __construct(

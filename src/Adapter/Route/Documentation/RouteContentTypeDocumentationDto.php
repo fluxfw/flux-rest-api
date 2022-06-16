@@ -7,9 +7,9 @@ use FluxRestApi\Adapter\Body\Type\BodyType;
 class RouteContentTypeDocumentationDto
 {
 
-    public ?BodyType $content_type;
-    public string $description;
-    public string $type;
+    public readonly ?BodyType $content_type;
+    public readonly string $description;
+    public readonly string $type;
 
 
     private function __construct(

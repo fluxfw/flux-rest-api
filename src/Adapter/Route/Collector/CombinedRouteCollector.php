@@ -8,10 +8,7 @@ use LogicException;
 class CombinedRouteCollector implements RouteCollector
 {
 
-    /**
-     * @var RouteCollector[]|Route[]
-     */
-    private array $route_collectors;
+    private readonly array $route_collectors;
 
 
     /**

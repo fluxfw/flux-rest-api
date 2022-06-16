@@ -5,11 +5,11 @@ namespace FluxRestApi\Adapter\Server;
 class SwooleServerConfigDto
 {
 
-    public ?string $https_cert;
-    public ?string $https_key;
-    public string $listen;
-    public ?int $max_upload_size;
-    public int $port;
+    public readonly ?string $https_cert;
+    public readonly ?string $https_key;
+    public readonly string $listen;
+    public readonly ?int $max_upload_size;
+    public readonly int $port;
 
 
     private function __construct(

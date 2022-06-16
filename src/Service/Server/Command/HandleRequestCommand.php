@@ -26,9 +26,9 @@ use Throwable;
 class HandleRequestCommand
 {
 
-    private ?Authorization $authorization;
-    private BodyService $body_service;
-    private RouteCollector $route_collector;
+    private readonly ?Authorization $authorization;
+    private readonly BodyService $body_service;
+    private readonly RouteCollector $route_collector;
     /**
      * @var Route[]
      */
