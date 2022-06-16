@@ -10,28 +10,16 @@ use FluxRestApi\Adapter\ServerType\ServerType;
 class ServerRequestDto
 {
 
-    /**
-     * @var string[]
-     */
-    public array $cookies;
-    /**
-     * @var string[]
-     */
-    public array $headers;
-    public Method $method;
-    public string $original_route;
-    /**
-     * @var string[]
-     */
-    public array $params;
-    public ?BodyDto $parsed_body;
-    /**
-     * @var string[]
-     */
-    public array $query_params;
-    public ?string $raw_body;
-    public string $route;
-    public ServerType $server_type;
+    public readonly array $cookies;
+    public readonly array $headers;
+    public readonly Method $method;
+    public readonly string $original_route;
+    public readonly array $params;
+    public readonly ?BodyDto $parsed_body;
+    public readonly array $query_params;
+    public readonly ?string $raw_body;
+    public readonly string $route;
+    public readonly ServerType $server_type;
 
 
     /**

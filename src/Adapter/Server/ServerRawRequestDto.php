@@ -9,25 +9,16 @@ use FluxRestApi\Adapter\ServerType\ServerType;
 class ServerRawRequestDto
 {
 
-    public ?string $body;
-    /**
-     * @var string[]
-     */
-    public array $cookies;
-    public array $files;
-    /**
-     * @var string[]
-     */
-    public array $headers;
-    public Method $method;
-    public string $original_route;
-    public array $post;
-    /**
-     * @var string[]
-     */
-    public array $query_params;
-    public string $route;
-    public ServerType $server_type;
+    public readonly ?string $body;
+    public readonly array $cookies;
+    public readonly array $files;
+    public readonly array $headers;
+    public readonly Method $method;
+    public readonly string $original_route;
+    public readonly array $post;
+    public readonly array $query_params;
+    public readonly string $route;
+    public readonly ServerType $server_type;
 
 
     /**

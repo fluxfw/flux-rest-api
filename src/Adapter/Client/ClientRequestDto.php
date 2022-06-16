@@ -9,21 +9,15 @@ use FluxRestApi\Adapter\Method\Method;
 class ClientRequestDto
 {
 
-    public ?string $body;
-    public bool $fail_on_status_400_or_higher;
-    public bool $follow_redirect;
-    /**
-     * @var string[]
-     */
-    public array $headers;
-    public Method $method;
-    /**
-     * @var string[]
-     */
-    public array $query_params;
-    public bool $response;
-    public bool $trust_self_signed_certificate;
-    public string $url;
+    public readonly ?string $body;
+    public readonly bool $fail_on_status_400_or_higher;
+    public readonly bool $follow_redirect;
+    public readonly array $headers;
+    public readonly Method $method;
+    public readonly array $query_params;
+    public readonly bool $response;
+    public readonly bool $trust_self_signed_certificate;
+    public readonly string $url;
 
 
     /**

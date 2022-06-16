@@ -8,26 +8,14 @@ use FluxRestApi\Adapter\Method\Method;
 class RouteDocumentationDto
 {
 
-    /**
-     * @var RouteContentTypeDocumentationDto[]
-     */
-    public array $content_types;
-    public string $description;
-    public Method $method;
-    /**
-     * @var RouteParamDocumentationDto[]
-     */
-    public array $query_params;
-    /**
-     * @var RouteResponseDocumentationDto[]
-     */
-    public array $responses;
-    public string $route;
-    /**
-     * @var RouteParamDocumentationDto[]
-     */
-    public array $route_params;
-    public string $title;
+    public readonly array $content_types;
+    public readonly string $description;
+    public readonly Method $method;
+    public readonly array $query_params;
+    public readonly array $responses;
+    public readonly string $route;
+    public readonly array $route_params;
+    public readonly string $title;
 
 
     /**

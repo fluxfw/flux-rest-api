@@ -8,15 +8,15 @@ use FluxRestApi\Adapter\Cookie\SameSite\CookieSameSite;
 class CookieDto
 {
 
-    public string $domain;
-    public ?int $expires_in;
-    public bool $http_only;
-    public string $name;
-    public string $path;
-    public ?CookiePriority $priority;
-    public ?CookieSameSite $same_site;
-    public bool $secure;
-    public ?string $value;
+    public readonly string $domain;
+    public readonly ?int $expires_in;
+    public readonly bool $http_only;
+    public readonly string $name;
+    public readonly string $path;
+    public readonly ?CookiePriority $priority;
+    public readonly ?CookieSameSite $same_site;
+    public readonly bool $secure;
+    public readonly ?string $value;
 
 
     private function __construct(

@@ -15,8 +15,8 @@ use Swoole\Http\Server;
 class InitSwooleServerCommand
 {
 
-    private ServerService $server_service;
-    private SwooleServerConfigDto $swoole_server_config;
+    private readonly ServerService $server_service;
+    private readonly SwooleServerConfigDto $swoole_server_config;
 
 
     private function __construct(

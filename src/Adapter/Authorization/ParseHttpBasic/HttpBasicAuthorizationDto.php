@@ -5,8 +5,8 @@ namespace FluxRestApi\Adapter\Authorization\ParseHttpBasic;
 class HttpBasicAuthorizationDto
 {
 
-    public string $password;
-    public string $user;
+    public readonly string $password;
+    public readonly string $user;
 
 
     private function __construct(
