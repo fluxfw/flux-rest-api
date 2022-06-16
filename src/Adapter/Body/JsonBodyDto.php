@@ -8,21 +8,18 @@ use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
 class JsonBodyDto implements BodyDto
 {
 
-    /**
-     * @var mixed
-     */
-    public $data;
+    public mixed $data;
 
 
     private function __construct(
-        /*public readonly mixed*/ $data
+        /*public readonly*/ mixed $data
     ) {
         $this->data = $data;
     }
 
 
     public static function new(
-        /*mixed*/ $data
+        mixed $data
     ) : static {
         return new static(
             $data

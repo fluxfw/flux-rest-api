@@ -18,14 +18,14 @@ class GetRoutesRoute implements Route
     /**
      * @var callable
      */
-    private $get_routes;
+    private mixed $get_routes;
 
 
     /**
      * @param callable $get_routes
      */
     private function __construct(
-        /*private readonly mixed*/ callable $get_routes
+        /*private readonly*/ mixed $get_routes
     ) {
         $this->get_routes = $get_routes;
     }

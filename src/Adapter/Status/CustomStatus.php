@@ -61,7 +61,7 @@ class CustomStatus implements Status, JsonSerializable
     }
 
 
-    public final function __set(string $key, /*mixed*/ $value) : void
+    public final function __set(string $key, mixed $value) : void
     {
         throw new LogicException("Can't set");
     }
