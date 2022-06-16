@@ -8,16 +8,11 @@ use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
 class FormDataBodyDto implements BodyDto
 {
 
-    public readonly array $data;
-    public readonly array $files;
-
-
     private function __construct(
-        /*public readonly*/ array $data,
-        /*public readonly*/ array $files
+        public readonly array $data,
+        public readonly array $files
     ) {
-        $this->data = $data;
-        $this->files = $files;
+
     }
 
 

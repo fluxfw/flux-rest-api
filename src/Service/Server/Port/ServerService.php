@@ -15,19 +15,12 @@ use FluxRestApi\Service\Server\Command\InitSwooleServerCommand;
 class ServerService
 {
 
-    private readonly ?Authorization $authorization;
-    private readonly BodyService $body_service;
-    private readonly RouteCollector $route_collector;
-
-
     private function __construct(
-        /*private readonly*/ BodyService $body_service,
-        /*private readonly*/ RouteCollector $route_collector,
-        /*private readonly*/ ?Authorization $authorization
+        private readonly BodyService $body_service,
+        private readonly RouteCollector $route_collector,
+        private readonly ?Authorization $authorization
     ) {
-        $this->body_service = $body_service;
-        $this->route_collector = $route_collector;
-        $this->authorization = $authorization;
+
     }
 
 

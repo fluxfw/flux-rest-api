@@ -15,16 +15,11 @@ use Swoole\Http\Server;
 class InitSwooleServerCommand
 {
 
-    private readonly ServerService $server_service;
-    private readonly SwooleServerConfigDto $swoole_server_config;
-
-
     private function __construct(
-        /*private readonly*/ ServerService $server_service,
-        /*private readonly*/ SwooleServerConfigDto $swoole_server_config
+        private readonly ServerService $server_service,
+        private readonly SwooleServerConfigDto $swoole_server_config
     ) {
-        $this->server_service = $server_service;
-        $this->swoole_server_config = $swoole_server_config;
+
     }
 
 

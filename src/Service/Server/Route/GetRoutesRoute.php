@@ -15,16 +15,13 @@ use FluxRestApi\Adapter\Server\ServerResponseDto;
 class GetRoutesRoute implements Route
 {
 
-    private readonly mixed $get_routes;
-
-
     /**
      * @param callable $get_routes
      */
     private function __construct(
-        /*private readonly*/ mixed $get_routes
+        private readonly mixed $get_routes
     ) {
-        $this->get_routes = $get_routes;
+
     }
 
 

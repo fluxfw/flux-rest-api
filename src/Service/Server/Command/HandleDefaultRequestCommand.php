@@ -8,16 +8,11 @@ use FluxRestApi\Service\Server\Port\ServerService;
 class HandleDefaultRequestCommand
 {
 
-    private readonly BodyService $body_service;
-    private readonly ServerService $server_service;
-
-
     private function __construct(
-        /*private readonly*/ ServerService $server_service,
-        /*private readonly*/ BodyService $body_service
+        private readonly ServerService $server_service,
+        private readonly BodyService $body_service
     ) {
-        $this->server_service = $server_service;
-        $this->body_service = $body_service;
+
     }
 
 

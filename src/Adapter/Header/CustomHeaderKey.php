@@ -8,13 +8,10 @@ use LogicException;
 class CustomHeaderKey implements HeaderKey, JsonSerializable
 {
 
-    private readonly string $_value;
-
-
     private function __construct(
-        /*private readonly*/ string $value
+        private readonly string $_value
     ) {
-        $this->_value = $value;
+
     }
 
 

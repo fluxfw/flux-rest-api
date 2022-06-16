@@ -9,8 +9,6 @@ use RecursiveIteratorIterator;
 class FolderRouteCollector implements RouteCollector
 {
 
-    private readonly array $arguments;
-    private readonly string $folder;
     /**
      * @var string[]
      */
@@ -18,11 +16,10 @@ class FolderRouteCollector implements RouteCollector
 
 
     private function __construct(
-        /*private readonly*/ string $folder,
-        /*private readonly*/ array $arguments
+        private readonly string $folder,
+        private readonly array $arguments
     ) {
-        $this->folder = $folder;
-        $this->arguments = $arguments;
+
     }
 
 

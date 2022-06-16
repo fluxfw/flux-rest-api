@@ -8,13 +8,10 @@ use LogicException;
 class CustomStatus implements Status, JsonSerializable
 {
 
-    private readonly int $_value;
-
-
     private function __construct(
-        /*private readonly*/ int $value
+        private readonly int $_value
     ) {
-        $this->_value = $value;
+
     }
 
 

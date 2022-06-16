@@ -8,16 +8,6 @@ use FluxRestApi\Adapter\Method\Method;
 class RouteDocumentationDto
 {
 
-    public readonly array $content_types;
-    public readonly string $description;
-    public readonly Method $method;
-    public readonly array $query_params;
-    public readonly array $responses;
-    public readonly string $route;
-    public readonly array $route_params;
-    public readonly string $title;
-
-
     /**
      * @param RouteParamDocumentationDto[]       $route_params
      * @param RouteParamDocumentationDto[]       $query_params
@@ -25,23 +15,16 @@ class RouteDocumentationDto
      * @param RouteResponseDocumentationDto[]    $responses
      */
     private function __construct(
-        /*public readonly*/ string $route,
-        /*public readonly*/ Method $method,
-        /*public readonly*/ string $title,
-        /*public readonly*/ string $description,
-        /*public readonly*/ array $route_params,
-        /*public readonly*/ array $query_params,
-        /*public readonly*/ array $content_types,
-        /*public readonly*/ array $responses
+        public readonly string $route,
+        public readonly Method $method,
+        public readonly string $title,
+        public readonly string $description,
+        public readonly array $route_params,
+        public readonly array $query_params,
+        public readonly array $content_types,
+        public readonly array $responses
     ) {
-        $this->route = $route;
-        $this->method = $method;
-        $this->title = $title;
-        $this->description = $description;
-        $this->route_params = $route_params;
-        $this->query_params = $query_params;
-        $this->content_types = $content_types;
-        $this->responses = $responses;
+
     }
 
 

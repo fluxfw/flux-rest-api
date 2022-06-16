@@ -11,32 +11,19 @@ use FluxRestApi\Adapter\Status\Status;
 class ServerResponseDto
 {
 
-    public readonly ?BodyDto $body;
-    public readonly array $cookies;
-    public readonly array $headers;
-    public readonly ?string $raw_body;
-    public readonly ?string $sendfile;
-    public readonly Status $status;
-
-
     /**
      * @param string[]    $headers
      * @param CookieDto[] $cookies
      */
     private function __construct(
-        /*public readonly*/ ?BodyDto $body,
-        /*public readonly*/ Status $status,
-        /*public readonly*/ array $headers,
-        /*public readonly*/ array $cookies,
-        /*public readonly*/ ?string $sendfile,
-        /*public readonly*/ ?string $raw_body
+        public readonly ?BodyDto $body,
+        public readonly Status $status,
+        public readonly array $headers,
+        public readonly array $cookies,
+        public readonly ?string $sendfile,
+        public readonly ?string $raw_body
     ) {
-        $this->body = $body;
-        $this->status = $status;
-        $this->headers = $headers;
-        $this->cookies = $cookies;
-        $this->sendfile = $sendfile;
-        $this->raw_body = $raw_body;
+
     }
 
 

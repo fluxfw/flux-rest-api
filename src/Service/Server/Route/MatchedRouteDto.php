@@ -7,19 +7,14 @@ use FluxRestApi\Adapter\Route\Route;
 class MatchedRouteDto
 {
 
-    public readonly array $params;
-    public readonly Route $route;
-
-
     /**
      * @param string[] $params
      */
     private function __construct(
-        /*public readonly*/ Route $route,
-        /*public readonly*/ array $params
+        public readonly Route $route,
+        public readonly array $params
     ) {
-        $this->route = $route;
-        $this->params = $params;
+
     }
 
 
