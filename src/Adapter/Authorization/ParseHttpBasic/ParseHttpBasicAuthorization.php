@@ -15,10 +15,7 @@ trait ParseHttpBasicAuthorization
 
     use ParseHttpAuthorization;
 
-    /**
-     * @return HttpBasicAuthorizationDto|ServerResponseDto
-     */
-    private function parseHttpBasicAuthorization(ServerRawRequestDto $request)/* : HttpBasicAuthorizationDto|ServerResponseDto*/
+    private function parseHttpBasicAuthorization(ServerRawRequestDto $request) : HttpBasicAuthorizationDto|ServerResponseDto
     {
         $authorization = $this->parseHttpAuthorization(
             $request,
