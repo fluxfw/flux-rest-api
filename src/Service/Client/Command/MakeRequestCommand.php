@@ -2,6 +2,7 @@
 
 namespace FluxRestApi\Service\Client\Command;
 
+use CurlHandle;
 use Exception;
 use FluxRestApi\Adapter\Client\ClientRequestDto;
 use FluxRestApi\Adapter\Client\ClientResponseDto;
@@ -62,7 +63,7 @@ class MakeRequestCommand
 
             $headers = [];
             if ($request->response) {
-                curl_setopt($curl, CURLOPT_HEADERFUNCTION, function (/*CurlHandle*/ $curl, string $header) use (&$headers) : int {
+                curl_setopt($curl, CURLOPT_HEADERFUNCTION, function (CurlHandle $curl, string $header) use (&$headers) : int {
                     $len = strlen($header);
 
                     $header = array_filter(array_map("trim", explode(":", $header, 2)));
