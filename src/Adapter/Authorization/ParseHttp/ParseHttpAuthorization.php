@@ -12,10 +12,7 @@ use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
 trait ParseHttpAuthorization
 {
 
-    /**
-     * @return HttpAuthorizationDto|ServerResponseDto
-     */
-    private function parseHttpAuthorization(ServerRawRequestDto $request, HttpAuthorizationDto $www_authenticate_header)/* : HttpAuthorizationDto|ServerResponseDto*/
+    private function parseHttpAuthorization(ServerRawRequestDto $request, HttpAuthorizationDto $www_authenticate_header) : HttpAuthorizationDto|ServerResponseDto
     {
         $authorization = $request->getHeader(
             LegacyDefaultHeaderKey::AUTHORIZATION()

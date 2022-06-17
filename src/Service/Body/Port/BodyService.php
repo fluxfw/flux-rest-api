@@ -46,10 +46,7 @@ class BodyService
     }
 
 
-    /**
-     * @return ServerRawRequestDto|ServerResponseDto|null
-     */
-    public function handleMethodOverride(ServerRawRequestDto $request)/* : ServerRawRequestDto|ServerResponseDto|null*/
+    public function handleMethodOverride(ServerRawRequestDto $request) : ServerRawRequestDto|ServerResponseDto|null
     {
         return HandleMethodOverrideCommand::new()
             ->handleMethodOverride(

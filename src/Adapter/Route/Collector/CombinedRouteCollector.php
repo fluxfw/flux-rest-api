@@ -32,7 +32,7 @@ class CombinedRouteCollector implements RouteCollector
 
     public function collectRoutes() : array
     {
-        return array_reduce($this->route_collectors, function (array $routes, /*RouteCollector|Route*/ $route_collector) : array {
+        return array_reduce($this->route_collectors, function (array $routes, RouteCollector|Route $route_collector) : array {
             switch (true) {
                 case $route_collector instanceof RouteCollector:
                     $routes = array_merge($routes, $route_collector->collectRoutes());

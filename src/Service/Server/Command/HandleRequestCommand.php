@@ -145,10 +145,8 @@ class HandleRequestCommand
 
     /**
      * @param Route[] $routes
-     *
-     * @return MatchedRouteDto|ServerResponseDto
      */
-    private function getMatchedRoute(ServerRawRequestDto $request, array $routes)/* : MatchedRouteDto|ServerResponseDto*/
+    private function getMatchedRoute(ServerRawRequestDto $request, array $routes) : MatchedRouteDto|ServerResponseDto
     {
         try {
             if (($request->route[0] ?? null) !== "/") {

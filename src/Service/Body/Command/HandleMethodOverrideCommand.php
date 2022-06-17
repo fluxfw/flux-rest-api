@@ -28,10 +28,7 @@ class HandleMethodOverrideCommand
     }
 
 
-    /**
-     * @return ServerRawRequestDto|ServerResponseDto|null
-     */
-    public function handleMethodOverride(ServerRawRequestDto $request)/* : ServerRawRequestDto|ServerResponseDto|null*/
+    public function handleMethodOverride(ServerRawRequestDto $request) : ServerRawRequestDto|ServerResponseDto|null
     {
         $method_override = $request->getHeader(
             LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()

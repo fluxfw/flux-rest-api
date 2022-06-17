@@ -59,10 +59,7 @@ class RestApi
     }
 
 
-    /**
-     * @return ServerRawRequestDto|ServerResponseDto|null
-     */
-    public function handleMethodOverride(ServerRawRequestDto $request)/* : ServerRawRequestDto|ServerResponseDto|null*/
+    public function handleMethodOverride(ServerRawRequestDto $request) : ServerRawRequestDto|ServerResponseDto|null
     {
         return $this->getBodyService()
             ->handleMethodOverride(
