@@ -19,13 +19,7 @@ class CustomHeaderKey implements HeaderKey, JsonSerializable
     {
         $value = strtolower($value);
 
-        if (PHP_VERSION_ID >= 80100) {
-            $key = DefaultHeaderKey::tryFrom($value);
-        } else {
-            $key = LegacyDefaultHeaderKey::tryFrom($value);
-        }
-
-        return $key ?? static::new(
+        return DefaultHeaderKey::tryFrom($value) ?? static::new(
                 $value
             );
     }

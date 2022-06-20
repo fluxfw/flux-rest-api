@@ -3,7 +3,7 @@
 namespace FluxRestApi\Adapter\Client;
 
 use FluxRestApi\Adapter\Header\HeaderKey;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 use FluxRestApi\Adapter\Status\Status;
 
 class ClientResponseDto
@@ -32,7 +32,7 @@ class ClientResponseDto
         $headers ??= [];
 
         return new static(
-            $status ?? LegacyDefaultStatus::_200(),
+            $status ?? DefaultStatus::_200,
             array_combine(array_map("strtolower", array_keys($headers)), $headers),
             $body
         );

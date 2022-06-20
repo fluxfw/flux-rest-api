@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Adapter\Route\Documentation;
 
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 
 class RouteDocumentationDto
@@ -46,7 +46,7 @@ class RouteDocumentationDto
     ) : static {
         return new static(
             $route,
-            $method ?? LegacyDefaultMethod::GET(),
+            $method ?? DefaultMethod::GET,
             $title ?? "",
             $description ?? "",
             $route_params ?? [],

@@ -4,8 +4,8 @@ namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Adapter\Body\JsonBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteContentTypeDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
@@ -13,7 +13,7 @@ use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 class PostExampleRoute implements Route
 {
@@ -41,21 +41,21 @@ class PostExampleRoute implements Route
             null,
             [
                 RouteContentTypeDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
+                    DefaultBodyType::JSON,
                     "*",
                     "Some data"
                 )
             ],
             [
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
+                    DefaultBodyType::JSON,
                     null,
                     "object",
                     "Post data"
                 ),
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::TEXT(),
-                    LegacyDefaultStatus::_400(),
+                    DefaultBodyType::TEXT,
+                    DefaultStatus::_400,
                     null,
                     "No json body"
                 )
@@ -66,7 +66,7 @@ class PostExampleRoute implements Route
 
     public function getMethod() : Method
     {
-        return LegacyDefaultMethod::POST();
+        return DefaultMethod::POST;
     }
 
 
@@ -83,7 +83,7 @@ class PostExampleRoute implements Route
                 TextBodyDto::new(
                     "No json body"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 

@@ -3,7 +3,7 @@
 namespace FluxRestApi\Adapter\Body;
 
 use FluxRestApi\Adapter\Body\Type\BodyType;
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
+use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
 
 class HtmlBodyDto implements BodyDto
 {
@@ -26,6 +26,6 @@ class HtmlBodyDto implements BodyDto
 
     public function getType() : BodyType
     {
-        return LegacyDefaultBodyType::HTML();
+        return DefaultBodyType::HTML;
     }
 }

@@ -3,7 +3,7 @@
 namespace FluxRestApi\Service\Server\Route;
 
 use FluxRestApi\Adapter\Body\Type\CustomBodyType;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteParamDocumentationDto;
@@ -11,8 +11,8 @@ use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\ServerType\ServerType;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 class GetRoutesUIFileRoute implements Route
 {
@@ -57,7 +57,7 @@ class GetRoutesUIFileRoute implements Route
                 ),
                 RouteResponseDocumentationDto::new(
                     null,
-                    LegacyDefaultStatus::_404(),
+                    DefaultStatus::_404,
                     null,
                     "Routes UI file not found"
                 )
@@ -68,7 +68,7 @@ class GetRoutesUIFileRoute implements Route
 
     public function getMethod() : Method
     {
-        return LegacyDefaultMethod::GET();
+        return DefaultMethod::GET;
     }
 
 
@@ -90,12 +90,12 @@ class GetRoutesUIFileRoute implements Route
                 null,
                 null,
                 null,
-                $request->server_type->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
+                $request->server_type === ServerType::NGINX ? "/flux-rest-api/routes" . $path : __DIR__ . $path
             );
         } else {
             return ServerResponseDto::new(
                 null,
-                LegacyDefaultStatus::_404()
+                DefaultStatus::_404
             );
         }
     }

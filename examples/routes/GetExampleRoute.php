@@ -3,8 +3,8 @@
 namespace FluxRestApi\Route\Example;
 
 use FluxRestApi\Adapter\Body\JsonBodyDto;
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
@@ -39,7 +39,7 @@ class GetExampleRoute implements Route
             null,
             [
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::JSON(),
+                    DefaultBodyType::JSON,
                     null,
                     "array",
                     "Example data"
@@ -51,7 +51,7 @@ class GetExampleRoute implements Route
 
     public function getMethod() : Method
     {
-        return LegacyDefaultMethod::GET();
+        return DefaultMethod::GET;
     }
 
 

@@ -2,17 +2,17 @@
 
 namespace FluxRestApi\Service\Server\Route;
 
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
-use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\ServerType\ServerType;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 class GetRoutesUIDefaultRoute implements Route
 {
@@ -41,14 +41,14 @@ class GetRoutesUIDefaultRoute implements Route
             null,
             [
                 RouteResponseDocumentationDto::new(
-                    LegacyDefaultBodyType::HTML(),
+                    DefaultBodyType::HTML,
                     null,
                     null,
                     "Routes UI"
                 ),
                 RouteResponseDocumentationDto::new(
                     null,
-                    LegacyDefaultStatus::_302(),
+                    DefaultStatus::_302,
                     null,
                     "Redirect if has trailing / and remove it"
                 )
@@ -59,7 +59,7 @@ class GetRoutesUIDefaultRoute implements Route
 
     public function getMethod() : Method
     {
-        return LegacyDefaultMethod::GET();
+        return DefaultMethod::GET;
     }
 
 
@@ -74,9 +74,9 @@ class GetRoutesUIDefaultRoute implements Route
         if (str_ends_with($request->original_route, "/")) {
             return ServerResponseDto::new(
                 null,
-                LegacyDefaultStatus::_302(),
+                DefaultStatus::_302,
                 [
-                    LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->original_route, "/")
+                    DefaultHeaderKey::LOCATION->value => rtrim($request->original_route, "/")
                 ]
             );
         }
@@ -88,7 +88,7 @@ class GetRoutesUIDefaultRoute implements Route
             null,
             null,
             null,
-            $request->server_type->value === LegacyDefaultServerType::NGINX()->value ? "/flux-rest-api/routes" . $path : __DIR__ . $path
+            $request->server_type === ServerType::NGINX ? "/flux-rest-api/routes" . $path : __DIR__ . $path
         );
     }
 }

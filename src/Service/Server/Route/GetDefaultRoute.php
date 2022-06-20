@@ -2,15 +2,15 @@
 
 namespace FluxRestApi\Service\Server\Route;
 
-use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
 use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxRestApi\Adapter\Route\Route;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 class GetDefaultRoute implements Route
 {
@@ -40,7 +40,7 @@ class GetDefaultRoute implements Route
             [
                 RouteResponseDocumentationDto::new(
                     null,
-                    LegacyDefaultStatus::_302(),
+                    DefaultStatus::_302,
                     null,
                     "Redirect to routes/ui"
                 )
@@ -51,7 +51,7 @@ class GetDefaultRoute implements Route
 
     public function getMethod() : Method
     {
-        return LegacyDefaultMethod::GET();
+        return DefaultMethod::GET;
     }
 
 
@@ -65,9 +65,9 @@ class GetDefaultRoute implements Route
     {
         return ServerResponseDto::new(
             null,
-            LegacyDefaultStatus::_302(),
+            DefaultStatus::_302,
             [
-                LegacyDefaultHeaderKey::LOCATION()->value => rtrim($request->original_route, "/") . "/routes/ui"
+                DefaultHeaderKey::LOCATION->value => rtrim($request->original_route, "/") . "/routes/ui"
             ]
         );
     }

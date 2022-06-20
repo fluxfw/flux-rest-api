@@ -3,7 +3,7 @@
 namespace FluxRestApi\Adapter\Client;
 
 use FluxRestApi\Adapter\Header\HeaderKey;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Method\Method;
 
 class ClientRequestDto
@@ -47,7 +47,7 @@ class ClientRequestDto
 
         return new static(
             $url,
-            $method ?? LegacyDefaultMethod::GET(),
+            $method ?? DefaultMethod::GET,
             $query_params ?? [],
             $body,
             array_combine(array_map("strtolower", array_keys($headers)), $headers),

@@ -2,9 +2,10 @@
 
 namespace FluxRestApi\Adapter\Cookie\Priority;
 
-use FluxRestApi\Libs\FluxLegacyEnum\Backed\StringBackedEnumValue;
-
-interface CookiePriority extends StringBackedEnumValue
+enum CookiePriority: string
 {
 
+    case HIGH = "High";
+    case LOW = "Low";
+    case MEDIUM = "Medium";
 }

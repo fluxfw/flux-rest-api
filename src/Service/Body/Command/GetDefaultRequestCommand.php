@@ -4,7 +4,7 @@ namespace FluxRestApi\Service\Body\Command;
 
 use FluxRestApi\Adapter\Method\CustomMethod;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
+use FluxRestApi\Adapter\ServerType\ServerType;
 
 class GetDefaultRequestCommand
 {
@@ -34,7 +34,7 @@ class GetDefaultRequestCommand
             CustomMethod::factory(
                 $_SERVER["REQUEST_METHOD"]
             ),
-            str_contains($_SERVER["SERVER_SOFTWARE"], "nginx") ? LegacyDefaultServerType::NGINX() : LegacyDefaultServerType::APACHE(),
+            str_contains($_SERVER["SERVER_SOFTWARE"], ServerType::NGINX->value) ? ServerType::NGINX : ServerType::APACHE,
             $query_params,
             file_get_contents("php://input") ?: null,
             $_POST,

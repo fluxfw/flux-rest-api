@@ -2,9 +2,8 @@
 
 namespace FluxRestApi\Service\Body\Command;
 
-use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
 use FluxRestApi\Adapter\ServerType\ServerType;
 use LogicException;
 
@@ -34,12 +33,12 @@ class HandleDefaultResponseCommand
         $headers = $response->headers;
 
         if ($response->sendfile !== null) {
-            if ($server_type->value === LegacyDefaultServerType::NGINX()->value) {
-                $headers[LegacyDefaultHeaderKey::X_ACCEL_REDIRECT()->value] = $response->sendfile;
+            if ($server_type === ServerType::NGINX) {
+                $headers[DefaultHeaderKey::X_ACCEL_REDIRECT->value] = $response->sendfile;
             } else {
-                $headers[LegacyDefaultHeaderKey::X_SENDFILE()->value] = $response->sendfile;
+                $headers[DefaultHeaderKey::X_SENDFILE->value] = $response->sendfile;
             }
-            $headers[LegacyDefaultHeaderKey::CONTENT_TYPE()->value] = "";
+            $headers[DefaultHeaderKey::CONTENT_TYPE->value] = "";
         }
 
         foreach ($headers as $key => $value) {

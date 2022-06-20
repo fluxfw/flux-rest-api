@@ -17,13 +17,7 @@ class CustomAuthorizationSchema implements AuthorizationSchema, JsonSerializable
 
     public static function factory(string $value) : AuthorizationSchema
     {
-        if (PHP_VERSION_ID >= 80100) {
-            $schema = DefaultAuthorizationSchema::tryFrom($value);
-        } else {
-            $schema = LegacyDefaultAuthorizationSchema::tryFrom($value);
-        }
-
-        return $schema ?? static::new(
+        return DefaultAuthorizationSchema::tryFrom($value) ?? static::new(
                 $value
             );
     }

@@ -17,13 +17,7 @@ class CustomStatus implements Status, JsonSerializable
 
     public static function factory(int $value) : Status
     {
-        if (PHP_VERSION_ID >= 80100) {
-            $status = DefaultStatus::tryFrom($value);
-        } else {
-            $status = LegacyDefaultStatus::tryFrom($value);
-        }
-
-        return $status ?? static::new(
+        return DefaultStatus::tryFrom($value) ?? static::new(
                 $value
             );
     }

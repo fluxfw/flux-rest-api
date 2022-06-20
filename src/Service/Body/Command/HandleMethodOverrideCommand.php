@@ -4,13 +4,13 @@ namespace FluxRestApi\Service\Body\Command;
 
 use Exception;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxRestApi\Adapter\Method\CustomMethod;
-use FluxRestApi\Adapter\Method\LegacyDefaultMethod;
+use FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\ServerType\ServerType;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 use Throwable;
 
 class HandleMethodOverrideCommand
@@ -31,7 +31,7 @@ class HandleMethodOverrideCommand
     public function handleMethodOverride(ServerRawRequestDto $request) : ServerRawRequestDto|ServerResponseDto|null
     {
         $method_override = $request->getHeader(
-            LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()
+            DefaultHeaderKey::X_HTTP_METHOD_OVERRIDE
         );
 
         if ($method_override === null) {
@@ -39,7 +39,7 @@ class HandleMethodOverrideCommand
         }
 
         try {
-            if ($request->server_type->value !== LegacyDefaultServerType::NGINX()->value) {
+            if ($request->server_type !== ServerType::NGINX) {
                 throw new Exception("Method overriding not enabled/needed for server " . $request->server_type->value);
             }
 
@@ -47,11 +47,11 @@ class HandleMethodOverrideCommand
                 $method_override
             );
 
-            if ($request->method->value !== LegacyDefaultMethod::POST()->value) {
-                throw new Exception("Method overriding only for " . LegacyDefaultMethod::POST()->value);
+            if ($request->method !== DefaultMethod::POST) {
+                throw new Exception("Method overriding only for " . DefaultMethod::POST->value);
             }
 
-            if (!in_array($method_override->value, [LegacyDefaultMethod::DELETE()->value, LegacyDefaultMethod::PATCH()->value, LegacyDefaultMethod::PUT()->value])) {
+            if (!in_array($method_override, [DefaultMethod::DELETE, DefaultMethod::PATCH, DefaultMethod::PUT])) {
                 throw new Exception("Method overriding with " . $method_override->value . " not supported");
             }
 
@@ -64,7 +64,7 @@ class HandleMethodOverrideCommand
                 $request->body,
                 $request->post,
                 $request->files,
-                array_filter($request->headers, fn(string $key) : bool => $key !== LegacyDefaultHeaderKey::X_HTTP_METHOD_OVERRIDE()->value, ARRAY_FILTER_USE_KEY),
+                array_filter($request->headers, fn(string $key) : bool => $key !== DefaultHeaderKey::X_HTTP_METHOD_OVERRIDE->value, ARRAY_FILTER_USE_KEY),
                 $request->cookies
             );
         } catch (Throwable $ex) {
@@ -74,7 +74,7 @@ class HandleMethodOverrideCommand
                 TextBodyDto::new(
                     "Invalid method"
                 ),
-                LegacyDefaultStatus::_405()
+                DefaultStatus::_405
             );
         }
     }

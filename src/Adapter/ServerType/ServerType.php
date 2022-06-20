@@ -2,9 +2,10 @@
 
 namespace FluxRestApi\Adapter\ServerType;
 
-use FluxRestApi\Libs\FluxLegacyEnum\Backed\StringBackedEnumValue;
-
-interface ServerType extends StringBackedEnumValue
+enum ServerType: string
 {
 
+    case APACHE = "apache";
+    case NGINX = "nginx";
+    case SWOOLE = "swoole";
 }
