@@ -17,13 +17,7 @@ class CustomBodyType implements BodyType, JsonSerializable
 
     public static function factory(string $value) : BodyType
     {
-        if (PHP_VERSION_ID >= 80100) {
-            $body_type = DefaultBodyType::tryFrom($value);
-        } else {
-            $body_type = LegacyDefaultBodyType::tryFrom($value);
-        }
-
-        return $body_type ?? static::new(
+        return DefaultBodyType::tryFrom($value) ?? static::new(
                 $value
             );
     }

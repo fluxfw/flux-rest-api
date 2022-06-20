@@ -2,7 +2,7 @@
 
 namespace FluxRestApi\Adapter\Cookie\SameSite;
 
-enum DefaultCookieSameSite: string implements CookieSameSite
+enum CookieSameSite: string
 {
 
     case LAX = "Lax";

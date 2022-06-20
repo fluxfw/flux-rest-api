@@ -3,7 +3,7 @@
 namespace FluxRestApi\Adapter\Route\Documentation;
 
 use FluxRestApi\Adapter\Body\Type\BodyType;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 use FluxRestApi\Adapter\Status\Status;
 
 class RouteResponseDocumentationDto
@@ -27,7 +27,7 @@ class RouteResponseDocumentationDto
     ) : static {
         return new static(
             $content_type,
-            $status ?? LegacyDefaultStatus::_200(),
+            $status ?? DefaultStatus::_200,
             $type ?? "",
             $description ?? ""
         );

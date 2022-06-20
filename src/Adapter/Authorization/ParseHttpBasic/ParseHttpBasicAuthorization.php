@@ -4,11 +4,11 @@ namespace FluxRestApi\Adapter\Authorization\ParseHttpBasic;
 
 use FluxRestApi\Adapter\Authorization\ParseHttp\HttpAuthorizationDto;
 use FluxRestApi\Adapter\Authorization\ParseHttp\ParseHttpAuthorization;
-use FluxRestApi\Adapter\Authorization\Schema\LegacyDefaultAuthorizationSchema;
+use FluxRestApi\Adapter\Authorization\Schema\DefaultAuthorizationSchema;
 use FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 trait ParseHttpBasicAuthorization
 {
@@ -20,19 +20,19 @@ trait ParseHttpBasicAuthorization
         $authorization = $this->parseHttpAuthorization(
             $request,
             HttpAuthorizationDto::new(
-                LegacyDefaultAuthorizationSchema::BASIC()
+                DefaultAuthorizationSchema::BASIC
             )
         );
         if ($authorization instanceof ServerResponseDto) {
             return $authorization;
         }
 
-        if ($authorization->schema->value !== LegacyDefaultAuthorizationSchema::BASIC()->value) {
+        if ($authorization->schema !== DefaultAuthorizationSchema::BASIC) {
             return ServerResponseDto::new(
                 TextBodyDto::new(
-                    LegacyDefaultAuthorizationSchema::BASIC()->value . " authorization schema needed"
+                    DefaultAuthorizationSchema::BASIC->value . " authorization schema needed"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 
@@ -41,9 +41,9 @@ trait ParseHttpBasicAuthorization
         if ($authorization === false) {
             return ServerResponseDto::new(
                 TextBodyDto::new(
-                    "Invalid " . LegacyDefaultAuthorizationSchema::BASIC()->value . " authorization"
+                    "Invalid " . DefaultAuthorizationSchema::BASIC->value . " authorization"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 
@@ -52,7 +52,7 @@ trait ParseHttpBasicAuthorization
                 TextBodyDto::new(
                     "Missing authorization user or password"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 
@@ -65,7 +65,7 @@ trait ParseHttpBasicAuthorization
                 TextBodyDto::new(
                     "Missing authorization user or password"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 

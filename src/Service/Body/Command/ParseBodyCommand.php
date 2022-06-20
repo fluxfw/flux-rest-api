@@ -9,7 +9,7 @@ use FluxRestApi\Adapter\Body\HtmlBodyDto;
 use FluxRestApi\Adapter\Body\JsonBodyDto;
 use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Body\Type\LegacyDefaultBodyType;
+use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
 
 class ParseBodyCommand
 {
@@ -33,19 +33,19 @@ class ParseBodyCommand
         }
 
         switch (true) {
-            case str_contains($body->type, LegacyDefaultBodyType::FORM_DATA()->value):
-            case str_contains($body->type, LegacyDefaultBodyType::FORM_DATA_2()->value):
+            case str_contains($body->type, DefaultBodyType::FORM_DATA->value):
+            case str_contains($body->type, DefaultBodyType::FORM_DATA_2->value):
                 return FormDataBodyDto::new(
                     $post,
                     $files
                 );
 
-            case str_contains($body->type, LegacyDefaultBodyType::HTML()->value):
+            case str_contains($body->type, DefaultBodyType::HTML->value):
                 return HtmlBodyDto::new(
                     $body->body
                 );
 
-            case str_contains($body->type, LegacyDefaultBodyType::JSON()->value):
+            case str_contains($body->type, DefaultBodyType::JSON->value):
                 $data = json_decode($body->body);
 
                 $error_code = json_last_error();
@@ -57,7 +57,7 @@ class ParseBodyCommand
                     $data
                 );
 
-            case str_contains($body->type, LegacyDefaultBodyType::TEXT()->value):
+            case str_contains($body->type, DefaultBodyType::TEXT->value):
                 return TextBodyDto::new(
                     $body->body
                 );

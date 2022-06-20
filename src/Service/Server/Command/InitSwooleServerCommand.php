@@ -6,7 +6,7 @@ use FluxRestApi\Adapter\Method\CustomMethod;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
-use FluxRestApi\Adapter\ServerType\LegacyDefaultServerType;
+use FluxRestApi\Adapter\ServerType\ServerType;
 use FluxRestApi\Service\Server\Port\ServerService;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -134,7 +134,7 @@ class InitSwooleServerCommand
             CustomMethod::factory(
                 $request->getMethod()
             ),
-            LegacyDefaultServerType::SWOOLE(),
+            ServerType::SWOOLE,
             $request->get,
             $request->getContent() ?: null,
             $request->post,

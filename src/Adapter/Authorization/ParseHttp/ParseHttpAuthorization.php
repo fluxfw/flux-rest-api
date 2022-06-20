@@ -4,10 +4,10 @@ namespace FluxRestApi\Adapter\Authorization\ParseHttp;
 
 use FluxRestApi\Adapter\Authorization\Schema\CustomAuthorizationSchema;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 trait ParseHttpAuthorization
 {
@@ -15,7 +15,7 @@ trait ParseHttpAuthorization
     private function parseHttpAuthorization(ServerRawRequestDto $request, HttpAuthorizationDto $www_authenticate_header) : HttpAuthorizationDto|ServerResponseDto
     {
         $authorization = $request->getHeader(
-            LegacyDefaultHeaderKey::AUTHORIZATION()
+            DefaultHeaderKey::AUTHORIZATION
         );
 
         if (empty($authorization)) {
@@ -23,9 +23,9 @@ trait ParseHttpAuthorization
                 TextBodyDto::new(
                     "Authorization needed"
                 ),
-                LegacyDefaultStatus::_401(),
+                DefaultStatus::_401,
                 [
-                    LegacyDefaultHeaderKey::WWW_AUTHENTICATE()->value => $www_authenticate_header->schema->value . (!empty($www_authenticate_header->parameters)
+                    DefaultHeaderKey::WWW_AUTHENTICATE->value => $www_authenticate_header->schema->value . (!empty($www_authenticate_header->parameters)
                             ? ParseHttpAuthorization_::SPLIT_SCHEMA_PARAMETERS
                             . $www_authenticate_header->parameters : "")
                 ]
@@ -37,7 +37,7 @@ trait ParseHttpAuthorization
                 TextBodyDto::new(
                     "Missing authorization schema or parameters"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 
@@ -50,7 +50,7 @@ trait ParseHttpAuthorization
                 TextBodyDto::new(
                     "Missing authorization schema or parameters"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 

@@ -2,9 +2,10 @@
 
 namespace FluxRestApi\Adapter\Status;
 
-use FluxRestApi\Libs\FluxLegacyEnum\Backed\IntBackedEnumValue;
-
-interface Status extends IntBackedEnumValue
+/**
+ * @property-read int $value
+ */
+interface Status
 {
 
 }

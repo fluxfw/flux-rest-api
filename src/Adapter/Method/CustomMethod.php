@@ -19,13 +19,7 @@ class CustomMethod implements Method, JsonSerializable
     {
         $value = strtoupper($value);
 
-        if (PHP_VERSION_ID >= 80100) {
-            $method = DefaultMethod::tryFrom($value);
-        } else {
-            $method = LegacyDefaultMethod::tryFrom($value);
-        }
-
-        return $method ?? static::new(
+        return DefaultMethod::tryFrom($value) ?? static::new(
                 $value
             );
     }

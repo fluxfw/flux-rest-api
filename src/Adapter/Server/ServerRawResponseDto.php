@@ -4,7 +4,7 @@ namespace FluxRestApi\Adapter\Server;
 
 use FluxRestApi\Adapter\Cookie\CookieDto;
 use FluxRestApi\Adapter\Header\HeaderKey;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 use FluxRestApi\Adapter\Status\Status;
 
 class ServerRawResponseDto
@@ -40,7 +40,7 @@ class ServerRawResponseDto
 
         return new static(
             $body,
-            $status ?? LegacyDefaultStatus::_200(),
+            $status ?? DefaultStatus::_200,
             array_combine(array_map("strtolower", array_keys($headers)), $headers),
             $cookies ?? [],
             $sendfile

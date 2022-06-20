@@ -5,7 +5,7 @@ namespace FluxRestApi\Service\Server\Command;
 use FluxRestApi\Adapter\Authorization\Authorization;
 use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxRestApi\Adapter\Header\LegacyDefaultHeaderKey;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxRestApi\Adapter\Route\Collector\CombinedRouteCollector;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 use FluxRestApi\Adapter\Route\Route;
@@ -13,7 +13,7 @@ use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
 use FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxRestApi\Adapter\Status\LegacyDefaultStatus;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 use FluxRestApi\Service\Body\Port\BodyService;
 use FluxRestApi\Service\Server\Route\GetDefaultRoute;
 use FluxRestApi\Service\Server\Route\GetRoutesRoute;
@@ -119,7 +119,7 @@ class HandleRequestCommand
             return $this->toRawResponse(
                 ServerResponseDto::new(
                     null,
-                    LegacyDefaultStatus::_500()
+                    DefaultStatus::_500
                 )
             );
         }
@@ -163,19 +163,19 @@ class HandleRequestCommand
                     TextBodyDto::new(
                         "Route not found"
                     ),
-                    LegacyDefaultStatus::_404()
+                    DefaultStatus::_404
                 );
             }
 
             $routes = array_filter($routes,
-                fn(MatchedRouteDto $route) : bool => $route->route->getMethod()->value === $request->method->value);
+                fn(MatchedRouteDto $route) : bool => $route->route->getMethod() === $request->method);
 
             if (empty($routes)) {
                 return ServerResponseDto::new(
                     TextBodyDto::new(
                         "Invalid method"
                     ),
-                    LegacyDefaultStatus::_405()
+                    DefaultStatus::_405
                 );
             }
 
@@ -191,7 +191,7 @@ class HandleRequestCommand
                 TextBodyDto::new(
                     "Invalid route"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
     }
@@ -225,7 +225,7 @@ class HandleRequestCommand
                 $this->body_service->parseBody(
                     RawBodyDto::new(
                         $request->getHeader(
-                            LegacyDefaultHeaderKey::CONTENT_TYPE()
+                            DefaultHeaderKey::CONTENT_TYPE
                         ),
                         $request->body
                     ),
@@ -240,7 +240,7 @@ class HandleRequestCommand
                 TextBodyDto::new(
                     "Invalid body"
                 ),
-                LegacyDefaultStatus::_400()
+                DefaultStatus::_400
             );
         }
 
@@ -254,13 +254,13 @@ class HandleRequestCommand
     {
         $param_keys = [];
         $param_values = [];
-        preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z0-9-_]+)(\\\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
+        preg_match("/^" . preg_replace_callback("/\\\{([A-Za-z\d-_]+)(\\\\\.)?\\\}/", function (array $matches) use (&$param_keys) {
                 $param_keys[] = $matches[1];
 
                 if (isset($matches[2]) && $matches[2] === "\\.") {
-                    return "([A-Za-z0-9-_.\/]+)";
+                    return "([A-Za-z\d-_.\/]+)";
                 } else {
-                    return "([A-Za-z0-9-_.]+)";
+                    return "([A-Za-z\d-_.]+)";
                 }
             }, preg_quote($this->normalizeRoute(
                 $route->getRoute()
@@ -327,7 +327,7 @@ class HandleRequestCommand
             $raw_body->body,
             $response->status,
             $response->headers + [
-                LegacyDefaultHeaderKey::CONTENT_TYPE()->value => $raw_body->type
+                DefaultHeaderKey::CONTENT_TYPE->value => $raw_body->type
             ],
             $response->cookies,
             $response->sendfile
