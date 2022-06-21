@@ -8,6 +8,12 @@ use LogicException;
 class CustomBodyType implements BodyType, JsonSerializable
 {
 
+    /**
+     * @var static[]
+     */
+    private static array $cases;
+
+
     private function __construct(
         private readonly string $_value
     ) {
@@ -26,9 +32,11 @@ class CustomBodyType implements BodyType, JsonSerializable
     private static function new(
         string $value
     ) : static {
-        return new static(
+        static::$cases ??= [];
+
+        return (static::$cases[$value] ??= new static(
             $value
-        );
+        ));
     }
 
 

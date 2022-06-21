@@ -8,6 +8,12 @@ use LogicException;
 class CustomHeaderKey implements HeaderKey, JsonSerializable
 {
 
+    /**
+     * @var static[]
+     */
+    private static array $cases;
+
+
     private function __construct(
         private readonly string $_value
     ) {
@@ -28,9 +34,11 @@ class CustomHeaderKey implements HeaderKey, JsonSerializable
     private static function new(
         string $value
     ) : static {
-        return new static(
+        static::$cases ??= [];
+
+        return (static::$cases[$value] ??= new static(
             $value
-        );
+        ));
     }
 
 
