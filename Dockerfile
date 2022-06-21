@@ -10,15 +10,17 @@ RUN change-namespace /code/flux-autoload-api FluxAutoloadApi FluxRestApi\\Libs\\
 
 FROM alpine:latest AS build
 
-COPY --from=build_namespaces /code/flux-autoload-api /flux-rest-api/libs/flux-autoload-api
-COPY . /flux-rest-api
+COPY --from=build_namespaces /code/flux-autoload-api /build/flux-rest-api/libs/flux-autoload-api
+COPY . /build/flux-rest-api
+
+RUN (cd /build && tar -czf flux-rest-api.tar.gz flux-rest-api)
 
 FROM scratch
 
 LABEL org.opencontainers.image.source="https://github.com/flux-eco/flux-rest-api"
 LABEL maintainer="fluxlabs <support@fluxlabs.ch> (https://fluxlabs.ch)"
 
-COPY --from=build /flux-rest-api /flux-rest-api
+COPY --from=build /build /
 
 ARG COMMIT_SHA
 LABEL org.opencontainers.image.revision="$COMMIT_SHA"
