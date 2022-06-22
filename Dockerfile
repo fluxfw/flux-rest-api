@@ -1,7 +1,7 @@
 ARG FLUX_AUTOLOAD_API_IMAGE=docker-registry.fluxpublisher.ch/flux-autoload/api
 ARG FLUX_NAMESPACE_CHANGER_IMAGE=docker-registry.fluxpublisher.ch/flux-namespace-changer
 
-FROM $FLUX_AUTOLOAD_API_IMAGE:latest AS flux_autoload_api
+FROM $FLUX_AUTOLOAD_API_IMAGE:v2022-06-22-1 AS flux_autoload_api
 
 FROM $FLUX_NAMESPACE_CHANGER_IMAGE:latest AS build_namespaces
 
@@ -19,6 +19,7 @@ FROM scratch
 
 LABEL org.opencontainers.image.source="https://github.com/flux-eco/flux-rest-api"
 LABEL maintainer="fluxlabs <support@fluxlabs.ch> (https://fluxlabs.ch)"
+LABEL flux-docker-registry-rest-api-build-path="/flux-rest-api.tar.gz"
 
 COPY --from=build /build /
 
