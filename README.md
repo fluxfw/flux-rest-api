@@ -36,7 +36,7 @@ require_once __DIR__ . "/%path%/libs/flux-rest-api/autoload.php";
         {
             "type": "package",
             "package": {
-                "name": "flux/rest-api",
+                "name": "flux/flux-rest-api",
                 "version": "%tag%",
                 "dist": {
                     "url": "https://docker-registry.fluxpublisher.ch/api/get-build-archive/flux-rest/api.tar.gz?tag=%tag%",
@@ -51,7 +51,7 @@ require_once __DIR__ . "/%path%/libs/flux-rest-api/autoload.php";
         }
     ],
     "require": {
-        "flux/rest-api": "*"
+        "flux/flux-rest-api": "*"
     }
 }
 ```
