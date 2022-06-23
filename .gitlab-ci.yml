@@ -1,6 +1,5 @@
 stages:
     - build
-    - build-artifact
     - publish
     - repository
 
