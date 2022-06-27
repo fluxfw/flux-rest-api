@@ -3,7 +3,6 @@
 namespace FluxRestApi\Adapter\Status;
 
 use JsonSerializable;
-use LogicException;
 
 class CustomStatus implements Status, JsonSerializable
 {
@@ -15,7 +14,7 @@ class CustomStatus implements Status, JsonSerializable
 
 
     private function __construct(
-        private readonly int $_value
+        public readonly int $value
     ) {
 
     }
@@ -37,32 +36,6 @@ class CustomStatus implements Status, JsonSerializable
         return (static::$cases[$value] ??= new static(
             $value
         ));
-    }
-
-
-    public function __debugInfo() : ?array
-    {
-        return [
-            "value" => $this->value
-        ];
-    }
-
-
-    public final function __get(string $key) : int
-    {
-        switch ($key) {
-            case "value":
-                return $this->_value;
-
-            default:
-                throw new LogicException("Can't get " . $key);
-        }
-    }
-
-
-    public final function __set(string $key, mixed $value) : void
-    {
-        throw new LogicException("Can't set");
     }
 
 
