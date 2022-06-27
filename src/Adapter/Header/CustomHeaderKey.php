@@ -3,7 +3,6 @@
 namespace FluxRestApi\Adapter\Header;
 
 use JsonSerializable;
-use LogicException;
 
 class CustomHeaderKey implements HeaderKey, JsonSerializable
 {
@@ -15,7 +14,7 @@ class CustomHeaderKey implements HeaderKey, JsonSerializable
 
 
     private function __construct(
-        private readonly string $_value
+        public readonly string $value
     ) {
 
     }
@@ -39,32 +38,6 @@ class CustomHeaderKey implements HeaderKey, JsonSerializable
         return (static::$cases[$value] ??= new static(
             $value
         ));
-    }
-
-
-    public function __debugInfo() : ?array
-    {
-        return [
-            "value" => $this->value
-        ];
-    }
-
-
-    public final function __get(string $key) : string
-    {
-        switch ($key) {
-            case "value":
-                return $this->_value;
-
-            default:
-                throw new LogicException("Can't get " . $key);
-        }
-    }
-
-
-    public final function __set(string $key, mixed $value) : void
-    {
-        throw new LogicException("Can't set");
     }
 
 
