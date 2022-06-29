@@ -130,7 +130,9 @@ class RestApi
 
     private function getClientService() : ClientService
     {
-        return ClientService::new();
+        return ClientService::new(
+            $this->getBodyService()
+        );
     }
 
 
