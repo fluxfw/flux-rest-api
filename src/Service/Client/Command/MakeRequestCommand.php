@@ -92,7 +92,7 @@ class MakeRequestCommand
             }
             if ($request->parsed_body !== null) {
                 if ($request->parsed_body instanceof FormDataBodyDto) {
-                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $request->parsed_body->getType();
+                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $request->parsed_body->getType()->value;
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $request->parsed_body->getAll());
                 } else {
                     $raw_body = $this->body_service->toRawBody(
@@ -104,7 +104,7 @@ class MakeRequestCommand
             }
 
             if (!empty($headers)) {
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->headers), $headers));
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($headers), $headers));
             }
 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

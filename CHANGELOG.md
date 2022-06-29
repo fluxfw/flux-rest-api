@@ -11,6 +11,17 @@ Get build:
 - Docker image: `docker-registry.fluxpublisher.ch/flux-rest/api:latest`
 - Archive: https://docker-registry.fluxpublisher.ch/api/get-build-archive/flux-rest/api.tar.gz?tag=latest
 
+## v2022-06-29-2
+
+Changes:
+
+- Fixes
+
+Get build:
+
+- Docker image: `docker-registry.fluxpublisher.ch/flux-rest/api:v2022-06-29-2`
+- Archive: https://docker-registry.fluxpublisher.ch/api/get-build-archive/flux-rest/api.tar.gz?tag=v2022-06-29-2
+
 ## v2022-06-29-1
 
 Changes:
