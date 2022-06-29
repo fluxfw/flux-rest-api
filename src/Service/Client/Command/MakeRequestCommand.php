@@ -4,22 +4,31 @@ namespace FluxRestApi\Service\Client\Command;
 
 use CurlHandle;
 use Exception;
+use FluxRestApi\Adapter\Body\FormDataBodyDto;
+use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Client\ClientRequestDto;
 use FluxRestApi\Adapter\Client\ClientResponseDto;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxRestApi\Adapter\Status\CustomStatus;
+use FluxRestApi\Service\Body\Port\BodyService;
+use LogicException;
 
 class MakeRequestCommand
 {
 
-    private function __construct()
-    {
+    private function __construct(
+        private readonly BodyService $body_service
+    ) {
 
     }
 
 
-    public static function new() : static
-    {
-        return new static();
+    public static function new(
+        BodyService $body_service
+    ) : static {
+        return new static(
+            $body_service
+        );
     }
 
 
@@ -27,11 +36,35 @@ class MakeRequestCommand
     {
         $curl = null;
         try {
+            $headers = $request->headers;
+
             $url = $request->url;
 
+            if ($request->params !== null) {
+                foreach ($request->params as $name => $value) {
+                    if (is_bool($value)) {
+                        $value = json_encode($value);
+                    }
+                    if (is_object($value) && property_exists($value, "value")) {
+                        $value = $value->value;
+                    }
+                    $url = str_replace("{" . $name . "}", rawurlencode($value), $url);
+                }
+            }
+
             if (!empty($request->query_params)) {
-                $url .= (str_contains($url, "?") ? "&" : "?") . implode("&",
-                        array_map(fn(string $key, string $value) : string => rawurlencode($key) . "=" . rawurlencode($value), array_keys($request->query_params), $request->query_params));
+                foreach ($request->query_params as $name => $value) {
+                    if ($value === null) {
+                        continue;
+                    }
+                    if (is_bool($value)) {
+                        $value = json_encode($value);
+                    }
+                    if (is_object($value) && property_exists($value, "value")) {
+                        $value = $value->value;
+                    }
+                    $url .= (str_contains($url, "?") ? "&" : "?") . rawurlencode($name) . "=" . rawurlencode($value);
+                }
             }
 
             $curl = curl_init($url);
@@ -51,12 +84,27 @@ class MakeRequestCommand
 
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->method->value);
 
-            if ($request->body !== null) {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $request->body);
+            if ($request->raw_body !== null && $request->parsed_body !== null) {
+                throw new LogicException("Can't set both raw body and parsed body");
+            }
+            if ($request->raw_body !== null) {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $request->raw_body);
+            }
+            if ($request->parsed_body !== null) {
+                if ($request->parsed_body instanceof FormDataBodyDto) {
+                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $request->parsed_body->getType();
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $request->parsed_body->getAll());
+                } else {
+                    $raw_body = $this->body_service->toRawBody(
+                        $request->parsed_body
+                    );
+                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $raw_body->type;
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $raw_body->body);
+                }
             }
 
-            if (!empty($request->headers)) {
-                curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->headers), $request->headers));
+            if (!empty($headers)) {
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array_map(fn(string $key, string $value) : string => $key . ":" . $value, array_keys($request->headers), $headers));
             }
 
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -84,13 +132,31 @@ class MakeRequestCommand
             }
 
             if ($request->response) {
-                return ClientResponseDto::new(
+                $response = ClientResponseDto::new(
                     CustomStatus::factory(
                         curl_getinfo($curl, CURLINFO_HTTP_CODE)
                     ),
                     $headers,
                     $body
                 );
+
+                if ($request->parse_response_body) {
+                    $response = ClientResponseDto::new(
+                        $response->status,
+                        $response->headers,
+                        $response->raw_body,
+                        $this->body_service->parseBody(
+                            RawBodyDto::new(
+                                $response->getHeader(
+                                    DefaultHeaderKey::CONTENT_TYPE
+                                ),
+                                $response->raw_body
+                            )
+                        )
+                    );
+                }
+
+                return $response;
             } else {
                 return null;
             }
