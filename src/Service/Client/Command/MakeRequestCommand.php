@@ -2,6 +2,7 @@
 
 namespace FluxRestApi\Service\Client\Command;
 
+use CURLFile;
 use CurlHandle;
 use Exception;
 use FluxRestApi\Adapter\Body\FormDataBodyDto;
@@ -93,7 +94,7 @@ class MakeRequestCommand
             if ($request->parsed_body !== null) {
                 if ($request->parsed_body instanceof FormDataBodyDto) {
                     $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $request->parsed_body->getType()->value;
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $request->parsed_body->getAll());
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $request->parsed_body->data + array_map(fn(string $file) : CURLFile => new CURLFile($file), $request->parsed_body->files));
                 } else {
                     $raw_body = $this->body_service->toRawBody(
                         $request->parsed_body
