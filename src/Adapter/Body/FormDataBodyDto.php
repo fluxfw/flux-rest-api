@@ -27,12 +27,6 @@ class FormDataBodyDto implements BodyDto
     }
 
 
-    public function getAll() : array
-    {
-        return $this->data + $this->files;
-    }
-
-
     public function getType() : BodyType
     {
         if (!empty($this->files)) {
