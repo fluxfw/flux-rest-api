@@ -4,8 +4,6 @@ Rest Api
 
 ## Installation
 
-Hint: Use `latest` as `%tag%` (or omit it) for get the latest build
-
 ### Non-Composer
 
 ```dockerfile
@@ -15,14 +13,12 @@ COPY --from=docker-registry.fluxpublisher.ch/flux-rest-api:%tag% /flux-rest-api 
 or
 
 ```dockerfile
-RUN (mkdir -p /%path%/libs/flux-rest-api && cd /%path%/libs/flux-rest-api && wget -O - https://docker-registry.fluxpublisher.ch/api/get-build-archive/flux-rest-api.tar.gz?tag=%tag% | tar -xz --strip-components=1)
+RUN (mkdir -p /%path%/libs/flux-rest-api && cd /%path%/libs/flux-rest-api && wget -O - https://github.com/flux-eco/flux-rest-api/releases/download/%tag%/flux-rest-api-%tag%-build.tar.gz | tar -xz --strip-components=1)
 ```
 
 or
 
-Download https://docker-registry.fluxpublisher.ch/api/get-build-archive/flux-rest-api.tar.gz?tag=%tag% and extract it to `/%path%/libs/flux-rest-api`
-
-Hint: If you use `wget` without pipe use `--content-disposition` to get the correct file name
+Download https://github.com/flux-eco/flux-rest-api/releases/download/%tag%/flux-rest-api-%tag%-build.tar.gz and extract it to `/%path%/libs/flux-rest-api`
 
 #### Usage
 
@@ -41,7 +37,7 @@ require_once __DIR__ . "/%path%/libs/flux-rest-api/autoload.php";
                 "name": "flux/flux-rest-api",
                 "version": "%tag%",
                 "dist": {
-                    "url": "https://docker-registry.fluxpublisher.ch/api/get-build-archive/flux-rest-api.tar.gz?tag=%tag%",
+                    "url": "https://github.com/flux-eco/flux-rest-api/releases/download/%tag%/flux-rest-api-%tag%-build.tar.gz",
                     "type": "tar"
                 },
                 "autoload": {
