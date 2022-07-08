@@ -1,6 +1,4 @@
 *
-!bin
-!bin/**
 !examples
 !examples/**
 !src
