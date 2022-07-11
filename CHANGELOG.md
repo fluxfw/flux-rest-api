@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2022-07-11-1
+
+Changes:
+
+- File as body in makeRequest
+
 ## v2022-07-07-1
 
 Changes:
