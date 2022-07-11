@@ -36,6 +36,7 @@ class MakeRequestCommand
     public function makeRequest(ClientRequestDto $request) : ?ClientResponseDto
     {
         $curl = null;
+        $file = null;
         try {
             $headers = $request->headers;
 
@@ -85,23 +86,36 @@ class MakeRequestCommand
 
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->method->value);
 
-            if ($request->raw_body !== null && $request->parsed_body !== null) {
-                throw new LogicException("Can't set both raw body and parsed body");
+            if (((($request->raw_body !== null) + ($request->parsed_body !== null) + $request->file !== null)) > 1) {
+                throw new LogicException("Can't set multiple raw body or parsed body or file");
             }
             if ($request->raw_body !== null) {
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $request->raw_body);
             }
             if ($request->parsed_body !== null) {
                 if ($request->parsed_body instanceof FormDataBodyDto) {
-                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $request->parsed_body->getType()->value;
+                    if (!array_key_exists(DefaultHeaderKey::CONTENT_TYPE->value, $headers)) {
+                        $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $request->parsed_body->getType()->value;
+                    }
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $request->parsed_body->data + array_map(fn(string $file) : CURLFile => new CURLFile($file), $request->parsed_body->files));
                 } else {
                     $raw_body = $this->body_service->toRawBody(
                         $request->parsed_body
                     );
-                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $raw_body->type;
+                    if (!array_key_exists(DefaultHeaderKey::CONTENT_TYPE->value, $headers)) {
+                        $headers[DefaultHeaderKey::CONTENT_TYPE->value] = $raw_body->type;
+                    }
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $raw_body->body);
                 }
+            }
+            if ($request->file !== null) {
+                if (!array_key_exists(DefaultHeaderKey::CONTENT_TYPE->value, $headers)) {
+                    $headers[DefaultHeaderKey::CONTENT_TYPE->value] = mime_content_type($request->file);
+                }
+                curl_setopt($curl, CURLOPT_PUT, true);
+                curl_setopt($curl, CURLOPT_INFILESIZE, filesize($request->file));
+                $file = fopen($request->file, "r");
+                curl_setopt($curl, CURLOPT_INFILE, $file);
             }
 
             if (!empty($headers)) {
@@ -164,6 +178,9 @@ class MakeRequestCommand
         } finally {
             if ($curl !== null) {
                 curl_close($curl);
+            }
+            if (is_resource($file)) {
+                fclose($file);
             }
         }
     }
