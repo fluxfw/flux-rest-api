@@ -86,7 +86,7 @@ class MakeRequestCommand
 
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->method->value);
 
-            if (((($request->raw_body !== null) + ($request->parsed_body !== null) + $request->file !== null)) > 1) {
+            if ((($request->raw_body !== null) + ($request->parsed_body !== null) + ($request->file !== null)) > 1) {
                 throw new LogicException("Can't set multiple raw body or parsed body or file");
             }
             if ($request->raw_body !== null) {
