@@ -78,8 +78,8 @@ details[open] .route_summary {
 
 .loading {
 	animation:     loading 1s infinite;
-	border-top:    1px solid currentColor;
 	border-radius: 20px;
+	border-top:    1px solid currentColor;
 	height:        20px;
 	margin:        5px;
 	padding:       0;
