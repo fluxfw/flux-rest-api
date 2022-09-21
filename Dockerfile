@@ -1,4 +1,4 @@
-FROM php:cli-alpine AS build
+FROM php:8.1-cli-alpine AS build
 
 RUN (mkdir -p /flux-namespace-changer && cd /flux-namespace-changer && wget -O - https://github.com/fluxfw/flux-namespace-changer/releases/download/v2022-07-12-1/flux-namespace-changer-v2022-07-12-1-build.tar.gz | tar -xz --strip-components=1)
 
