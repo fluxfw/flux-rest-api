@@ -2,6 +2,8 @@
 
 namespace FluxRestApi\Adapter\Authorization\ParseHttpBasic;
 
+use SensitiveParameter;
+
 class HttpBasicAuthorizationDto
 {
 
@@ -15,7 +17,7 @@ class HttpBasicAuthorizationDto
 
     public static function new(
         string $user,
-        string $password
+        #[SensitiveParameter] string $password
     ) : static {
         return new static(
             $user,
