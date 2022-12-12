@@ -9,7 +9,7 @@ use FluxRestApi\Libs\FluxAutoloadApi\Adapter\Checker\PhpExtChecker;
 use FluxRestApi\Libs\FluxAutoloadApi\Adapter\Checker\PhpVersionChecker;
 
 PhpVersionChecker::new(
-    ">=8.1"
+    ">=8.2"
 )
     ->checkAndDie(
         __NAMESPACE__
