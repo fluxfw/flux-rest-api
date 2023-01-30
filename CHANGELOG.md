@@ -6,6 +6,14 @@ Changes:
 
 \-
 
+## v2023-01-30-1
+
+Changes:
+
+- Remove `flux-autoload-api`
+- Remove `flux-namespace-changer`
+- Remove build archive
+
 ## v2022-12-12-1
 
 Changes:
