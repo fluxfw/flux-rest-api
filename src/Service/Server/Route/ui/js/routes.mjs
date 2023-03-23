@@ -1,14 +1,16 @@
-import {getRoutes} from "./fetch/getRoutes.mjs";
-import {initContentTypeList} from "./list/initContentTypeList.mjs";
-import {initParamList} from "./list/initParamList.mjs";
-import {initResponseList} from "./list/initResponseList.mjs";
-import {insertError} from "./loading/insertError.mjs";
-import {insertLoading} from "./loading/insertLoading.mjs";
+import { FluxLoadingSpinnerElement } from "../Libs/flux-loading-spinner/src/FluxLoadingSpinnerElement.mjs";
+import { getRoutes } from "./fetch/getRoutes.mjs";
+import { initContentTypeList } from "./list/initContentTypeList.mjs";
+import { initParamList } from "./list/initParamList.mjs";
+import { initResponseList } from "./list/initResponseList.mjs";
+import { insertError } from "./loading/insertError.mjs";
 
 async function routes() {
     const el = document.getElementById("routes");
 
-    const loading_el = insertLoading(el);
+    const flux_loading_spinner_element = FluxLoadingSpinnerElement.new();
+    el.appendChild(flux_loading_spinner_element);
+
     let routes;
     try {
         routes = await getRoutes();
@@ -16,7 +18,7 @@ async function routes() {
         insertError(err, "Routes could not be loaded", el);
         return;
     } finally {
-        loading_el.remove();
+        flux_loading_spinner_element.remove();
     }
 
     const routes_template_el = el.querySelector("[data-routes-template]");
@@ -58,7 +60,7 @@ async function routes() {
             } else {
                 history.replaceState(null, null, " ");
             }
-        })
+        });
 
         routes_el.appendChild(route_el);
     }
@@ -75,7 +77,7 @@ async function routes() {
             const route_el = routes_el.querySelector(`[data-route="${route}"]`);
             if (route_el !== null) {
 
-                route_el.scrollIntoView({block: "nearest", inline: "nearest"});
+                route_el.scrollIntoView({ block: "nearest", inline: "nearest" });
                 route_el.querySelector("details").open = true;
             }
         }
