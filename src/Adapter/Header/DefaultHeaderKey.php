@@ -13,6 +13,5 @@ enum DefaultHeaderKey: string implements HeaderKey
     case USER_AGENT = "user-agent";
     case WWW_AUTHENTICATE = "www-authenticate";
     case X_ACCEL_REDIRECT = "x-accel-redirect";
-    case X_HTTP_METHOD_OVERRIDE = "x-http-method-override";
     case X_SENDFILE = "x-sendfile";
 }

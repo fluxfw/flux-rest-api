@@ -10,7 +10,6 @@ use FluxRestApi\Adapter\Client\ClientResponseDto;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
-use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
 use FluxRestApi\Adapter\ServerType\ServerType;
 use FluxRestApi\Service\Body\Port\BodyService;
@@ -55,15 +54,6 @@ class RestApi
             ->handleDefaultResponse(
                 $response,
                 $server_type
-            );
-    }
-
-
-    public function handleMethodOverride(ServerRawRequestDto $request) : ServerRawRequestDto|ServerResponseDto|null
-    {
-        return $this->getBodyService()
-            ->handleMethodOverride(
-                $request
             );
     }
 

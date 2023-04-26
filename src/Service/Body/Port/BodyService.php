@@ -6,11 +6,9 @@ use FluxRestApi\Adapter\Body\BodyDto;
 use FluxRestApi\Adapter\Body\RawBodyDto;
 use FluxRestApi\Adapter\Server\ServerRawRequestDto;
 use FluxRestApi\Adapter\Server\ServerRawResponseDto;
-use FluxRestApi\Adapter\Server\ServerResponseDto;
 use FluxRestApi\Adapter\ServerType\ServerType;
 use FluxRestApi\Service\Body\Command\GetDefaultRequestCommand;
 use FluxRestApi\Service\Body\Command\HandleDefaultResponseCommand;
-use FluxRestApi\Service\Body\Command\HandleMethodOverrideCommand;
 use FluxRestApi\Service\Body\Command\ParseBodyCommand;
 use FluxRestApi\Service\Body\Command\ToRawBodyCommand;
 
@@ -42,15 +40,6 @@ class BodyService
             ->handleDefaultResponse(
                 $response,
                 $server_type
-            );
-    }
-
-
-    public function handleMethodOverride(ServerRawRequestDto $request) : ServerRawRequestDto|ServerResponseDto|null
-    {
-        return HandleMethodOverrideCommand::new()
-            ->handleMethodOverride(
-                $request
             );
     }
 

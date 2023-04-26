@@ -79,15 +79,6 @@ class HandleRequestCommand
     public function handleRequest(ServerRawRequestDto $request) : ServerRawResponseDto
     {
         try {
-            $request = $this->body_service->handleMethodOverride(
-                    $request
-                ) ?? $request;
-            if ($request instanceof ServerResponseDto) {
-                return $this->toRawResponse(
-                    $request
-                );
-            }
-
             $response = $this->handleAuthorization(
                 $request
             );
